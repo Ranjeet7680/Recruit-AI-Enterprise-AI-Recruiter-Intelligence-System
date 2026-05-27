@@ -1,11 +1,19 @@
 import os
 import re
 from typing import List, Dict, Any
-from openai import OpenAI
-import google.generativeai as genai
 from dotenv import load_dotenv
 
 from src.parser import CandidateProfile
+
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
+
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
 
 load_dotenv()
 
@@ -86,7 +94,7 @@ class CopilotEngine:
                 return comparison
 
         # 4. Fallback to LLM if keys available
-        if os.environ.get("GEMINI_API_KEY") or os.environ.get("OPENAI_API_KEY"):
+        if (os.environ.get("GEMINI_API_KEY") and genai) or (os.environ.get("OPENAI_API_KEY") and OpenAI):
             return self._llm_chat_fallback(query)
             
         return (
@@ -116,12 +124,12 @@ class CopilotEngine:
         """
         
         try:
-            if os.environ.get("GEMINI_API_KEY"):
+            if os.environ.get("GEMINI_API_KEY") and genai:
                 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
                 model = genai.GenerativeModel("gemini-1.5-flash")
                 response = model.generate_content(prompt)
                 return response.text.strip()
-            else:
+            elif os.environ.get("OPENAI_API_KEY") and OpenAI:
                 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
                 response = client.chat.completions.create(
                     model="gpt-3.5-turbo",
@@ -129,5 +137,6 @@ class CopilotEngine:
                     temperature=0.3
                 )
                 return response.choices[0].message.content.strip()
+            return "LLM provider package is not installed. Please use a direct keyword command."
         except Exception as e:
             return f"Error communicating with LLM Copilot: {e}. Please try a direct keyword command!"

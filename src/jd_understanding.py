@@ -3,10 +3,18 @@ import re
 import json
 from typing import List, Dict, Any, Tuple
 from dotenv import load_dotenv
-import google.generativeai as genai
-from openai import OpenAI
 
 from src.parser import JobDescription
+
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
+
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
 
 # Load env variables
 load_dotenv()
@@ -219,9 +227,9 @@ def parse_jd(jd_text: str) -> JobDescription:
     """
     Orchestrator to parse JD text. Auto-detects Gemini, OpenAI, or falls back to heuristics.
     """
-    if os.environ.get("GEMINI_API_KEY"):
+    if os.environ.get("GEMINI_API_KEY") and genai:
         return _parse_jd_with_llm(jd_text, "gemini")
-    elif os.environ.get("OPENAI_API_KEY"):
+    elif os.environ.get("OPENAI_API_KEY") and OpenAI:
         return _parse_jd_with_llm(jd_text, "openai")
     else:
         return _parse_jd_with_heuristics(jd_text)

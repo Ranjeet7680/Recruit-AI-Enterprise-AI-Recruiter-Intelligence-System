@@ -1,11 +1,19 @@
 import os
 import json
 from typing import List, Dict, Any
-from openai import OpenAI
-import google.generativeai as genai
 from dotenv import load_dotenv
 
 from src.parser import CandidateProfile, JobDescription
+
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
+
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
 
 load_dotenv()
 
@@ -205,9 +213,9 @@ def _rerank_with_llm(candidates: List[CandidateProfile], jd: JobDescription, sco
 
 def rerank_candidates(candidates: List[CandidateProfile], jd: JobDescription, scores: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Orchestrates candidate reranking. Supports LLM or heuristic fallbacks."""
-    if os.environ.get("GEMINI_API_KEY"):
+    if os.environ.get("GEMINI_API_KEY") and genai:
         return _rerank_with_llm(candidates, jd, scores, "gemini")
-    elif os.environ.get("OPENAI_API_KEY"):
+    elif os.environ.get("OPENAI_API_KEY") and OpenAI:
         return _rerank_with_llm(candidates, jd, scores, "openai")
     else:
         return _rerank_with_heuristics(candidates, jd, scores)
