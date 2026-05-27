@@ -31,7 +31,7 @@ class SecureAuditor:
         except Exception:
             return "[Decryption Error]"
 
-    def authorize_profile_access(self, user_role: str, candidate_id: str, action: str = "VIEW") -> Tuple_Authorized := bool:
+    def authorize_profile_access(self, user_role: str, candidate_id: str, action: str = "VIEW") -> bool:
         """
         Validates access based on Role Based Access Control (RBAC).
         Roles: Admin, Recruiter, guest

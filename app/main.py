@@ -22,13 +22,15 @@ from src.copilot import CopilotEngine
 from src.fraud import detect_profile_fraud
 from src.clustering import cluster_candidates
 
+import_err_msg = ""
 try:
     from src.security import SecureAuditor
 except Exception as security_import_error:
+    import_err_msg = str(security_import_error)
     class SecureAuditor:
         def __init__(self):
             self.audit_logs = [
-                f"[System] Security auditor fallback active: {security_import_error}"
+                f"[System] Security auditor fallback active: {import_err_msg}"
             ]
 
         def _log_system_event(self, user: str, message: str):

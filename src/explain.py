@@ -90,7 +90,9 @@ def generate_resume_coaching(score_info: Dict[str, Any], candidate: CandidatePro
         else:
             critiques.append("🔴 **Skills Shortage:** Consider detailing your experience with target developer tooling and framework components.")
             
-    if breakdown["project_impact"] < 75.0:
+    # Safe check for project_impact or innovation_score
+    proj_impact_val = breakdown.get("project_impact", breakdown.get("innovation_score", 80.0))
+    if proj_impact_val < 75.0:
         critiques.append("📈 **Quantifiable Metric Deficit:** Your project descriptions lack concrete metric results. Revise bullet points to use the Google XYZ formula: *'Accomplished [X] as measured by [Y], by doing [Z]'* (e.g., 'Optimized query efficiency by 40%').")
         
     if breakdown["stability_score"] < 70.0:
