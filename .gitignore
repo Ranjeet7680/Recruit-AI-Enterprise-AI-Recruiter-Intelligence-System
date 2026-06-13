@@ -6,3 +6,7 @@ __pycache__/
 venv/
 env/
 .streamlit/secrets.toml
+candidates.jsonl
+*.jsonl
+__MACOSX/
+

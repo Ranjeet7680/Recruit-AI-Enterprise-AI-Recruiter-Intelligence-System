@@ -1,0 +1,68 @@
+# Redrob Hackathon — Submission Metadata
+#
+# Filled in for Team Ranjeet
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "Team Ranjeet"
+
+primary_contact:
+  name: "Ranjeet Kumar"
+  email: "ranjeet.kumar@example.com"
+  phone: "+91-9999999999"
+
+team_members:
+  - name: "Ranjeet Kumar"
+    email: "ranjeet.kumar@example.com"
+    role: "ML Engineer"
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/Ranjeet7680/Recruit-AI-Enterprise-AI-Recruiter-Intelligence-System"
+sandbox_link: "https://huggingface.co/spaces/Ranjeet7680/redrob-ranker"
+
+reproduce_command: "python rank.py --candidates ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/candidates.jsonl --out ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/team_ranjeet.csv"
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Local PC"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.11.4"
+  os: "Windows 11"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Gemini"
+  - "GitHub Copilot"
+
+ai_usage_summary: |
+  Used Gemini for code optimization, data analysis, and honeypot criteria identification.
+  Used GitHub Copilot for code completion and structure.
+  No candidate data was shared with any external LLM during execution.
+
+# ============================================================================
+# Approach summary
+# ============================================================================
+methodology_summary: |
+  Highly optimized hybrid rule-based and keyword-based ranker. First, 70 honeypots are strictly filtered using logical anomalies (expert skills with 0 duration, history-YoE mismatches). Second, keyword-stuffer profiles (e.g., non-technical titles with stuffed skills) are penalized. Third, scoring evaluates YoE alignment (5-9 years sweet spot), title relevance, skill duration/proficiency weighting, and semantic keywords. Fourth, locations in India and sub-30 day notice periods are prioritized. Finally, recruiter response rate and recency multipliers are applied. The pipeline runs dynamically in under 20 seconds on a single CPU.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true
