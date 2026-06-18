@@ -233,22 +233,22 @@
     <!-- ================= OVERVIEW / LANDING PAGE ================= -->
     <div id="overview-layout" class="w-full h-full overflow-y-auto bg-surface dark:bg-dark-background text-on-surface dark:text-gray-100 absolute inset-0 z-50 hero-mesh flex flex-col">
         <!-- TopAppBar -->
-        <header class="fixed top-0 left-0 right-0 z-[60] bg-surface/80 dark:bg-dark-background/80 backdrop-blur-xl border-b border-outline-variant/50 h-16 flex items-center px-gutter">
-            <div class="max-w-container-max mx-auto w-full flex justify-between items-center">
-                <div class="flex items-center gap-xs">
-                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+        <header class="fixed top-0 left-0 right-0 z-[60] bg-surface/80 dark:bg-dark-background/80 backdrop-blur-xl border-b border-outline-variant/50 h-16 flex items-center px-4 md:px-gutter">
+            <div class="max-w-container-max mx-auto w-full flex justify-between items-center gap-2">
+                <div class="flex items-center gap-xs shrink-0">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shrink-0">
                         <span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">psychology</span>
                     </div>
-                    <span class="font-headline-md text-headline-md font-bold text-primary dark:text-white tracking-tight">TalentMind AI</span>
+                    <span class="text-sm sm:text-base md:text-headline-md font-bold text-primary dark:text-white tracking-tight shrink-0">TalentMind AI</span>
                 </div>
                 <nav class="hidden md:flex items-center gap-lg">
                     <a class="font-title-md text-on-surface-variant hover:text-primary dark:hover:text-white transition-colors text-xs font-semibold" href="#overview">Overview</a>
                     <a class="font-title-md text-on-surface-variant hover:text-primary dark:hover:text-white transition-colors text-xs font-semibold" href="#features">Features</a>
                     <a class="font-title-md text-on-surface-variant hover:text-primary dark:hover:text-white transition-colors text-xs font-semibold" href="#innovator-team">Innovator Team</a>
                 </nav>
-                <div class="flex items-center gap-sm">
-                    <button onclick="openAuthFromLanding('login')" class="font-title-md text-primary dark:text-primary-fixed-dim px-sm py-xs hover:bg-primary/5 rounded-lg transition-all text-xs font-bold">Log In</button>
-                    <button onclick="window.open('https://www.linkedin.com/posts/ranjeet-kumar-78a45120b_ai-artificialintelligence-machinelearning-activity-7465305025578397696-mKgT?utm_source=share&utm_medium=member_android&rcm=ACoAADVIABoBPjzPRE3BSLZnLhydYdGe-FAX5FU', '_blank')" class="bg-primary text-on-primary px-gutter py-xs rounded-lg font-title-md shadow-sm hover:shadow-md active:scale-95 transition-all text-xs font-bold">Watch Demo</button>
+                <div class="flex items-center gap-xs sm:gap-sm shrink-0">
+                    <button onclick="openAuthFromLanding('login')" class="font-title-md text-primary dark:text-primary-fixed-dim px-2 py-1.5 hover:bg-primary/5 rounded-lg transition-all text-[11px] sm:text-xs font-bold shrink-0">Log In</button>
+                    <button onclick="window.open('https://www.linkedin.com/posts/ranjeet-kumar-78a45120b_ai-artificialintelligence-machinelearning-activity-7465305025578397696-mKgT?utm_source=share&utm_medium=member_android&rcm=ACoAADVIABoBPjzPRE3BSLZnLhydYdGe-FAX5FU', '_blank')" class="bg-primary text-on-primary px-3 py-1.5 rounded-lg font-title-md shadow-sm hover:shadow-md active:scale-95 transition-all text-[11px] sm:text-xs font-bold shrink-0">Watch Demo</button>
                 </div>
             </div>
         </header>
@@ -542,7 +542,7 @@
             </div>
         </footer>
         <!-- FAB: Help Widget -->
-        <div class="fixed bottom-[100px] right-40 z-50">            <button onclick="openModal('modal-help-centre')" class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+        <div class="fixed bottom-[100px] right-4 md:right-6 z-50">            <button onclick="openModal('modal-help-centre')" class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
                 <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">chat_spark</span>
             </button>
         </div>
@@ -829,7 +829,7 @@
                         <span class="material-symbols-outlined text-[24px]">menu</span>
                     </button>
                     <span class="material-symbols-outlined text-gray-400">search</span>
-                    <input type="text" id="global-search-input" oninput="handleGlobalSearch()" placeholder="Search candidates, requisitions, settings..." class="w-full sm:w-64 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant/60 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-primary focus:w-80 transition-all"/>
+                    <input type="text" id="global-search-input" oninput="handleGlobalSearch()" placeholder="Search..." class="w-full sm:w-64 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant/60 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-primary focus:w-80 transition-all"/>
                 </div>
 
                 <!-- Header Actions -->
@@ -904,19 +904,20 @@
                 <!-- TAB: WELCOME HOME PAGE -->
                 <div id="tab-welcome" class="space-y-md">
                     <!-- Welcome Banner -->
-                    <section class="relative overflow-hidden rounded-3xl ai-gradient-bg p-gutter text-white shadow-xl">
+                    <section class="glass-card p-md sm:p-lg rounded-3xl relative overflow-hidden hero-mesh shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
-                            <div class="space-y-2">
-                                <h2 class="font-headline-lg text-headline-lg font-extrabold tracking-tight">Welcome back, Recruiter 👋</h2>
-                                <p class="font-title-md text-title-md opacity-90">You have: <span class="font-bold">24 new candidates</span>, <span class="font-bold">5 interviews today</span>, and <span class="font-bold text-tertiary-fixed">3 jobs awaiting approval</span>.</p>
+                            <div class="space-y-xs">
+                                <h2 class="text-xl sm:text-2xl md:text-headline-md font-extrabold tracking-tight text-on-surface dark:text-white">Welcome back, Recruiter 👋</h2>
+                                <p class="text-xs sm:text-sm md:text-body-lg opacity-90 text-on-surface-variant dark:text-gray-300">You have: <span class="font-bold">24 new candidates</span>, <span class="font-bold">5 interviews today</span>, and <span class="font-bold text-tertiary-fixed">3 jobs awaiting approval</span>.</p>
                             </div>
-                            <div class="flex gap-sm">
-                                <button onclick="switchTab('candidates')" class="bg-white text-primary px-sm py-2.5 rounded-xl font-bold flex items-center gap-xs shadow-md hover:shadow-lg active:scale-95 transition-all">
-                                    <span class="material-symbols-outlined">person_search</span>
+                            <div class="flex gap-sm w-full md:w-auto flex-wrap sm:flex-nowrap">
+                                <button onclick="switchTab('candidates')" class="bg-white text-primary px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-xs shadow-md hover:shadow-lg active:scale-95 transition-all text-xs flex-1 sm:flex-initial whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-sm">person_search</span>
                                     Review Candidates
                                 </button>
-                                <button onclick="toggleFloatingCopilot()" class="bg-primary-container text-white border border-white/20 px-sm py-2.5 rounded-xl font-bold flex items-center gap-xs shadow-md hover:bg-primary-container/80 active:scale-95 transition-all">
-                                    <span class="material-symbols-outlined">auto_awesome</span>
+                                <button onclick="toggleFloatingCopilot()" class="bg-primary text-white border border-white/20 px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-xs shadow-md hover:bg-opacity-90 active:scale-95 transition-all text-xs flex-1 sm:flex-initial whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-sm">auto_awesome</span>
                                     Open AI Copilot
                                 </button>
                             </div>
@@ -2485,7 +2486,7 @@
 
 
     <!-- ================= FLOATING AI ASSISTANT (BOTTOM-RIGHT) ================= -->
-    <div id="floating-copilot-container" class="fixed bottom-6 right-40 z-50 flex flex-col items-end hidden">
+    <div id="floating-copilot-container" class="fixed bottom-6 right-4 md:right-6 z-50 flex flex-col items-end hidden">
         <!-- Expanded Chat Assistant -->
         <div id="floating-copilot-chat" class="w-80 h-96 bg-white dark:bg-dark-surface border border-outline-variant rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-3 hidden">
             <!-- Header -->
