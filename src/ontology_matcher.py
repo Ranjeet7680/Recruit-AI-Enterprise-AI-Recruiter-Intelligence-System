@@ -22,8 +22,23 @@ class SkillOntologyEngine:
         Computes an intelligent match overlap between candidate skills and target skills,
         crediting semantic equivalents (e.g. TensorFlow matches PyTorch at 75%).
         """
+        import re
         if not target_skills:
             return 1.0
+
+        def is_safe_match(target: str, candidate: str) -> bool:
+            if target == candidate:
+                return True
+            # Split by common word separators
+            words_t = set(re.split(r'[\s\/\-\,\(\)]+', target))
+            words_c = set(re.split(r'[\s\/\-\,\(\)]+', candidate))
+            # If the target is very short (e.g. "r", "go"), it must match a full token exactly
+            if len(target) <= 2:
+                return target in words_c
+            if len(candidate) <= 2:
+                return candidate in words_t
+            # For longer terms, we allow substring matching
+            return target in candidate or candidate in target
 
         matches_count = 0.0
         cand_lower = {s.lower() for s in candidate_skills}
@@ -32,7 +47,7 @@ class SkillOntologyEngine:
             target_l = target.lower()
             
             # Direct match
-            if any(target_l == c or target_l in c or c in target_l for c in cand_lower):
+            if any(is_safe_match(target_l, c) for c in cand_lower):
                 matches_count += 1.0
                 continue
                 
@@ -40,7 +55,7 @@ class SkillOntologyEngine:
             equivalents = self.ontology.get("skills", {}).get(target_l, [])
             equiv_match = False
             for equiv in equivalents:
-                if any(equiv == c for c in cand_lower):
+                if any(is_safe_match(equiv, c) for c in cand_lower):
                     matches_count += 0.75  # Credit 75% for semantic equivalents
                     equiv_match = True
                     break
@@ -49,7 +64,7 @@ class SkillOntologyEngine:
                 # Also check behavioral equivalents
                 beh_equivs = self.ontology["behavioral"][target_l]
                 for equiv in beh_equivs:
-                    if any(equiv == c for c in cand_lower):
+                    if any(is_safe_match(equiv, c) for c in cand_lower):
                         matches_count += 0.75
                         break
 

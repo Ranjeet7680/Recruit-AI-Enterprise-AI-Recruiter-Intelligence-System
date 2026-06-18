@@ -4,6 +4,11 @@ Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypas
 
 **RecruitAI** (or **TalentMind AI**) is a modern, high-scoring hackathon solution designed to act like a senior human recruiter and expert AI analyst combined. It utilizes advanced Semantic Embedding Retrieval, a multi-factor Hybrid Scoring Engine, LLM-based parsing and reranking, and an Explainable AI Dashboard featuring demographic bias reduction.
 
+## 🌐 Live Production Deployment
+The application API and interactive landing page are live on Vercel:
+- **Production URL**: [https://recruit-ai-enterprise-ai-recruiter.vercel.app](https://recruit-ai-enterprise-ai-recruiter.vercel.app)
+- **Health Check Endpoint**: [https://recruit-ai-enterprise-ai-recruiter.vercel.app/api/health](https://recruit-ai-enterprise-ai-recruiter.vercel.app/api/health)
+
 ---
 
 ## 🚀 Key Features
@@ -90,4 +95,26 @@ uvicorn src.api:app --reload --port 8000
 - **Project Impact (10%)**: Analyzes text for quantifiable results and strong action verbs (e.g. *designed*, *slashed response times*, *boosted throughput by 50%*).
 - **Behavioral Fit (10%)**: Measures alignment with core personality profiles and behavioral requirements in the JD.
 - **Activity Signal (5%)**: Credits active contributors, open-source presence, professional certifications, and career consistency.
-#
+
+---
+
+## 🔌 API Reference & Features
+
+### 🔐 SSO Authentication & Referral Platform
+- **Mock Federated SSO Popup**: Exposes a responsive mock SSO gateway for Google, LinkedIn, Microsoft, and Facebook providers (`GET /api/auth/mock-sso`).
+- **Social Auth Session Integration**: Signs in recruiters, logs security audits, generates unique tracking links, and registers referral codes (`POST /api/auth/social`).
+- **Referral Credits Analytics**: Tracks email invite sign-ups, computes active referrals, and awards credits ($50/referral) dynamically (`GET /api/referrals`).
+
+### 🤖 Recruiter Copilot Engine
+- Natural language recruiter assistant endpoint (`POST /api/chat`) supporting:
+  - Multi-word skill searches (e.g., *"who knows Docker and PyTorch"*).
+  - Head-to-head candidate token-based comparisons (e.g., *"compare Amit vs Priya"*).
+  - Innovation/high-impact candidate discoveries (*"underrated hidden gems"*).
+
+### 📊 Endpoints Listing
+- **`GET /`**: Renders the complete TalentMind interactive responsive landing page.
+- **`GET /api/health`**: Quick API health status check.
+- **`GET /api/candidates`**: Retrieves candidates index (supporting GDPR demographic masking).
+- **`POST /api/match`**: Main hybrid match engine (handles JDs, scoring breakdown, fraud alerts, interview questions, and SHAP visualizations).
+- **`GET /api/talent-clusters`**: Executing dynamic K-Means candidate talent grouping.
+- **`GET /api/candidates/{id}/similar`**: KNN-based look-alike profile matcher.

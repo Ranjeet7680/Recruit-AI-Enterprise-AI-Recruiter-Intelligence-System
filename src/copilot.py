@@ -28,12 +28,12 @@ class CopilotEngine:
         Processes recruiter natural language commands, supporting deterministic NLP
         searches for common queries, and falling back to a structured LLM response.
         """
-        q = query.lower().strip()
+        q = query.lower().strip().rstrip('?.!')
         
         # 1. Search by skills (e.g. "who knows docker")
-        skill_match = re.search(r'(?:who knows|search for|find|show me|has|skill|skills)\s+([a-zA-Z\.\-\+]+)', q)
+        skill_match = re.search(r'(?:who knows|search for|find|show me|has|skill|skills)\s+(.+)', q)
         if skill_match:
-            skill = skill_match.group(1).lower()
+            skill = skill_match.group(1).strip()
             matching_cands = []
             for c in self.candidates:
                 if any(skill in s.lower() for s in c.hard_skills):
@@ -47,20 +47,21 @@ class CopilotEngine:
         # 2. Hidden Gems Detector
         if "hidden gem" in q or "underrated" in q:
             gems = []
-            # Find candidates with rank > 3, but with project impact > 75% or agility > 75%
+            # Find candidates with rank > 3, but with innovation score >= 80% or agility >= 75%
             for c in self.candidates:
                 score_info = self.score_map.get(c.id, {})
                 breakdown = score_info.get("breakdown", {})
                 final_score = score_info.get("final_score", 0.0)
                 
-                # Baseline heuristics for hidden gems: experience < 5 years, but project impact > 80%
-                if c.experience_years <= 5.0 and breakdown.get("project_impact", 0.0) >= 80.0:
-                    gems.append((c.name, final_score, c.experience_years))
+                innovation_val = breakdown.get("innovation_score", breakdown.get("project_impact", 0.0))
+                # Baseline heuristics for hidden gems: experience < 5 years, but innovation score >= 80%
+                if c.experience_years <= 5.0 and innovation_val >= 80.0:
+                    gems.append((c.name, final_score, c.experience_years, innovation_val))
                     
             if gems:
                 gems = sorted(gems, key=lambda x: x[1], reverse=True)
-                return "💎 **Hidden Gems Identified:** These candidates have relatively lower years of experience but demonstrate extremely high project impact metrics:\n\n" + \
-                       "\n".join([f"- **{name}** (Experience: {exp} yrs, Match Score: {score}%)" for name, score, exp in gems])
+                return "💎 **Hidden Gems Identified:** These candidates have relatively lower years of experience but demonstrate extremely high innovation/project metrics:\n\n" + \
+                       "\n".join([f"- **{name}** (Experience: {exp} yrs, Innovation Fit: {inn}%, Match Score: {score}%)" for name, score, exp, inn in gems])
             else:
                 return "💎 No hidden gems identified matching the baseline experience-to-impact threshold."
 
@@ -68,8 +69,12 @@ class CopilotEngine:
         if "vs" in q or "compare" in q:
             matched_names = []
             for c in self.candidates:
-                if c.name.lower() in q:
-                    matched_names.append(c)
+                # Token-based name matching to support partial names like "amit" or "priya"
+                name_tokens = [t.lower() for t in re.findall(r'[a-zA-Z0-9]+', c.name) if len(t) > 2]
+                for token in name_tokens:
+                    if re.search(r'\b' + re.escape(token) + r'\b', q):
+                        matched_names.append(c)
+                        break
                     
             if len(matched_names) >= 2:
                 c1, c2 = matched_names[0], matched_names[1]

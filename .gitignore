@@ -10,3 +10,4 @@ candidates.jsonl
 *.jsonl
 __MACOSX/
 
+.vercel

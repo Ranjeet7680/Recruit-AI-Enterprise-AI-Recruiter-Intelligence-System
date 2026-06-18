@@ -63,13 +63,14 @@ class VectorSearchEngine:
         self.candidate_ids = [c.id for c in candidates]
         self.texts = [build_candidate_rich_text(c) for c in candidates]
         
+        # Always initialize TF-IDF model so fallback works at runtime
+        self.vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+        self.embeddings = self.vectorizer.fit_transform(self.texts)
+        
         # Initialize standard model
         get_embedding_model()
         
         if USE_FALLBACK:
-            # Setup TF-IDF model
-            self.vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
-            self.embeddings = self.vectorizer.fit_transform(self.texts)
             self.index = None
         else:
             try:
@@ -79,8 +80,6 @@ class VectorSearchEngine:
             except Exception as e:
                 print(f"FAISS index setup failed: {e}. Switching to TF-IDF.")
                 USE_FALLBACK = True
-                self.vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
-                self.embeddings = self.vectorizer.fit_transform(self.texts)
                 self.index = None
 
     def _index_candidates(self):

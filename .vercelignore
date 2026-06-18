@@ -1,0 +1,15 @@
+.git
+.venv
+venv
+env
+__pycache__
+*.pyc
+.devcontainer
+*challenge*
+*runs_data*
+*PUB*
+*MACOSX*
+app
+rank.py
+LOGO
+pyproject.toml
