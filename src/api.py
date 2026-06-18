@@ -273,6 +273,18 @@ def api_audit_logs():
     return {"logs": auditor.get_logs()}
 
 
+class AuditLogRequest(BaseModel):
+    user: str
+    message: str
+
+
+@app.post("/api/security/audit-log")
+def api_add_audit_log(req: AuditLogRequest):
+    auditor._log_system_event(req.user, req.message)
+    return {"status": "success", "logs": auditor.get_logs()}
+
+
+
 # ================= SOCIAL SSO AUTH & REFERRAL PLATFORM =================
 
 REFERRALS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "referrals.json")
