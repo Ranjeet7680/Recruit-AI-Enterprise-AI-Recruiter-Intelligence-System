@@ -25,12 +25,13 @@ The application API and interactive landing page are live on Vercel:
 ---
 
 ## 🛠️ Tech Stack
-- **Backend**: FastAPI (Python), Uvicorn
-- **Frontend**: Streamlit Dashboard
+- **Backend API**: FastAPI (Python), Uvicorn
+- **Frontend App**: Next.js (App Router), Tailwind CSS v4, Framer Motion (Animations), Recharts
+- **Legacy Dashboard**: Streamlit
 - **Vector Search / ML**: Sentence Transformers (`all-MiniLM-L6-v2`), FAISS, NumPy, Pandas, Scikit-learn
 - **AI Models**: Google Gemini / OpenAI (with powerful deterministic heuristic fallbacks)
 - **PDF Extraction**: PyPDF
-- **Visualizations**: Plotly
+- **Visualizations**: Plotly (Backend) / Recharts (Frontend)
 
 ---
 
@@ -39,6 +40,10 @@ The application API and interactive landing page are live on Vercel:
 RecruitAI/
  ├── data/
  │   └── candidates.json          # Synthetic candidate database (25+ diverse profiles)
+ ├── frontend-next/               # 🌟 NEW: Next.js Hackathon UI
+ │   ├── src/app/                 # App Router pages (Dashboard, Candidates, Copilot)
+ │   ├── src/components/          # Glassmorphism UI, Charts, and Framer Motion components
+ │   └── package.json             # Frontend dependencies
  ├── src/
  │   ├── parser.py                # Text extraction, structured modeling & bias masking
  │   ├── jd_understanding.py      # LLM or heuristic-based JD intent extractor
@@ -48,8 +53,9 @@ RecruitAI/
  │   ├── explain.py               # Strengths/Risks profiling & visual telemetry helpers
  │   └── api.py                   # FastAPI service layer exposing endpoints
  ├── app/
- │   └── main.py                  # Stunning Streamlit Dashboard with custom CSS and Plotly
- ├── requirements.txt             # Project dependencies
+ │   └── main.py                  # Legacy Streamlit Dashboard
+ ├── requirements.txt             # Project Python dependencies
+ ├── vercel.json                  # Multi-build deployment config (Next.js + FastAPI)
  └── README.md                    # System documentation
 ```
 
@@ -75,14 +81,24 @@ OPENAI_API_KEY=your_openai_api_key_here
 *Note: If no API keys are provided, the system seamlessly falls back to a highly powerful rule-based heuristics engine, making it 100% runnable out of the box!*
 
 ### 3. Run the App
-Launch the Streamlit Dashboard:
-```bash
-streamlit run app/main.py
-```
 
-Or start the FastAPI backend service:
+**Start the FastAPI Backend:**
 ```bash
 uvicorn src.api:app --reload --port 8000
+```
+
+**Start the Next.js Frontend:**
+Open a new terminal and run:
+```bash
+cd frontend-next
+npm install
+npm run dev
+```
+Then visit `http://localhost:3000` to see the new Hackathon UI.
+
+*(Optional)* Launch the legacy Streamlit Dashboard:
+```bash
+streamlit run app/main.py
 ```
 
 ---
