@@ -1,3 +1,5 @@
+'use client';
+
 import { CandidateCard } from '@/components/candidates/CandidateCard';
 
 const mockCandidates = [
