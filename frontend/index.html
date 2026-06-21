@@ -20,6 +20,20 @@
           darkMode: "class",
           theme: {
             extend: {
+              "animation": {
+                  "fade-in-up": "fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                  "fade-in": "fadeIn 0.4s ease-out forwards"
+              },
+              "keyframes": {
+                  "fadeInUp": {
+                      "0%": { opacity: "0", transform: "translateY(20px)" },
+                      "100%": { opacity: "1", transform: "translateY(0)" }
+                  },
+                  "fadeIn": {
+                      "0%": { opacity: "0" },
+                      "100%": { opacity: "1" }
+                  }
+              },
               "colors": {
                       "surface-tint": "#4d44e3",
                       "tertiary": "#7e3000",
@@ -888,19 +902,19 @@
                 <!-- TAB: WELCOME HOME PAGE -->
                 <div id="tab-welcome" class="space-y-md">
                     <!-- Welcome Banner -->
-                    <section class="glass-card p-md sm:p-lg rounded-3xl relative overflow-hidden hero-mesh shrink-0">
-                        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent"></div>
+                    <section class="bg-gradient-to-r from-primary to-secondary text-white shadow-xl shadow-primary/20 p-md sm:p-lg rounded-3xl relative overflow-hidden shrink-0 animate-fade-in-up">
+                        <div class="absolute inset-0 bg-white/5 opacity-50 mix-blend-overlay"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
                             <div class="space-y-xs">
-                                <h2 class="text-xl sm:text-2xl md:text-headline-md font-extrabold tracking-tight text-on-surface dark:text-white">Welcome back, Recruiter 👋</h2>
-                                <p class="text-xs sm:text-sm md:text-body-lg opacity-90 text-on-surface-variant dark:text-gray-300">You have: <span class="font-bold">24 new candidates</span>, <span class="font-bold">5 interviews today</span>, and <span class="font-bold text-tertiary-fixed">3 jobs awaiting approval</span>.</p>
+                                <h2 class="text-xl sm:text-2xl md:text-headline-md font-extrabold tracking-tight text-white">Welcome back, Recruiter 👋</h2>
+                                <p class="text-xs sm:text-sm md:text-body-lg opacity-90 text-white/90">You have: <span class="font-bold text-white">24 new candidates</span>, <span class="font-bold text-white">5 interviews today</span>, and <span class="font-bold text-amber-300">3 jobs awaiting approval</span>.</p>
                             </div>
-                            <div class="flex gap-sm w-full md:w-auto flex-wrap sm:flex-nowrap">
+                            <div class="flex gap-sm w-full md:w-auto flex-col sm:flex-row">
                                 <button onclick="switchTab('candidates')" class="bg-white text-primary px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-xs shadow-md hover:shadow-lg active:scale-95 transition-all text-xs flex-1 sm:flex-initial whitespace-nowrap">
                                     <span class="material-symbols-outlined text-sm">person_search</span>
                                     Review Candidates
                                 </button>
-                                <button onclick="toggleFloatingCopilot()" class="bg-primary text-white border border-white/20 px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-xs shadow-md hover:bg-opacity-90 active:scale-95 transition-all text-xs flex-1 sm:flex-initial whitespace-nowrap">
+                                <button onclick="toggleFloatingCopilot()" class="bg-white/20 text-white border border-white/20 px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-xs shadow-md hover:bg-white/30 active:scale-95 transition-all text-xs flex-1 sm:flex-initial whitespace-nowrap">
                                     <span class="material-symbols-outlined text-sm">auto_awesome</span>
                                     Open AI Copilot
                                 </button>
@@ -909,7 +923,7 @@
                     </section>
 
                     <!-- Key Metrics Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter animate-fade-in-up" style="animation-delay: 100ms;">
                         <div class="glass-card p-sm rounded-2xl flex items-center gap-sm">
                             <div class="w-12 h-12 rounded-xl bg-primary-container/10 text-primary flex items-center justify-center">
                                 <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">group</span>
@@ -1149,22 +1163,22 @@
                             <div class="glass-card rounded-2xl p-md">
                                 <h3 class="font-title-md text-title-md font-bold mb-md">Team Activity</h3>
                                 <div class="space-y-md relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-0.5 before:bg-outline-variant/30">
-                                    <div class="relative pl-gutter">
-                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-2 border-primary-container flex items-center justify-center z-10">
+                                    <div class="relative pl-12">
+                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white dark:bg-dark-surface border-2 border-primary-container flex items-center justify-center z-10">
                                             <span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
                                         </div>
                                         <p class="text-xs text-on-surface"><span class="font-bold">Leo Martinez</span> hired <span class="font-bold">Elena Rossi</span></p>
                                         <p class="text-[10px] text-on-surface-variant font-medium">2 hours ago · Engineering Team</p>
                                     </div>
-                                    <div class="relative pl-gutter">
-                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-2 border-secondary-container flex items-center justify-center z-10">
+                                    <div class="relative pl-12">
+                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white dark:bg-dark-surface border-2 border-secondary-container flex items-center justify-center z-10">
                                             <span class="material-symbols-outlined text-secondary text-[16px]">chat_bubble</span>
                                         </div>
                                         <p class="text-xs text-on-surface"><span class="font-bold">Marcus Thorne</span> left a comment on <span class="font-bold">David Wu</span>'s application</p>
                                         <p class="text-[10px] text-on-surface-variant font-medium">4 hours ago · Design Team</p>
                                     </div>
-                                    <div class="relative pl-gutter">
-                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-2 border-tertiary-container flex items-center justify-center z-10">
+                                    <div class="relative pl-12">
+                                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white dark:bg-dark-surface border-2 border-tertiary-container flex items-center justify-center z-10">
                                             <span class="material-symbols-outlined text-tertiary text-[16px]">priority_high</span>
                                         </div>
                                         <p class="text-xs text-on-surface"><span class="font-bold">New Requisition</span> opened by HR Operations</p>
@@ -2535,10 +2549,10 @@
                 </div>
             </div>
             <!-- Suggestion chips -->
-            <div class="px-sm py-1 bg-gray-100 dark:bg-dark-surface-container flex gap-1 overflow-x-auto shrink-0 custom-scrollbar border-t">
-                <button onclick="sendCopilotSuggested('Analyze React Job Description')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap">Analyze React JD</button>
-                <button onclick="sendCopilotSuggested('Who is the best DevOps candidate?')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap">Best DevOps Candidate?</button>
-                <button onclick="sendCopilotSuggested('Explain compliance logs')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap">Explain Compliance</button>
+            <div class="px-sm pt-2 pb-3 bg-gray-100 dark:bg-dark-surface-container flex items-center gap-2 overflow-x-auto shrink-0 custom-scrollbar border-t">
+                <button onclick="sendCopilotSuggested('Analyze React Job Description')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-1 rounded-full text-[10px] whitespace-nowrap shadow-sm">Analyze React JD</button>
+                <button onclick="sendCopilotSuggested('Who is the best DevOps candidate?')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-1 rounded-full text-[10px] whitespace-nowrap shadow-sm">Best DevOps Candidate?</button>
+                <button onclick="sendCopilotSuggested('Explain compliance logs')" class="bg-white dark:bg-dark-surface hover:border-primary border px-2 py-1 rounded-full text-[10px] whitespace-nowrap shadow-sm">Explain Compliance</button>
             </div>
             <!-- Input area -->
             <div class="p-xs bg-white dark:bg-dark-surface border-t flex items-center gap-1 shrink-0">
@@ -3838,7 +3852,11 @@
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
-                                ${c.name.split(' ').map(x=>x[0]).join('')}
+                                ${(() => {
+                                    let chars = c.name.split(' ').filter(w => isNaN(w)).map(x => x[0]).join('').substring(0, 2).toUpperCase();
+                                    if (chars.length === 1 && c.name.length > 1) chars = c.name.substring(0, 2).toUpperCase();
+                                    return chars || 'CA';
+                                })()}
                             </div>
                             <div>
                                 <div class="font-bold text-gray-800 dark:text-gray-200 text-xs">${c.name}</div>
@@ -3850,7 +3868,7 @@
                         <div class="flex flex-col items-center gap-1">
                             <div class="flex items-center gap-1">
                                 <span class="text-primary font-bold text-xs">${score}%</span>
-                                <span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">spark</span>
+                                <span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
                             </div>
                             <div class="w-16 h-1 bg-surface-container-high dark:bg-gray-850 rounded-full overflow-hidden">
                                 <div class="h-full bg-primary" style="width: ${score}%"></div>
@@ -4357,7 +4375,11 @@
             welcomeDiv.className = "flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30";
             welcomeDiv.innerHTML = `
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">${candidate.split(' ').map(x=>x[0]).join('')}</div>
+                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">${(() => {
+                        let chars = candidate.split(' ').filter(w => isNaN(w)).map(x => x[0]).join('').substring(0, 2).toUpperCase();
+                        if (chars.length === 1 && candidate.length > 1) chars = candidate.substring(0, 2).toUpperCase();
+                        return chars || 'CA';
+                    })()}</div>
                     <div>
                         <span class="text-xs font-bold block">${candidate}</span>
                         <span class="text-[10px] text-gray-500">Scheduled: ${date} • ${time}</span>
@@ -5395,7 +5417,8 @@
                 avatarImg.classList.remove('hidden');
                 initialsSpan.classList.add('hidden');
             } else {
-                const initials = currentVideoCandidateName.split(' ').map(n => n[0]).join('').toUpperCase();
+                let initials = currentVideoCandidateName.split(' ').filter(w => isNaN(w)).map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                if (initials.length === 1 && currentVideoCandidateName.length > 1) initials = currentVideoCandidateName.substring(0, 2).toUpperCase();
                 initialsSpan.textContent = initials;
                 initialsSpan.classList.remove('hidden');
                 avatarImg.classList.add('hidden');

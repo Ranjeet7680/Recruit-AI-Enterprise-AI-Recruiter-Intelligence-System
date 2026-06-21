@@ -287,7 +287,10 @@ def api_add_audit_log(req: AuditLogRequest):
 
 # ================= SOCIAL SSO AUTH & REFERRAL PLATFORM =================
 
-REFERRALS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "referrals.json")
+if os.environ.get("VERCEL"):
+    REFERRALS_FILE = "/tmp/referrals.json"
+else:
+    REFERRALS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "referrals.json")
 
 def load_referrals_db() -> Dict[str, Any]:
     if not os.path.exists(REFERRALS_FILE):

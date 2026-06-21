@@ -10,4 +10,9 @@ candidates.jsonl
 *.jsonl
 __MACOSX/
 
-.vercel
+node_modules/
+.next/
+dist/
+*.tsbuildinfo
+.vercel/
+.env*.local
