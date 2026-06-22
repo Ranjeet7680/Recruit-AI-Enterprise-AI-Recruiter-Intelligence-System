@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Sparkles, BarChart3, Settings, Video } from 'lucide-react';
+import { Home, Users, Sparkles, Video, Layers } from 'lucide-react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { playClick } from '@/lib/sounds';
 
 const navItems = [
+  { name: 'Overview',   href: '/overview',   icon: Layers },
   { name: 'Home',       href: '/',           icon: Home },
   { name: 'Candidates', href: '/candidates', icon: Users },
-  { name: 'Interview',  href: '/interviews', icon: Video,    live: true },
+  { name: 'Interview',  href: '/interviews', icon: Video, live: true },
   { name: 'AI',         href: '/copilot',    icon: Sparkles },
-  { name: 'Analytics',  href: '/analytics',  icon: BarChart3 },
 ];
 
 export function BottomNav() {

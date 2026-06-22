@@ -9,12 +9,24 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles, Send, Mic, MicOff, Volume2, VolumeX,
-  RotateCcw, FileText, Search, CheckSquare, BookOpen, ChevronRight,
+  RotateCcw, FileText, Search, CheckSquare, BookOpen,
 } from 'lucide-react';
 import { playClick, playChime } from '@/lib/sounds';
 
 type Role = 'user' | 'assistant';
 interface Msg { id: string; role: Role; text: string; ts: number }
+
+interface SpeechResult {
+  [index: number]: { transcript: string };
+  isFinal: boolean;
+}
+interface SpeechEvent {
+  resultIndex: number;
+  results: {
+    [index: number]: SpeechResult;
+    length: number;
+  };
+}
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -192,7 +204,7 @@ function Thinking() {
 
 /* ═══════════════════════ PAGE ═══════════════════════ */
 export default function CopilotPage() {
-  const [msgs, setMsgs] = useState<Msg[]>([{
+  const [msgs, setMsgs] = useState<Msg[]>(() => [{
     id: uid(), role: 'assistant', ts: Date.now(), text: AI_REPLIES.default,
   }]);
   const [input, setInput] = useState('');
@@ -204,7 +216,7 @@ export default function CopilotPage() {
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recRef = useRef<any>(null);
+  const recRef = useRef<{ stop: () => void } | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
   useEffect(() => {
@@ -263,21 +275,22 @@ export default function CopilotPage() {
 
   /* ── Mic ── */
   const startListening = () => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SR = (window as Window & { SpeechRecognition?: new () => unknown; webkitSpeechRecognition?: new () => unknown }).SpeechRecognition ||
+               (window as Window & { SpeechRecognition?: new () => unknown; webkitSpeechRecognition?: new () => unknown }).webkitSpeechRecognition;
     if (!SR) { alert('Speech recognition not supported. Use Chrome or Edge.'); return; }
     stopSpeak();
-    const rec = new SR() as {
+    const rec = new (SR as new () => {
       lang: string; continuous: boolean; interimResults: boolean;
       onstart: (() => void) | null; onend: (() => void) | null;
-      onerror: (() => void) | null; onresult: ((e: any) => void) | null;
+      onerror: (() => void) | null; onresult: ((e: SpeechEvent) => void) | null;
       start(): void; stop(): void;
-    };
-    recRef.current = rec as any;
+    })();
+    recRef.current = rec;
     rec.lang = 'en-US'; rec.continuous = false; rec.interimResults = true;
     rec.onstart = () => setListening(true);
     rec.onend = () => { setListening(false); setLiveTranscript(''); };
     rec.onerror = () => { setListening(false); setLiveTranscript(''); };
-    rec.onresult = (e: any) => {
+    rec.onresult = (e: SpeechEvent) => {
       let interim = '', final = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const t = e.results[i][0].transcript;
@@ -300,7 +313,7 @@ export default function CopilotPage() {
   return (
     <div
       className="flex flex-col"
-      style={{ height: 'calc(100dvh - 72px)' }}
+      style={{ height: 'calc(100dvh - var(--bottom-nav-height))' }}
     >
       {/* ── Header ── */}
       <motion.div

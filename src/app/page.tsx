@@ -50,7 +50,7 @@ export default function Dashboard() {
               Ranjeet 👋
             </span>
           </motion.h1>
-          <p className="text-sm text-slate-400">Here's what's happening with your hiring pipeline today.</p>
+          <p className="text-sm text-slate-400">{"Here's what's happening with your hiring pipeline today."}</p>
         </div>
 
         {/* Quick Actions */}
@@ -63,13 +63,14 @@ export default function Dashboard() {
           {quickActions.map((action) => (
             <Link key={action.label} href={action.href}>
               <motion.button
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -2, boxShadow: `0 6px 20px ${action.color}40` }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl text-white transition-all"
+                className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl text-white transition-all"
                 style={{
-                  background: `${action.color}22`,
+                  background: `linear-gradient(135deg, ${action.color}22, ${action.color}10)`,
                   border: `1px solid ${action.color}40`,
                   color: action.color,
+                  boxShadow: `0 2px 10px ${action.color}20`,
                 }}
               >
                 <action.icon className="w-3.5 h-3.5" />
@@ -115,16 +116,28 @@ export default function Dashboard() {
               }}
               transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
               className="w-14 h-14 md:w-16 md:h-16 mb-4 rounded-2xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))' }}
+              style={{
+                background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))',
+                boxShadow: '0 0 20px rgba(99,102,241,0.2)',
+              }}
             >
               <span className="text-2xl md:text-3xl">🤖</span>
             </motion.div>
             <p className="text-sm font-medium text-slate-400 max-w-xs">
-              Your AI assistant is analyzing new resumes...
+              Analyzing resumes with AI...
             </p>
+            {/* Shimmer skeleton rows */}
+            <div className="w-full max-w-xs mt-5 space-y-2">
+              {[80, 65, 90].map((w, i) => (
+                <motion.div
+                  key={i}
+                  className="skeleton h-2 rounded-full"
+                  style={{ width: `${w}%`, animationDelay: `${i * 0.15}s` }}
+                />
+              ))}
+            </div>
             <motion.div
-              className="flex gap-1.5 mt-3"
-              animate={{}}
+              className="flex gap-1.5 mt-4"
             >
               {[0, 1, 2].map((i) => (
                 <motion.div

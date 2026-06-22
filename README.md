@@ -1,8 +1,8 @@
-# 🧠 RecruitAI — Enterprise AI Recruiter Intelligence System
+# 🧠 RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
 
-RecruitAI (also known as **TalentMind AI**) is a state-of-the-art, high-scoring enterprise hiring and evaluation platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
+RecruitAI (also known as **TalentMind AI**) is a state-of-the-art, high-scoring enterprise hiring, evaluation, and video screening platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
 
-RecruitAI acts like a senior human recruiter and expert AI analyst combined. It utilizes advanced Semantic Embedding Retrieval, a multi-factor Hybrid Scoring Engine, LLM-based parsing and reranking, a Real-Time Video Interview Screen (Zoom App), and an Explainable AI Dashboard featuring demographic bias reduction and a voice-to-voice recruiter copilot.
+RecruitAI acts like a senior human recruiter and expert AI analyst combined. It utilizes advanced Semantic Embedding Retrieval, a multi-factor Hybrid Scoring Engine, LLM-based parsing and reranking, a Real-Time Video Interview Screen (Zoom App), and an Explainable AI Dashboard featuring demographic bias reduction, a synthesised sound system, and a voice-to-voice recruiter copilot.
 
 ---
 
@@ -22,7 +22,7 @@ The application API, interactive landing page, and developer interfaces are full
 * **Cross-Device Optimization**: Tailored UI layout that adapts seamlessly to desktop wide screens and mobile portrait viewports with zero layout breakage.
 
 ### 2. 🗣️ Voice-to-Voice & Text-to-Text AI Copilot
-* **Hands-Free Voice Mode**: Uses Web Speech API (SpeechRecognition + SpeechSynthesis) to allow voice-only conversations. Copilot replies are spoken aloud.
+* **Hands-Free Voice Mode**: Uses Web Speech API (`SpeechRecognition` + `SpeechSynthesis`) to allow voice-only conversations. Copilot replies are spoken aloud.
 * **Voice Speed & Pitch Modulations**: Adjustable text-to-speech rendering settings (0.5x to 2.0x speeds, pitch levels).
 * **Recruiter Intelligence**: Natural language assistant capable of complex parsing (e.g. *"who knows Docker and PyTorch"*, *"compare Amit vs Priya"*).
 
@@ -55,6 +55,12 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 * **Federated SSO Gateways**: Support for Google, LinkedIn, Microsoft, and Facebook mock logins.
 * **Referral Module**: Invite colleagues, track clicks, and earn hiring credits ($50/referral).
 
+### 8. 🔊 Synthesized Web Audio Sound System
+* **Zero External Files**: All interface sounds are programmatically synthesized in real-time via the Web Audio API (`AudioContext`).
+* **ADSR Envelopes**: Clean attack-decay-sustain-release curves for click, pop, chimes, slider ticks, and level-up audio alerts.
+* **Reverb & Lowpass Filters**: Programmable convolver-like impulse noise and biquad filters to add warmth and spatial depth to UI responses.
+* **SoundToggle Switch**: Floating toggle controls allowing users to globalize mute/unmute audio settings (stored and retrieved from `localStorage`).
+
 ---
 
 ## 🛠️ Technology Stack
@@ -67,6 +73,15 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 | **Data Parsing** | PyPDF, Python Docx, Built-in structured parsers |
 | **AI Models** | Google Gemini API (with robust heuristic fallback engines) |
 | **Deployment** | Vercel Serverless Functions (Python API & Next.js Frontend) |
+
+---
+
+## 🏗️ Technical Architecture & React 19 Purity Standards
+
+To conform with React 19 strict compilation standards, the application implements specific architecture guidelines:
+1. **Initial State Purity**: Initializing states with dynamic calls like `Date.now()` or `Math.random()` inside the render body is avoided. Initial states are set using lazy initializers (e.g., `useState(() => Msg[])`) to avoid running impure functions during render cycles.
+2. **Cascading State Updates Prevention**: Calling `setState` synchronously within a `useEffect` hook causes cascading renders. When retrieving preferences from client-side sources like `localStorage` or updating visibility stats, calls are scheduled asynchronously (using `requestAnimationFrame` or `setTimeout`) to allow React 19 to finish rendering cleanly.
+3. **Web Speech API Strict Typing**: Custom definitions for `SpeechRecognition` events and results (`SpeechEvent`, `SpeechResult`) are enforced, eliminating the use of `any` type casts on microphone buffers and transcripts.
 
 ---
 
@@ -150,6 +165,24 @@ Open `http://localhost:3000` to interact with the system.
 
 ### 🧮 Matching & Analytics Engine
 * `GET /api/candidates` - Candidate directory (demographic masking supported).
-* `POST /api/match` - Triggers hybrid matching, SHAP visualizers, fraud detectors, and interview question generators.
+* `POST /api/match` - Triggers matching, SHAP visualizers, fraud detectors, and interview questions.
 * `GET /api/talent-clusters` - K-Means talent pool cluster mapping.
 * `GET /api/candidates/{id}/similar` - KNN similar profile look-alike engine.
+
+---
+
+## 🚀 Deployment to Vercel
+
+The application is configured to deploy as a combined Next.js frontend and Python FastAPI serverless backend using `vercel.json` rewrites. 
+
+To deploy locally using Vercel CLI:
+```bash
+# 1. Pull the remote settings matching the project ID
+npx vercel pull --yes
+
+# 2. Compile and package the production resources
+npx vercel build
+
+# 3. Deploy to production
+npx vercel deploy --prod
+```

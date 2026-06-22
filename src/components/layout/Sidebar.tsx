@@ -2,18 +2,26 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Sparkles, BarChart3, Settings, Video, Zap } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Home, Users, Sparkles, BarChart3, Settings, Video, Zap, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { playClick } from '@/lib/sounds';
 
-const navItems = [
-  { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Candidates', href: '/candidates', icon: Users },
-  { name: 'Live Interview', href: '/interviews', icon: Video },
-  { name: 'AI Copilot', href: '/copilot', icon: Sparkles },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Settings', href: '/settings', icon: Settings },
+interface NavItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isNew?: boolean;
+}
+
+const navItems: NavItem[] = [
+  { name: 'Overview',      href: '/overview',   icon: Layers, isNew: true },
+  { name: 'Dashboard',    href: '/',           icon: Home },
+  { name: 'Candidates',   href: '/candidates', icon: Users },
+  { name: 'Live Interview',href: '/interviews', icon: Video },
+  { name: 'AI Copilot',   href: '/copilot',    icon: Sparkles },
+  { name: 'Analytics',    href: '/analytics',  icon: BarChart3 },
+  { name: 'Settings',     href: '/settings',   icon: Settings },
 ];
 
 export function Sidebar() {
@@ -105,6 +113,14 @@ export function Sidebar() {
                   />
                 </motion.div>
                 <span className="relative z-10 text-sm font-medium">{item.name}</span>
+
+                {/* New badge */}
+                {item.isNew && !isActive && (
+                  <span className="relative z-10 ml-auto text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider"
+                    style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: 'white' }}>
+                    3D
+                  </span>
+                )}
 
                 {/* Interviews badge */}
                 {item.name === 'Live Interview' && (

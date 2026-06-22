@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>NexCall — Premium Video Conferencing</title>
+  <meta name="description" content="NexCall is a next-generation premium video conferencing experience with glassmorphism UI and AI-powered features." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient Background -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Phone Mockup Container -->
+  <div class="app-wrapper">
+    <div class="phone-frame">
+      <div class="phone-notch">
+        <div class="notch-camera"></div>
+        <div class="notch-speaker"></div>
+      </div>
+      <div class="status-bar">
+        <span class="status-time">9:56</span>
+        <div class="status-icons">
+          <span class="signal-dot active"></span>
+          <span class="signal-dot active"></span>
+          <span class="signal-dot"></span>
+          <svg width="15" height="11" viewBox="0 0 15 11"><rect x="0" y="3" width="3" height="8" rx="1" fill="white" opacity=".5"/><rect x="4" y="2" width="3" height="9" rx="1" fill="white" opacity=".7"/><rect x="8" y="0" width="3" height="11" rx="1" fill="white"/><rect x="12" y="0" width="3" height="11" rx="1" fill="white" opacity=".3"/></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1" fill="none" opacity=".6"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity=".4"/></svg>
+        </div>
+      </div>
+
+      <!-- SCREENS CONTAINER -->
+      <div class="screens-container" id="screensContainer">
+
+        <!-- SCREEN 1: PRE-JOIN -->
+        <div class="screen active" id="screen-prejoin">
+          <div class="screen-header">
+            <button class="icon-btn" id="btn-back-prejoin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="meeting-badge">
+              <div class="meeting-badge-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 10l5-3v10l-5-3V10zM4 8a2 2 0 012-2h9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" fill="currentColor"/></svg>
+              </div>
+              <span>yre-nrxm-eif</span>
+            </div>
+            <button class="icon-btn" id="btn-more-prejoin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg>
+            </button>
+          </div>
+
+          <div class="prejoin-content">
+            <p class="waiting-label">Waiting area · <span class="dot-pulse"></span> Ready to join</p>
+
+            <div class="video-preview-container" id="videoPreviewContainer">
+              <div class="video-preview-card">
+                <div class="video-feed">
+                  <div class="video-gradient-overlay"></div>
+                  <div class="video-person-avatar">
+                    <div class="avatar-ring">
+                      <div class="avatar-inner">RK</div>
+                    </div>
+                  </div>
+                  <div class="video-controls-overlay">
+                    <button class="video-ctrl-btn" id="btn-toggle-cam" title="Toggle Camera">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 10l5-3v10l-5-3V10zM4 8a2 2 0 012-2h9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="2"/></svg>
+                    </button>
+                    <button class="video-ctrl-btn effects-btn" id="btn-effects" title="Effects">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 4.8L20 9l-4 3.9.9 5.1L12 15.4 7.1 18l.9-5.1L4 9l5.6-1.2L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button class="video-ctrl-btn" id="btn-toggle-mic" title="Toggle Mic">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v8a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="currentColor" stroke-width="2"/><path d="M19 10a7 7 0 01-14 0M12 19v4M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="glow-border"></div>
+              </div>
+            </div>
+
+            <div class="user-info-card">
+              <div class="user-avatar-sm">RK</div>
+              <div class="user-details">
+                <h2 class="user-name">Ranjeet Kumar</h2>
+                <p class="user-email">rajranjeet7680@gmail.com</p>
+              </div>
+              <div class="online-indicator"></div>
+            </div>
+          </div>
+
+          <div class="bottom-sheet prejoin-sheet">
+            <div class="sheet-handle"></div>
+            <div class="join-actions">
+              <button class="join-btn primary-btn" id="btn-join">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 10l5-3v10l-5-3V10zM4 8a2 2 0 012-2h9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" fill="currentColor"/></svg>
+                Join Now
+              </button>
+              <div class="secondary-actions">
+                <button class="secondary-btn" id="btn-companion">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Companion Mode
+                </button>
+                <button class="secondary-btn" id="btn-share-screen-prejoin">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 14.5V20h5.5M20 9.5V4h-5.5M20 4l-7 7M4 20l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Share Screen
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 2: ACTIVE CALL -->
+        <div class="screen" id="screen-call">
+          <div class="call-fullscreen">
+            <div class="main-video">
+              <div class="call-video-bg">
+                <div class="call-gradient"></div>
+                <div class="call-avatar-large">
+                  <div class="call-avatar-ring">
+                    <div class="call-avatar-text">RK</div>
+                  </div>
+                  <div class="audio-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="call-header">
+              <button class="icon-btn glass-btn" id="btn-back-call">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="call-info">
+                <span class="call-status-label">You're the only one here</span>
+                <div class="call-timer" id="callTimer">00:00</div>
+              </div>
+              <button class="icon-btn glass-btn" id="btn-speaker">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+
+            <div class="pip-container">
+              <div class="pip-card">
+                <div class="pip-avatar">RK</div>
+                <div class="pip-label">You</div>
+              </div>
+            </div>
+
+            <div class="call-controls-bar">
+              <button class="ctrl-btn mic-btn active" id="btn-mic-call" title="Mute/Unmute">
+                <div class="ctrl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v8a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="currentColor" stroke-width="2"/><path d="M19 10a7 7 0 01-14 0M12 19v4M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <span class="ctrl-label">Mute</span>
+              </button>
+              <button class="ctrl-btn cam-btn active" id="btn-cam-call" title="Camera On/Off">
+                <div class="ctrl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 10l5-3v10l-5-3V10zM4 8a2 2 0 012-2h9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <span class="ctrl-label">Camera</span>
+              </button>
+              <button class="ctrl-btn effects-ctrl-btn" id="btn-effects-call" title="Effects">
+                <div class="ctrl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 4.8L20 9l-4 3.9.9 5.1L12 15.4 7.1 18l.9-5.1L4 9l5.6-1.2L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="ctrl-label">Effects</span>
+              </button>
+              <button class="ctrl-btn more-btn" id="btn-more-call" title="More Options">
+                <div class="ctrl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></svg>
+                </div>
+                <span class="ctrl-label">More</span>
+              </button>
+              <button class="ctrl-btn end-btn" id="btn-end-call" title="End Call">
+                <div class="ctrl-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.41 9.5 19.79 19.79 0 01.36 5a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.4a16 16 0 006.61 6.61l1.67-1.67a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.03z" stroke="currentColor" stroke-width="2"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <span class="ctrl-label">End</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 3: EFFECTS PANEL -->
+        <div class="screen" id="screen-effects">
+          <div class="effects-overlay">
+            <div class="effects-preview-area">
+              <div class="effects-video-preview">
+                <div class="effects-avatar">RK</div>
+                <div class="effects-preview-glow"></div>
+              </div>
+              <div class="effects-header-top">
+                <span class="effects-title">Visual Effects</span>
+                <button class="icon-btn" id="btn-close-effects">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="effects-panel">
+              <div class="sheet-handle"></div>
+              <div class="effects-tabs">
+                <button class="tab-btn active" data-tab="backgrounds" id="tab-backgrounds">Backgrounds</button>
+                <button class="tab-btn" data-tab="filters" id="tab-filters">Filters</button>
+                <button class="tab-btn" data-tab="appearance" id="tab-appearance">Appearance</button>
+              </div>
+              <div class="tab-indicator"></div>
+
+              <div class="tab-content" id="tab-content-backgrounds">
+                <div class="bg-options-row">
+                  <button class="bg-option active" id="bg-none" title="No background">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <span>None</span>
+                  </button>
+                  <button class="bg-option" id="bg-blur" title="Blur background">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Blur</span>
+                  </button>
+                  <button class="bg-option" id="bg-blur-strong" title="Strong blur">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5" opacity=".4"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Strong</span>
+                  </button>
+                </div>
+
+                <div class="bg-section">
+                  <div class="bg-section-header">
+                    <span>New</span>
+                    <button class="see-all-btn">See all →</button>
+                  </div>
+                  <div class="bg-thumbnails">
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                      <span class="bg-thumb-label">Studio</span>
+                    </button>
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                      <span class="bg-thumb-label">Aurora</span>
+                    </button>
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                      <span class="bg-thumb-label">Ocean</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bg-section">
+                  <div class="bg-section-header">
+                    <span>360°</span>
+                    <button class="see-all-btn">See all →</button>
+                  </div>
+                  <div class="bg-thumbnails">
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+                      <span class="bg-thumb-label">Space</span>
+                      <div class="vr-badge">VR</div>
+                    </button>
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">
+                      <span class="bg-thumb-label">Desert</span>
+                      <div class="vr-badge">VR</div>
+                    </button>
+                    <button class="bg-thumb" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                      <span class="bg-thumb-label">Sky</span>
+                      <div class="vr-badge">VR</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-content hidden" id="tab-content-filters">
+                <div class="filters-grid">
+                  <div class="filter-item active">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #2d2d2d, #1a1a2e);">Original</div>
+                    <span>Original</span>
+                  </div>
+                  <div class="filter-item">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #b3cde0, #6497b1); filter: saturate(0.3);">Mono</div>
+                    <span>Mono</span>
+                  </div>
+                  <div class="filter-item">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #f7971e, #ffd200); filter: saturate(1.5);">Vivid</div>
+                    <span>Vivid</span>
+                  </div>
+                  <div class="filter-item">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #c9d6df, #52c234); filter: brightness(1.2);">Fresh</div>
+                    <span>Fresh</span>
+                  </div>
+                  <div class="filter-item">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #f4e2d8, #ba5370);">Warm</div>
+                    <span>Warm</span>
+                  </div>
+                  <div class="filter-item">
+                    <div class="filter-preview" style="background: linear-gradient(135deg, #304352, #d7d2cc);">Cool</div>
+                    <span>Cool</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-content hidden" id="tab-content-appearance">
+                <div class="appearance-section">
+                  <div class="appearance-label">Skin Smooth</div>
+                  <div class="slider-container">
+                    <input type="range" min="0" max="100" value="30" class="appearance-slider" id="slider-smooth" />
+                    <span class="slider-value">30%</span>
+                  </div>
+                </div>
+                <div class="appearance-section">
+                  <div class="appearance-label">Brightness</div>
+                  <div class="slider-container">
+                    <input type="range" min="0" max="100" value="50" class="appearance-slider" id="slider-brightness" />
+                    <span class="slider-value">50%</span>
+                  </div>
+                </div>
+                <div class="appearance-section">
+                  <div class="appearance-label">Contrast</div>
+                  <div class="slider-container">
+                    <input type="range" min="0" max="100" value="45" class="appearance-slider" id="slider-contrast" />
+                    <span class="slider-value">45%</span>
+                  </div>
+                </div>
+                <div class="appearance-section">
+                  <div class="appearance-label">Eye Enhance</div>
+                  <div class="toggle-row">
+                    <span>Auto-enhance eyes</span>
+                    <button class="toggle-switch active" id="toggle-eyes">
+                      <div class="toggle-thumb"></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 4: MORE OPTIONS -->
+        <div class="screen" id="screen-more">
+          <div class="more-overlay">
+            <div class="more-backdrop" id="moreBackdrop"></div>
+            <div class="more-panel">
+              <div class="sheet-handle"></div>
+              <div class="more-header">
+                <div class="more-title-row">
+                  <div class="audio-status">
+                    <div class="audio-dot"></div>
+                    <span>You're the only one here</span>
+                  </div>
+                  <button class="icon-btn" id="btn-close-more">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="more-grid">
+                <button class="more-grid-btn" id="btn-raise-hand">
+                  <div class="more-grid-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 11V6.5a1.5 1.5 0 00-3 0V11M9 11V4.5a1.5 1.5 0 00-3 0V16l-2-3a1.5 1.5 0 00-2.6 1.5l3.5 6A6 6 0 0011 22h4a6 6 0 006-6v-5h-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 11V3.5a1.5 1.5 0 00-3 0V11" stroke="currentColor" stroke-width="1.8"/></svg>
+                  </div>
+                  <span>Raise Hand</span>
+                </button>
+                <button class="more-grid-btn" id="btn-share-screen">
+                  <div class="more-grid-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M12 17v2M8 21h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 10l4-3 4 3M12 7v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <span>Share Screen</span>
+                </button>
+                <button class="more-grid-btn active" id="btn-captions">
+                  <div class="more-grid-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M7 12h4M13 12h4M7 15h2M11 15h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <span>Captions</span>
+                </button>
+                <button class="more-grid-btn" id="btn-audio-out">
+                  <div class="more-grid-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </div>
+                  <span>Audio Out</span>
+                </button>
+              </div>
+
+              <div class="more-list">
+                <button class="more-list-item ai-item" id="btn-ai-notes">
+                  <div class="more-list-icon ai-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" opacity=".3"/><path d="M12 6l2 4h4l-3.3 2.4L15.7 17 12 14.3 8.3 17l1-4.6L6 10h4l2-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="more-list-text">
+                    <span class="more-list-title">Take notes with AI</span>
+                    <span class="more-list-sub">Auto-summarize your meeting</span>
+                  </div>
+                  <div class="ai-badge">NEW</div>
+                </button>
+                <button class="more-list-item" id="btn-on-the-go">
+                  <div class="more-list-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="6" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v9M9 12l3 3 3-3M5 21c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="more-list-text">
+                    <span class="more-list-title">On the go</span>
+                    <span class="more-list-sub">Mobile optimized mode</span>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+                <button class="more-list-item" id="btn-chat-more">
+                  <div class="more-list-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="more-list-text">
+                    <span class="more-list-title">Chat</span>
+                    <span class="more-list-sub">0 unread messages</span>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+                <button class="more-list-item" id="btn-settings-more">
+                  <div class="more-list-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.8"/></svg>
+                  </div>
+                  <div class="more-list-text">
+                    <span class="more-list-title">Settings</span>
+                    <span class="more-list-sub">Audio, video & accessibility</span>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+
+              <div class="more-footer-row">
+                <button class="more-footer-btn" id="btn-tools">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/></svg>
+                  Tools
+                </button>
+                <button class="more-footer-btn danger-btn" id="btn-report">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Report Abuse
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- Bottom Home Bar -->
+      <div class="home-bar"></div>
+    </div>
+  </div>
+
+  <!-- Navigation dots -->
+  <div class="screen-nav">
+    <button class="nav-dot active" data-screen="screen-prejoin" id="nav-0"></button>
+    <button class="nav-dot" data-screen="screen-call" id="nav-1"></button>
+    <button class="nav-dot" data-screen="screen-effects" id="nav-2"></button>
+    <button class="nav-dot" data-screen="screen-more" id="nav-3"></button>
+  </div>
+  <div class="nav-labels">
+    <span>Pre-Join</span>
+    <span>Active Call</span>
+    <span>Effects</span>
+    <span>Options</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

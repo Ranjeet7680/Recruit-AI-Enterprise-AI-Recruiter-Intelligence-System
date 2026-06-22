@@ -30,6 +30,18 @@ import {
 type Role = 'user' | 'assistant';
 interface Msg { id: string; role: Role; text: string; ts: number }
 
+interface SpeechResult {
+  [index: number]: { transcript: string };
+  isFinal: boolean;
+}
+interface SpeechEvent {
+  resultIndex: number;
+  results: {
+    [index: number]: SpeechResult;
+    length: number;
+  };
+}
+
 /* ─────────────────── constants ─────────────────── */
 const QUICK_CHIPS = [
   'Analyze React JD',
@@ -193,7 +205,14 @@ function Thinking() {
 /* ═══════════════════════ MAIN WIDGET ═══════════════════════ */
 export function FloatingCopilot() {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([]);
+  const [msgs, setMsgs] = useState<Msg[]>(() => [
+    {
+      id: uid(),
+      role: 'assistant',
+      text: AI_REPLIES.default,
+      ts: Date.now(),
+    }
+  ]);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
   const [voiceMode, setVoiceMode] = useState(false);
@@ -204,7 +223,7 @@ export function FloatingCopilot() {
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<{ stop: () => void } | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
   /* ── init speech synthesis ── */
@@ -222,21 +241,10 @@ export function FloatingCopilot() {
   /* ── focus input when opened ── */
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-      setUnread(0);
-    }
-  }, [open]);
-
-  /* ── welcome message on first open ── */
-  useEffect(() => {
-    if (open && msgs.length === 0) {
-      const welcome: Msg = {
-        id: uid(),
-        role: 'assistant',
-        text: AI_REPLIES.default,
-        ts: Date.now(),
-      };
-      setMsgs([welcome]);
+      setTimeout(() => {
+        inputRef.current?.focus();
+        setUnread(0);
+      }, 300);
     }
   }, [open]);
 
@@ -292,22 +300,22 @@ export function FloatingCopilot() {
   /* ── start mic ── */
   const startListening = () => {
     const SR =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
+      (window as Window & { SpeechRecognition?: new () => unknown; webkitSpeechRecognition?: new () => unknown }).SpeechRecognition ||
+      (window as Window & { SpeechRecognition?: new () => unknown; webkitSpeechRecognition?: new () => unknown }).webkitSpeechRecognition;
     if (!SR) {
       alert('Speech recognition is not supported in your browser. Try Chrome or Edge.');
       return;
     }
     stopSpeak();
-    const rec = new SR() as {
+    const rec = new (SR as new () => {
       lang: string; continuous: boolean; interimResults: boolean;
       onstart: (() => void) | null;
       onend: (() => void) | null;
       onerror: (() => void) | null;
-      onresult: ((e: any) => void) | null;
+      onresult: ((e: SpeechEvent) => void) | null;
       start(): void; stop(): void;
-    };
-    recognitionRef.current = rec as any;
+    })();
+    recognitionRef.current = rec;
     rec.lang = 'en-US';
     rec.continuous = false;
     rec.interimResults = true;
@@ -315,7 +323,7 @@ export function FloatingCopilot() {
     rec.onstart = () => setListening(true);
     rec.onend = () => { setListening(false); setLiveTranscript(''); };
     rec.onerror = () => { setListening(false); setLiveTranscript(''); };
-    rec.onresult = (e: any) => {
+    rec.onresult = (e: SpeechEvent) => {
       let interim = '';
       let final = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -360,7 +368,7 @@ export function FloatingCopilot() {
         aria-label="Open AI Copilot"
         className="fixed z-50 flex items-center justify-center rounded-full shadow-2xl"
         style={{
-          bottom: 'calc(72px + 16px + env(safe-area-inset-bottom))',
+          bottom: 'calc(var(--bottom-nav-height) + 16px + env(safe-area-inset-bottom))',
           right: 16,
           width: 52,
           height: 52,
@@ -414,7 +422,7 @@ export function FloatingCopilot() {
             transition={{ type: 'spring', stiffness: 340, damping: 30 }}
             className="fixed z-50 flex flex-col overflow-hidden"
             style={{
-              bottom: 'calc(72px + 16px + 56px + env(safe-area-inset-bottom))',
+              bottom: 'calc(var(--bottom-nav-height) + 16px + 56px + env(safe-area-inset-bottom))',
               right: 12,
               width: 'min(380px, calc(100vw - 24px))',
               height: 'min(540px, calc(100dvh - 180px))',

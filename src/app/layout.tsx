@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { FloatingMetrics } from "@/components/layout/FloatingMetrics";
 import { FloatingCopilot } from "@/components/layout/FloatingCopilot";
+import { SoundToggle } from "@/components/layout/SoundToggle";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,8 +53,8 @@ export default function RootLayout({
 
         {/* Main — offset by sidebar on md+, padded bottom for BottomNav on mobile */}
         <main
-          className="relative z-10 md:ml-64 pb-[72px] md:pb-0 min-h-screen min-h-dvh overflow-x-hidden"
-          style={{ paddingBottom: "calc(72px + env(safe-area-inset-bottom))" }}
+          className="relative z-10 md:ml-64 min-h-screen min-h-dvh overflow-x-hidden"
+          style={{ paddingBottom: "calc(var(--bottom-nav-height) + env(safe-area-inset-bottom))" }}
         >
           <div className="md:pb-0" style={{ paddingBottom: 0 }}>
             {children}
@@ -62,6 +63,7 @@ export default function RootLayout({
 
         <BottomNav />
         <FloatingCopilot />
+        <SoundToggle />
       </body>
     </html>
   );

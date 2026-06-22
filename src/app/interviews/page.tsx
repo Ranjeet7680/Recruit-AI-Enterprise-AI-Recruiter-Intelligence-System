@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic, MicOff, VideoOff, Phone, ScreenShare,
   CheckCircle2, Sparkles,
   ChevronDown, Monitor, Clock, MessageSquare,
 } from 'lucide-react';
-import { playRing, playClick } from '@/lib/sounds';
+import { playRing, playClick, playMute, playEndCall, playSubmit } from '@/lib/sounds';
 
 /* ════════════════════ TYPES ════════════════════ */
 type Tab = 'copilot' | 'scorecard';
@@ -39,7 +39,7 @@ function RatingSlider({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-slate-700 dark:text-slate-300 font-semibold">{label}</span>
+        <span className="text-sm text-slate-300 dark:text-slate-300 font-semibold">{label}</span>
         <span className="text-sm font-bold" style={{ color: '#6366f1' }}>
           {value} <span className="text-slate-400 font-normal">/ 5</span>
         </span>
@@ -109,6 +109,7 @@ function VideoTile({
                     boxShadow: isSpeaking ? '0 0 0 4px rgba(138,180,248,0.3)' : '0 10px 25px rgba(0,0,0,0.3)',
                   }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imageSrc} alt={name} className="w-full h-full object-cover" />
                 </div>
               ) : (
@@ -181,6 +182,7 @@ export default function InterviewsPage() {
   const [notes, setNotes] = useState('');
   const [decision, setDecision] = useState('hire');
   const [submitted, setSubmitted] = useState(false);
+  const mobileVideoContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     playRing();
@@ -197,7 +199,7 @@ export default function InterviewsPage() {
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   const handleSubmit = () => {
-    playClick();
+    playSubmit();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
   };
@@ -255,7 +257,7 @@ export default function InterviewsPage() {
             {/* Mic Toggle */}
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={() => { setMicOn((v) => !v); playClick(); }}
+              onClick={() => { setMicOn((v) => !v); playMute(); }}
               className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
                 micOn ? 'bg-[#3c4043] text-white hover:bg-[#4d5154]' : 'bg-[#ea4335] text-white hover:bg-[#f25c4f]'
               }`}
@@ -301,8 +303,9 @@ export default function InterviewsPage() {
             {/* End Call */}
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={playClick}
+              onClick={() => { playEndCall(); }}
               className="w-16 h-11 rounded-full flex items-center justify-center bg-[#ea4335] hover:bg-[#d93025] text-white transition-all shadow-lg"
+              style={{ boxShadow: '0 0 20px rgba(234,67,53,0.4)' }}
               title="End call"
             >
               <Phone className="w-5 h-5 rotate-[135deg]" />
@@ -318,10 +321,17 @@ export default function InterviewsPage() {
               animate={{ width: 380, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-              className="flex flex-col overflow-hidden bg-white rounded-2xl border border-slate-200/80 shadow-2xl"
+            className="flex flex-col overflow-hidden rounded-2xl border shadow-2xl"
+              style={{
+                background: 'rgba(15,16,20,0.95)',
+                borderColor: 'rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(24px)',
+              }}
             >
               {/* Tabs */}
-              <div className="flex flex-shrink-0 border-b border-slate-100 bg-slate-50/50">
+              <div className="flex flex-shrink-0 border-b"
+                style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}
+              >
                 {([
                   { id: 'copilot', label: 'AI Copilot Live', emoji: '🤖' },
                   { id: 'scorecard', label: 'Scorecard', emoji: '📋' },
@@ -331,13 +341,20 @@ export default function InterviewsPage() {
                     onClick={() => { setActiveTab(tab.id); playClick(); }}
                     className="relative flex-1 py-3.5 text-xs font-bold transition-all"
                     style={{
-                      color: activeTab === tab.id ? '#6366f1' : '#94a3b8',
-                      borderBottom: activeTab === tab.id ? '2.5px solid #6366f1' : '2.5px solid transparent',
+                      color: activeTab === tab.id ? '#818cf8' : '#475569',
                       background: 'transparent',
                     }}
                   >
                     <span className="mr-1">{tab.emoji}</span>
                     {tab.label}
+                    {activeTab === tab.id && (
+                      <motion.div
+                        layoutId="desktop-tab-indicator"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
+                        style={{ background: 'linear-gradient(90deg, #6366f1, #8b5cf6)' }}
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
                   </button>
                 ))}
               </div>
@@ -388,7 +405,7 @@ export default function InterviewsPage() {
           </div>
 
           {/* Video Grid/PiP Layout */}
-          <div className="w-full h-full relative">
+          <div ref={mobileVideoContainerRef} className="w-full h-full relative">
             {/* Candidate: main background tile */}
             <div className="w-full h-full">
               <VideoTile
@@ -402,7 +419,7 @@ export default function InterviewsPage() {
             {/* You: floating picture-in-picture tile in top-right */}
             <motion.div
               drag
-              dragConstraints={{ left: 10, right: 280, top: 10, bottom: 400 }}
+              dragConstraints={mobileVideoContainerRef}
               className="absolute top-12 right-3 w-24 h-32 rounded-lg overflow-hidden shadow-2xl z-10 border border-white/10"
               style={{ touchAction: 'none' }}
             >
@@ -455,6 +472,7 @@ export default function InterviewsPage() {
                 whileTap={{ scale: 0.9 }}
                 onClick={playClick}
                 className="w-12 h-9 rounded-full flex items-center justify-center bg-[#ea4335] text-white shadow-md"
+              style={{ boxShadow: '0 4px 16px rgba(234,67,53,0.5)' }}
               >
                 <Phone className="w-4 h-4 rotate-[135deg]" />
               </motion.button>
@@ -469,15 +487,19 @@ export default function InterviewsPage() {
               initial={{ height: 0 }}
               animate={{ height: '65vh' }}
               exit={{ height: 0 }}
-              className="flex flex-col bg-white overflow-hidden flex-shrink-0"
+              className="flex flex-col overflow-hidden flex-shrink-0"
               style={{
                 borderTopLeftRadius: '1.5rem',
                 borderTopRightRadius: '1.5rem',
-                boxShadow: '0 -10px 30px rgba(0,0,0,0.15)',
+                background: 'rgba(8,6,22,0.97)',
+                borderTop: '1px solid rgba(255,255,255,0.08)',
+                boxShadow: '0 -12px 40px rgba(0,0,0,0.4)',
               }}
             >
               {/* Tab selector bar */}
-              <div className="flex flex-shrink-0 border-b border-slate-100 bg-slate-50/50 py-1 shadow-sm">
+              <div className="flex flex-shrink-0 border-b py-1 shadow-sm"
+                style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}
+              >
                 {([
                   { id: 'copilot', label: 'AI Copilot Live', emoji: '🤖' },
                   { id: 'scorecard', label: 'Scorecard', emoji: '📋' },
@@ -487,13 +509,20 @@ export default function InterviewsPage() {
                     onClick={() => { setActiveTab(tab.id); playClick(); }}
                     className="relative flex-1 py-3 text-xs font-bold transition-all"
                     style={{
-                      color: activeTab === tab.id ? '#6366f1' : '#94a3b8',
-                      borderBottom: activeTab === tab.id ? '2px solid #6366f1' : '2px solid transparent',
+                      color: activeTab === tab.id ? '#818cf8' : '#475569',
                       background: 'transparent',
                     }}
                   >
                     <span className="mr-1">{tab.emoji}</span>
                     {tab.label}
+                    {activeTab === tab.id && (
+                      <motion.div
+                        layoutId="mobile-tab-indicator"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
+                        style={{ background: 'linear-gradient(90deg, #6366f1, #8b5cf6)' }}
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
                   </button>
                 ))}
               </div>
@@ -538,19 +567,25 @@ function CopilotPanel({ speaking }: { speaking: boolean }) {
       {/* AI listening banner */}
       <div
         className="flex items-center gap-2.5 rounded-xl px-3 py-2.5"
-        style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.15)' }}
+        style={{
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1))',
+          border: '1px solid rgba(99,102,241,0.25)',
+          boxShadow: '0 2px 12px rgba(99,102,241,0.1)',
+        }}
       >
         <div
-          className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-          style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}
+          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 0 12px rgba(99,102,241,0.4)' }}
         >
-          <Sparkles className="w-3.5 h-3.5 text-white" />
+          <Sparkles className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-semibold text-indigo-700 dark:text-indigo-300 leading-snug">
-            AI is listening. Suggestions update as candidate responds.
+          <p className="text-[11px] font-semibold text-indigo-300 leading-snug">
+            AI is listening · Suggestions update live
           </p>
+          <p className="text-[10px] text-slate-500 mt-0.5">Analysis running in real-time</p>
         </div>
+        <WaveformVisualizer active={speaking} color="#818cf8" />
       </div>
 
       {/* Transcript bubbles */}
@@ -562,6 +597,7 @@ function CopilotPanel({ speaking }: { speaking: boolean }) {
             style={{
               background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
               maxWidth: '88%',
+              boxShadow: '0 4px 14px rgba(99,102,241,0.3)',
             }}
           >
             Hello! Thanks for joining the call today. Can you start by giving us a brief overview
@@ -571,12 +607,13 @@ function CopilotPanel({ speaking }: { speaking: boolean }) {
 
         {/* Candidate bubble */}
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-indigo-500 ml-1">Aria Sterling (Candidate):</span>
+          <span className="text-[10px] font-bold text-indigo-400 ml-1">Aria Sterling (Candidate):</span>
           <p
-            className="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed rounded-2xl rounded-bl-sm px-3.5 py-2.5"
+            className="text-[12px] leading-relaxed rounded-2xl rounded-bl-sm px-3.5 py-2.5"
             style={{
-              background: 'rgba(241,245,249,1)',
-              border: '1px solid rgba(148,163,184,0.15)',
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: '#cbd5e1',
               maxWidth: '90%',
             }}
           >
@@ -594,14 +631,17 @@ function CopilotPanel({ speaking }: { speaking: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
               className="flex items-center gap-2 px-3 py-2 rounded-xl"
-              style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.1)' }}
+              style={{
+                background: 'rgba(99,102,241,0.08)',
+                border: '1px solid rgba(99,102,241,0.15)',
+              }}
             >
               <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: 'rgba(99,102,241,0.12)' }}>
+                style={{ background: 'rgba(99,102,241,0.2)' }}>
                 <Sparkles className="w-3 h-3 text-indigo-400" />
               </div>
               <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                <span className="text-[10px] text-indigo-500 font-bold">Aria is speaking</span>
+                <span className="text-[10px] text-indigo-400 font-bold">Aria is speaking</span>
                 <WaveformVisualizer active={speaking} color="#818cf8" />
               </div>
             </motion.div>
@@ -609,21 +649,39 @@ function CopilotPanel({ speaking }: { speaking: boolean }) {
         </AnimatePresence>
       </div>
 
-      {/* Suggested question card */}
+      {/* Suggested question card — glowing accent border */}
       <div
-        className="rounded-xl p-3 shadow-sm"
-        style={{ background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.2)' }}
+        className="rounded-xl overflow-hidden"
+        style={{
+          borderLeft: '3px solid #f59e0b',
+          background: 'rgba(245,158,11,0.07)',
+          border: '1px solid rgba(245,158,11,0.2)',
+          borderLeftWidth: '3px',
+          borderLeftColor: '#f59e0b',
+          boxShadow: '0 4px 16px rgba(245,158,11,0.1)',
+        }}
       >
-        <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-base leading-none">💡</span>
-          <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">
-            Suggested Next Question
-          </span>
+        <div className="p-3">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-6 h-6 rounded-lg flex items-center justify-center"
+              style={{ background: 'rgba(245,158,11,0.15)' }}>
+              <span className="text-sm">💡</span>
+            </div>
+            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">
+              Suggested Next Question
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-300 leading-relaxed">
+            Ask them to elaborate on how they optimized PostgreSQL query
+            performance or handled database connection pools in FastAPI.
+          </p>
+          <button
+            onClick={playClick}
+            className="mt-2.5 flex items-center gap-1 text-[10px] font-bold text-amber-400 hover:text-amber-300 transition-colors"
+          >
+            Copy question →
+          </button>
         </div>
-        <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-          AI Copilot Suggestion: Ask them to elaborate on how they optimized PostgreSQL query
-          performance or handled database connection pools in FastAPI.
-        </p>
       </div>
     </motion.div>
   );
@@ -662,7 +720,7 @@ function ScorecardPanel({ scores, setScores, notes, setNotes, decision, setDecis
     >
       {/* Header */}
       <div>
-        <h2 className="text-sm font-bold text-slate-800">Recruiter Assessment Scorecard</h2>
+        <h2 className="text-sm font-bold text-slate-100">Recruiter Assessment Scorecard</h2>
         <p className="text-[11px] text-slate-500 mt-0.5">
           Rate key candidate dimensions to compile match results.
         </p>
