@@ -1,4 +1,4 @@
-#RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
+# RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
 
 RecruitAI (also known as **TalentMind AI**) is a state-of-the-art, high-scoring enterprise hiring, evaluation, and video screening platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
 
