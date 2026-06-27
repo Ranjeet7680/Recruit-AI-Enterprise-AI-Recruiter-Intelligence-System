@@ -63,7 +63,7 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies Used |
 |---|---|
