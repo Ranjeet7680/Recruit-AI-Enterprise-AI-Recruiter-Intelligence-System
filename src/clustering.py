@@ -27,7 +27,26 @@ def cluster_candidates(candidates: List[CandidateProfile], n_clusters: int = 4) 
         embeddings = vectorizer.fit_transform(texts).toarray()
     else:
         try:
-            embeddings = model.encode(texts, show_progress_bar=False)
+            from src.embeddings import VectorSearchEngine
+            embeddings_list = []
+            texts_to_encode = []
+            indices_to_encode = []
+            
+            for idx, text in enumerate(texts):
+                if text in VectorSearchEngine._embedding_cache:
+                    embeddings_list.append(VectorSearchEngine._embedding_cache[text])
+                else:
+                    embeddings_list.append(None)
+                    texts_to_encode.append(text)
+                    indices_to_encode.append(idx)
+                    
+            if texts_to_encode:
+                encoded = model.encode(texts_to_encode, show_progress_bar=False)
+                for idx, vec in zip(indices_to_encode, encoded):
+                    VectorSearchEngine._embedding_cache[texts[idx]] = vec
+                    embeddings_list[idx] = vec
+                    
+            embeddings = np.array(embeddings_list)
         except Exception as e:
             print(f"Embedding encoding failed inside clusterer: {e}. Switching to TF-IDF fallback.")
             vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))

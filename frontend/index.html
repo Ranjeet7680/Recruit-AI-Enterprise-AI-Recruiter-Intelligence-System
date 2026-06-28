@@ -3438,7 +3438,7 @@
             else if (screen === 'forgot') document.getElementById('screen-forgot').classList.remove('hidden');
         }
 
-        // Reusable App Loader Transition
+        // Reusable App Loader Transition - Optimized for instant dashboard rendering
         function triggerAppLoading(callback) {
             const loadingScreen = document.getElementById('app-loading-screen');
             const progress = document.getElementById('loading-bar-progress');
@@ -3456,7 +3456,7 @@
             ];
             
             const interval = setInterval(() => {
-                val += 5;
+                val += 20;
                 progress.style.width = val + '%';
                 
                 const status = statuses.find(s => val <= s.limit);
@@ -3469,9 +3469,9 @@
                     setTimeout(() => {
                         loadingScreen.classList.add('hidden');
                         callback();
-                    }, 400);
+                    }, 100);
                 }
-            }, 100);
+            }, 40);
         }
 
         function handleLoginSubmit(event) {

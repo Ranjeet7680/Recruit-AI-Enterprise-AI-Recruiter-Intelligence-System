@@ -57,6 +57,9 @@ def build_candidate_rich_text(profile: CandidateProfile) -> str:
 
 class VectorSearchEngine:
     """Manages dense/sparse vector representations and matching."""
+    _embedding_cache = {}  # Cache candidate text -> embedding vector
+    _query_cache = {}      # Cache query text -> query embedding vector
+
     def __init__(self, candidates: List[CandidateProfile]):
         global USE_FALLBACK
         self.candidates = candidates
@@ -84,9 +87,33 @@ class VectorSearchEngine:
 
     def _index_candidates(self):
         model = get_embedding_model()
-        embeddings = model.encode(self.texts, show_progress_bar=False)
+        
+        # Retrieve from cache or compute if missing
+        embeddings_list = []
+        texts_to_encode = []
+        indices_to_encode = []
+        
+        for idx, text in enumerate(self.texts):
+            if text in VectorSearchEngine._embedding_cache:
+                embeddings_list.append(VectorSearchEngine._embedding_cache[text])
+            else:
+                embeddings_list.append(None)
+                texts_to_encode.append(text)
+                indices_to_encode.append(idx)
+                
+        if texts_to_encode:
+            try:
+                encoded = model.encode(texts_to_encode, show_progress_bar=False)
+                for idx, vec in zip(indices_to_encode, encoded):
+                    VectorSearchEngine._embedding_cache[self.texts[idx]] = vec
+                    embeddings_list[idx] = vec
+            except Exception as e:
+                print(f"Error encoding embeddings during indexing: {e}")
+                raise e
+                
+        embeddings = np.array(embeddings_list, dtype=np.float32)
         faiss.normalize_L2(embeddings)
-        self.index.add(np.array(embeddings, dtype=np.float32))
+        self.index.add(embeddings)
 
     def search(self, query_text: str, top_k: int = 10) -> List[Tuple[str, float]]:
         """Queries index and returns lists of matching (candidate_id, score) pairs."""
@@ -102,10 +129,19 @@ class VectorSearchEngine:
         else:
             try:
                 model = get_embedding_model()
-                query_vector = model.encode([query_text], show_progress_bar=False)
-                faiss.normalize_L2(query_vector)
                 
-                scores, indices = self.index.search(np.array(query_vector, dtype=np.float32), min(top_k, len(self.candidate_ids)))
+                # Retrieve query vector from cache or compute if missing
+                if query_text in VectorSearchEngine._query_cache:
+                    query_vector = VectorSearchEngine._query_cache[query_text]
+                else:
+                    query_vector = model.encode([query_text], show_progress_bar=False)
+                    VectorSearchEngine._query_cache[query_text] = query_vector
+                
+                # Copy query vector to avoid mutating cached value
+                query_vector_copy = np.array(query_vector, dtype=np.float32).copy()
+                faiss.normalize_L2(query_vector_copy)
+                
+                scores, indices = self.index.search(query_vector_copy, min(top_k, len(self.candidate_ids)))
                 results = []
                 for score, idx in zip(scores[0], indices[0]):
                     if idx != -1:
