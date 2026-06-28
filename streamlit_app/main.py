@@ -374,7 +374,8 @@ if st.session_state['dark_mode']:
             background: linear-gradient(180deg, #0b0a0f 0%, #13121a 42%, #0b0a0f 100%) !important;
             color: #f3effc !important;
         }
-        h1, h2, h3, h4, h5, h6, p, span, label, div, th, td {
+        /* Style headers, paragraphs, lists, table cells, and labels, avoiding broad div/span overrides */
+        .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp p, .stApp label, .stApp th, .stApp td, .stApp li {
             color: #f3effc !important;
         }
         .glass-card {
@@ -386,6 +387,7 @@ if st.session_state['dark_mode']:
             color: #f3effc !important;
             border-color: #333244 !important;
         }
+    </style>
     """, unsafe_allow_html=True)
 
 # Accessibility settings overrides for high contrast and animations in Streamlit
@@ -700,19 +702,19 @@ else:
             h_btn_col1, h_btn_col2, h_btn_col3 = st.columns(3)
             with h_btn_col1:
                 # Theme toggle
-                t_icon = "☀️" if st.session_state['dark_mode'] else "🌙"
+                t_icon = "Light Theme" if st.session_state['dark_mode'] else "Dark Theme"
                 if st.button(t_icon, use_container_width=True, key="theme_toggle"):
                     st.session_state['dark_mode'] = not st.session_state['dark_mode']
                     st.rerun()
             with h_btn_col2:
                 # Notifications bell
-                if st.button("🔔", use_container_width=True, key="bell_toggle"):
+                if st.button("Alerts", use_container_width=True, key="bell_toggle"):
                     st.session_state['show_notifications'] = not st.session_state['show_notifications']
                     st.session_state['show_profile'] = False
                     st.rerun()
             with h_btn_col3:
                 # Profile button
-                if st.button("👤", use_container_width=True, key="profile_toggle"):
+                if st.button("Profile", use_container_width=True, key="profile_toggle"):
                     st.session_state['show_profile'] = not st.session_state['show_profile']
                     st.session_state['show_notifications'] = False
                     st.rerun()

@@ -727,6 +727,72 @@ export default function OverviewPage() {
         </div>
       </section>
 
+      {/* Product Showcase Section */}
+      <section className="relative py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div
+            className="rounded-3xl p-6 md:p-8 border border-white/10 shadow-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.03))',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}
+          >
+            <div className="space-y-4 text-center max-w-2xl mx-auto mb-8">
+              <span className="text-[10px] text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider inline-block">
+                Product Showcase
+              </span>
+              <h3 className="text-xl md:text-2xl font-bold text-white">
+                Experience TalentMind AI in Action
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Explore our live walkthrough demonstration and feature reveal, showing real-time Zoom video call integration, draggable picture-in-picture video feeds, live recruiter scorecards, and vector similarity mapping.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 justify-items-center">
+              {/* Demo Video Card */}
+              <motion.div
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="flex flex-col items-center w-full max-w-[520px] cursor-pointer"
+              >
+                <h4 className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-widest text-center transition-colors duration-300 hover:text-indigo-400">Walkthrough Demo Video</h4>
+                <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative bg-black/50 p-1 w-full transition-all duration-300 hover:border-indigo-500/50 hover:shadow-indigo-500/10">
+                  <iframe
+                    src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7473258213853839360?compact=1"
+                    height="399"
+                    width="100%"
+                    frameBorder="0"
+                    allowFullScreen={true}
+                    title="Walkthrough Demo Video"
+                    className="rounded-xl aspect-[504/399]"
+                  ></iframe>
+                </div>
+              </motion.div>
+              {/* Cinematic Video Card */}
+              <motion.div
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="flex flex-col items-center w-full max-w-[520px] cursor-pointer"
+              >
+                <h4 className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-widest text-center transition-colors duration-300 hover:text-indigo-400">Cinematic Reveal Video</h4>
+                <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative bg-black/50 p-1 w-full transition-all duration-300 hover:border-indigo-500/50 hover:shadow-indigo-500/10">
+                  <iframe
+                    src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7476638593818451969?compact=1"
+                    height="399"
+                    width="100%"
+                    frameBorder="0"
+                    allowFullScreen={true}
+                    title="Cinematic Reveal Video"
+                    className="rounded-xl aspect-[504/399]"
+                  ></iframe>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════════ CTA SECTION ═══════════════ */}
       <section className="relative py-24 px-4">
         <div className="max-w-3xl mx-auto text-center">

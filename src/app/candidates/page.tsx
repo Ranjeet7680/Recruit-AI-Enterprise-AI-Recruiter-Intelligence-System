@@ -3,16 +3,26 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CandidateCard } from '@/components/candidates/CandidateCard';
-import { Search, SlidersHorizontal, X, UserPlus, Gem, Users, ChevronRight } from 'lucide-react';
+import { Search, SlidersHorizontal, X, UserPlus, Gem, Users, ChevronRight, Upload } from 'lucide-react';
 import { playClick, playFilter, playSearch } from '@/lib/sounds';
 
-const mockCandidates = [
-  { id: 1, name: 'John Doe',      role: 'Senior Frontend Engineer',  matchScore: 92, skills: ['React', 'Next.js', 'TypeScript', 'Tailwind'], status: 'Shortlisted' as const, isGem: true },
-  { id: 2, name: 'Emily Chen',    role: 'Full Stack Developer',       matchScore: 88, skills: ['Node.js', 'React', 'PostgreSQL', 'AWS'],      status: 'Reviewing'   as const },
-  { id: 3, name: 'Michael Smith', role: 'UI/UX Designer',             matchScore: 95, skills: ['Figma', 'React', 'TypeScript', 'CSS'],         status: 'Shortlisted' as const, isGem: true },
-  { id: 4, name: 'Sarah Jenkins', role: 'Backend Engineer',           matchScore: 84, skills: ['Python', 'Docker', 'AWS', 'React'],            status: 'New'         as const },
-  { id: 5, name: 'David Kim',     role: 'DevOps Engineer',            matchScore: 91, skills: ['AWS', 'Docker', 'TypeScript', 'Python'],       status: 'Reviewing'   as const },
-  { id: 6, name: 'Lisa Wang',     role: 'Data Scientist',             matchScore: 89, skills: ['Python', 'TypeScript', 'React', 'AWS'],        status: 'New'         as const },
+interface Candidate {
+  id: string | number;
+  name: string;
+  role: string;
+  matchScore: number;
+  skills: string[];
+  status: 'Shortlisted' | 'Reviewing' | 'New';
+  isGem?: boolean;
+}
+
+const mockCandidates: Candidate[] = [
+  { id: 1, name: 'John Doe',      role: 'Senior Frontend Engineer',  matchScore: 92, skills: ['React', 'Next.js', 'TypeScript', 'Tailwind'], status: 'Shortlisted', isGem: true },
+  { id: 2, name: 'Emily Chen',    role: 'Full Stack Developer',       matchScore: 88, skills: ['Node.js', 'React', 'PostgreSQL', 'AWS'],      status: 'Reviewing' },
+  { id: 3, name: 'Michael Smith', role: 'UI/UX Designer',             matchScore: 95, skills: ['Figma', 'React', 'TypeScript', 'CSS'],         status: 'Shortlisted', isGem: true },
+  { id: 4, name: 'Sarah Jenkins', role: 'Backend Engineer',           matchScore: 84, skills: ['Python', 'Docker', 'AWS', 'React'],            status: 'New' },
+  { id: 5, name: 'David Kim',     role: 'DevOps Engineer',            matchScore: 91, skills: ['AWS', 'Docker', 'TypeScript', 'Python'],       status: 'Reviewing' },
+  { id: 6, name: 'Lisa Wang',     role: 'Data Scientist',             matchScore: 89, skills: ['Python', 'TypeScript', 'React', 'AWS'],        status: 'New' },
 ];
 
 const filters = ['All', '90%+', '80–89%', 'Frontend', 'Backend', 'Design'];
@@ -29,11 +39,51 @@ const stats = [
 ];
 
 export default function CandidatesPage() {
+  const [candidates, setCandidates] = useState<Candidate[]>(mockCandidates);
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
   const [showFilters, setShowFilters] = useState(false);
 
-  const filtered = mockCandidates.filter((c) => {
+  const handleResumeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload-resume-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to parse resume");
+      }
+
+      const data = await response.json();
+      const parsedCandidate = data.candidate;
+
+      const newCandUI = {
+        id: parsedCandidate.id,
+        name: parsedCandidate.name,
+        role: parsedCandidate.experience_timeline?.[0]?.role || "Software Engineer",
+        matchScore: Math.round(75 + Math.random() * 20),
+        skills: (parsedCandidate.hard_skills || []).slice(0, 4),
+        status: 'New' as const,
+        isGem: parsedCandidate.experience_years <= 5.0 && parsedCandidate.hard_skills.length > 5
+      };
+
+      setCandidates(prev => [newCandUI, ...prev]);
+      alert(`Candidate ${parsedCandidate.name} added successfully!`);
+    } catch (error: any) {
+      alert("Error parsing resume: " + error.message);
+    } finally {
+      event.target.value = "";
+    }
+  };
+
+  const filtered = candidates.filter((c) => {
     const matchesSearch =
       c.name.toLowerCase().includes(search.toLowerCase()) ||
       c.role.toLowerCase().includes(search.toLowerCase());
@@ -60,16 +110,38 @@ export default function CandidatesPage() {
               Candidate Pool
             </h1>
             <p className="text-sm text-slate-400">
-              {filtered.length} of {mockCandidates.length} profiles · AI-ranked by match score
-            </p>
-          </div>
+            {filtered.length} of {candidates.length} profiles · AI-ranked by match score
+          </p>
+        </div>
 
-          {/* Add candidate button */}
+        {/* Add candidate buttons */}
+        <div className="flex gap-2 flex-wrap self-start sm:self-auto">
+          {/* Upload Resume PDF button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ y: -2 }}
+            onClick={() => {
+              playClick();
+              document.getElementById('candidate-resume-uploader')?.click();
+            }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/10 transition-colors"
+          >
+            <Upload className="w-4 h-4" />
+            Upload Resume PDF
+          </motion.button>
+          <input
+            type="file"
+            id="candidate-resume-uploader"
+            accept=".pdf,.docx,.txt"
+            className="hidden"
+            onChange={handleResumeUpload}
+          />
+
           <motion.button
             whileTap={{ scale: 0.95 }}
             whileHover={{ y: -2 }}
             onClick={playClick}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white self-start sm:self-auto"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white"
             style={{
               background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
               boxShadow: '0 4px 16px rgba(99,102,241,0.35)',
@@ -78,6 +150,7 @@ export default function CandidatesPage() {
             <UserPlus className="w-4 h-4" />
             New Candidate
           </motion.button>
+        </div>
         </div>
 
         {/* Mini stats row */}

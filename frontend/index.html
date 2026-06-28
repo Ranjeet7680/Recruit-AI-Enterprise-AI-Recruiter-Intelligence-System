@@ -1,6 +1,15 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
+    <script>
+        // Prevent theme flash on reload
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>TalentMind AI — Enterprise Recruiting Intelligence Platform</title>
@@ -10,7 +19,7 @@
     <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='100%25' stop-color='%238b5cf6'/></linearGradient></defs><circle cx='50' cy='50' r='16' fill='url(%23grad)'/><circle cx='25' cy='30' r='8' fill='url(%23grad)' opacity='0.8'/><circle cx='75' cy='30' r='8' fill='url(%23grad)' opacity='0.8'/><circle cx='25' cy='70' r='8' fill='url(%23grad)' opacity='0.8'/><circle cx='75' cy='70' r='8' fill='url(%23grad)' opacity='0.8'/><line x1='50' y1='50' x2='25' y2='30' stroke='%236366f1' stroke-width='4' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='30' stroke='%236366f1' stroke-width='4' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='70' stroke='%236366f1' stroke-width='4' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='70' stroke='%236366f1' stroke-width='4' opacity='0.6'/></svg>">
     <!-- Tailwind CSS with Forms and Container Queries -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -130,24 +139,123 @@
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #fcf8ff; transition: background-color 0.3s, color 0.3s; }
+        
+        /* Smooth transitions for dashboard components */
+        body, header, aside, main, .glass-card, button, select, input, textarea, circle, polygon, text {
+            transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out, stroke 0.25s ease-in-out, fill 0.25s ease-in-out;
+        }
+
+        /* Accessibility contrast enhancements for gray texts in dark mode */
+        .dark .text-gray-500 {
+            color: #9ca3af !important;
+        }
+        .dark .text-gray-600 {
+            color: #cbd5e1 !important;
+        }
+        .dark .text-gray-400 {
+            color: #cbd5e1 !important;
+        }
+        
+        /* Gauge background stroke override for dark mode */
+        .gauge-bg-circle {
+            stroke: #f0ecf9;
+        }
+        .dark .gauge-bg-circle {
+            stroke: #1b1a24 !important;
+        }
+        
+        /* Gauge progress stroke premium highlights in dark mode */
+        .dark #jd-score-circle {
+            stroke: #8455ef !important;
+        }
+        .dark #modal-score-svg-circle {
+            stroke: #8455ef !important;
+        }
+
+        /* Modal Opening Bouncy Spring Animation */
+        @keyframes modalScaleUp {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        div[id$="modal"]:not(.hidden) > div,
+        div[id^="modal-"]:not(.hidden) > div,
+        #auth-container:not(.hidden) > div {
+            animation: modalScaleUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        /* Active sidebar indicator pulse & glow */
+        nav button.text-primary::before {
+            box-shadow: 0 0 8px #3525cd;
+            animation: borderGlowPulse 2s infinite ease-in-out;
+        }
+        .dark nav button.text-primary::before {
+            box-shadow: 0 0 12px #8455ef;
+            animation: borderGlowPulseDark 2s infinite ease-in-out;
+        }
+        @keyframes borderGlowPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        @keyframes borderGlowPulseDark {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(226, 232, 240, 0.5);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .glass:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(53, 37, 205, 0.15);
+            border-color: rgba(53, 37, 205, 0.4) !important;
         }
         .dark .glass {
-            background: rgba(19, 18, 26, 0.7);
-            border-color: rgba(70, 69, 85, 0.3);
+            background: rgba(19, 18, 26, 0.75) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 0 0 rgba(255, 255, 255, 0.05) !important;
+        }
+        .dark .glass:hover {
+            box-shadow: 0 12px 30px -10px rgba(132, 85, 239, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(132, 85, 239, 0.5) !important;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             border: 1px solid #E2E8F0;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -10px rgba(53, 37, 205, 0.1);
         }
         .dark .glass-card {
             background: rgba(25, 24, 34, 0.85) !important;
-            border-color: rgba(70, 69, 85, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 0 0 rgba(255, 255, 255, 0.05) !important;
+        }
+        .dark .glass-card:hover {
+            box-shadow: 0 12px 30px -10px rgba(132, 85, 239, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Radial glow mesh background for landing page in dark mode */
+        .dark .hero-mesh {
+            background-image: radial-gradient(circle at 80% 20%, rgba(132, 85, 239, 0.07) 0%, transparent 50%),
+                              radial-gradient(circle at 20% 80%, rgba(53, 37, 205, 0.04) 0%, transparent 50%) !important;
+        }
+
+        /* Tactile hover scale and glow for action buttons */
+        .bg-primary {
+            transition: transform 0.2s ease, background-color 0.2s, box-shadow 0.2s !important;
+        }
+        .bg-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(53, 37, 205, 0.25);
+        }
+        .dark .bg-primary:hover {
+            box-shadow: 0 8px 25px rgba(132, 85, 239, 0.35);
         }
         .ai-gradient {
             background: linear-gradient(135deg, #3525cd 0%, #6b38d4 100%);
@@ -242,7 +350,231 @@
             scroll-behavior: auto !important;
             transition-duration: 0s !important;
             transition-delay: 0s !important;
-            transition: none !important;
+        }
+        /* Mobile Copilot Layout Overrides */
+        @media (max-width: 640px) {
+            #floating-copilot-container {
+                right: 12px !important;
+                bottom: 12px !important;
+            }
+            #floating-copilot-chat {
+                width: calc(100vw - 24px) !important;
+                max-width: 320px !important;
+                height: 380px !important;
+                max-height: 70vh !important;
+                margin-bottom: 8px !important;
+            }
+            #floating-copilot-history p {
+                word-break: break-word !important;
+                white-space: normal !important;
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+            }
+        }
+
+        /* Premium Sidebar & Header Custom Styling */
+        #app-sidebar {
+            background: rgba(252, 248, 255, 0.7) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(199, 196, 216, 0.4) !important;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.015);
+        }
+        .dark #app-sidebar {
+            background: rgba(19, 18, 26, 0.75) !important;
+            border-right: 1px solid rgba(70, 69, 85, 0.4) !important;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+        }
+        #global-header {
+            background: rgba(252, 248, 255, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(199, 196, 216, 0.4) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+        .dark #global-header {
+            background: rgba(19, 18, 26, 0.8) !important;
+            border-bottom: 1px solid rgba(70, 69, 85, 0.4) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Active sidebar item style */
+        nav button.text-primary {
+            position: relative;
+            background: linear-gradient(90deg, rgba(53, 37, 205, 0.08) 0%, rgba(107, 56, 212, 0.02) 100%) !important;
+        }
+        .dark nav button.text-primary {
+            background: linear-gradient(90deg, rgba(132, 85, 239, 0.14) 0%, rgba(107, 56, 212, 0.03) 100%) !important;
+        }
+        nav button.text-primary::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15%;
+            height: 70%;
+            width: 4px;
+            background: linear-gradient(180deg, #3525cd, #6b38d4);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 10px rgba(53, 37, 205, 0.4);
+        }
+        .dark nav button.text-primary::before {
+            background: linear-gradient(180deg, #8455ef, #6b38d4);
+            box-shadow: 0 0 10px rgba(132, 85, 239, 0.5);
+        }
+
+        /* Hover transitions & scale effect */
+        nav button {
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        nav button:hover {
+            transform: translateX(2px) scale(1.01);
+            background-color: rgba(53, 37, 205, 0.03) !important;
+        }
+        .dark nav button:hover {
+            background-color: rgba(132, 85, 239, 0.05) !important;
+        }
+        nav button.text-primary:hover {
+            transform: translateX(0) scale(1.01); /* don't slide active item as much */
+        }
+
+        /* Collapsed Sidebar adjustments */
+        #app-sidebar.w-\[80px\] {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+        #app-sidebar.w-\[80px\] nav button {
+            justify-content: center !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            gap: 0 !important;
+        }
+        #app-sidebar.w-\[80px\] nav button:hover {
+            transform: scale(1.06) !important;
+        }
+        #app-sidebar.w-\[80px\] .sidebar-text-element {
+            display: none !important;
+        }
+        #app-sidebar.w-\[80px\] .mb-lg {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            justify-content: center !important;
+        }
+        #app-sidebar.w-\[80px\] #sidebar-toggle-btn {
+            position: absolute;
+            right: -10px;
+            top: 24px;
+            background: #ffffff;
+            border: 1px solid rgba(199, 196, 216, 0.8);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            z-index: 50;
+            color: #777587;
+        }
+        .dark #app-sidebar.w-\[80px\] #sidebar-toggle-btn {
+            background: #1b1a24;
+            border-color: rgba(70, 69, 85, 0.8);
+            color: #c7c4d8;
+        }
+        #app-sidebar.w-\[80px\] #sidebar-toggle-btn:hover {
+            transform: scale(1.15) !important;
+            background-color: #3525cd !important;
+            color: #ffffff !important;
+            border-color: #3525cd !important;
+        }
+        .dark #app-sidebar.w-\[80px\] #sidebar-toggle-btn:hover {
+            background-color: #8455ef !important;
+            color: #ffffff !important;
+            border-color: #8455ef !important;
+        }
+
+        #app-sidebar.w-\[80px\] .mt-md.border-t {
+            flex-direction: column !important;
+            gap: 12px !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        #app-sidebar.w-\[80px\] .mt-md.border-t button {
+            display: none !important;
+        }
+
+        /* Header controls style */
+        #global-header button {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        #global-header button:hover {
+            transform: translateY(-1px) scale(1.05);
+            background-color: rgba(53, 37, 205, 0.05) !important;
+            border-color: rgba(53, 37, 205, 0.3) !important;
+            color: #3525cd !important;
+        }
+        .dark #global-header button:hover {
+            background-color: rgba(132, 85, 239, 0.1) !important;
+            border-color: rgba(132, 85, 239, 0.3) !important;
+            color: #8455ef !important;
+        }
+        
+        /* Custom input glow */
+        #global-search-input {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border: 1px solid rgba(199, 196, 216, 0.6) !important;
+            background: rgba(249, 250, 251, 0.7) !important;
+        }
+        #global-search-input:focus {
+            border-color: #3525cd !important;
+            box-shadow: 0 0 0 3px rgba(53, 37, 205, 0.12), 0 4px 12px rgba(53, 37, 205, 0.08) !important;
+            background-color: #ffffff !important;
+        }
+        .dark #global-search-input {
+            border-color: rgba(70, 69, 85, 0.6) !important;
+            background: rgba(27, 26, 36, 0.7) !important;
+        }
+        .dark #global-search-input:focus {
+            border-color: #8455ef !important;
+            box-shadow: 0 0 0 3px rgba(132, 85, 239, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+            background-color: #13121a !important;
+        }
+
+        /* Mobile drawer fallback */
+        @media (max-width: 767.98px) {
+            #app-sidebar {
+                width: 260px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            #app-sidebar .sidebar-text-element {
+                display: block !important;
+            }
+            #app-sidebar nav button {
+                justify-content: flex-start !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                gap: 12px !important;
+            }
+            #app-sidebar .mb-lg {
+                justify-content: space-between !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            #app-sidebar #sidebar-toggle-btn {
+                display: none !important;
+            }
+            #app-sidebar .mt-md.border-t {
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            #app-sidebar .mt-md.border-t button {
+                display: block !important;
+            }
         }
     </style>
 </head>
@@ -283,7 +615,7 @@
                             <span class="text-primary font-label-md text-label-md uppercase">Next-Gen Recruitment AI</span>
                         </div>
                         <h1 class="font-display-lg text-display-lg text-on-background dark:text-white mb-md leading-[1.1] tracking-tight text-4xl lg:text-5xl font-extrabold">
-                            Hire <span class="text-primary">Smarter</span> with AI-Driven Intelligence.
+                            Hire <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary dark:from-[#c3c0ff] dark:to-[#8455ef]">Smarter</span> with AI-Driven Intelligence.
                         </h1>
                         <p class="text-on-surface-variant dark:text-gray-400 font-body-lg text-body-lg mb-lg max-w-lg text-sm">
                             TalentMind AI transforms enterprise recruitment from a manual grind into a strategic advantage. Screen candidates with 95% accuracy in seconds, not weeks.
@@ -318,6 +650,37 @@
                         <div class="absolute -inset-4 bg-primary/10 rounded-[32px] blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
                         <div class="relative glass rounded-[24px] p-sm shadow-xl overflow-hidden border border-outline-variant/60 flex justify-center items-center">
                             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7473258213853839360?compact=1" height="399" class="w-full rounded-[18px]" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Showcase Section -->
+            <section class="pb-32 px-gutter">
+                <div class="max-w-container-max mx-auto">
+                    <div class="glass p-lg rounded-[32px] border border-primary/20 dark:border-white/10 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 dark:from-white/5 dark:to-white/2 shadow-lg shadow-primary/5 dark:shadow-none transition-all duration-500 hover:border-primary/40">
+                        <div class="space-y-md mb-lg text-center max-w-2xl mx-auto">
+                            <span class="bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Product Showcase</span>
+                            <h3 class="text-2xl sm:text-3xl font-black text-on-background dark:text-white leading-tight">Experience TalentMind AI in Action</h3>
+                            <p class="text-xs sm:text-sm text-on-surface-variant dark:text-gray-300 leading-relaxed">
+                                Explore our live walkthrough demonstration and feature reveal, showing real-time Zoom video call integration, draggable picture-in-picture video feeds, live recruiter scorecards, and vector similarity mapping.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg justify-items-center">
+                            <!-- Demo Video Card -->
+                            <div class="flex flex-col items-center w-full max-w-[520px] transition-all duration-300 hover:-translate-y-2">
+                                <h4 class="text-xs font-bold text-on-surface-variant dark:text-gray-400 mb-sm uppercase tracking-widest transition-colors duration-300 hover:text-primary">Walkthrough Demo Video</h4>
+                                <div class="rounded-2xl overflow-hidden border border-outline-variant/60 dark:border-white/10 shadow-2xl relative bg-black flex items-center justify-center p-1 w-full transition-all duration-500 hover:shadow-primary/20 hover:border-primary/50" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3)">
+                                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7473258213853839360?compact=1" height="399" width="100%" frameborder="0" allowfullscreen="" title="Walkthrough Demo Video" class="rounded-xl aspect-[504/399]"></iframe>
+                                </div>
+                            </div>
+                            <!-- Cinematic Video Card -->
+                            <div class="flex flex-col items-center w-full max-w-[520px] transition-all duration-300 hover:-translate-y-2">
+                                <h4 class="text-xs font-bold text-on-surface-variant dark:text-gray-400 mb-sm uppercase tracking-widest transition-colors duration-300 hover:text-primary">Cinematic Reveal Video</h4>
+                                <div class="rounded-2xl overflow-hidden border border-outline-variant/60 dark:border-white/10 shadow-2xl relative bg-black flex items-center justify-center p-1 w-full transition-all duration-500 hover:shadow-primary/20 hover:border-primary/50" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3)">
+                                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7476638593818451969?compact=1" height="399" width="100%" frameborder="0" allowfullscreen="" title="Cinematic Reveal Video" class="rounded-xl aspect-[504/399]"></iframe>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -712,7 +1075,7 @@
                     </div>
                 </div>
                 <!-- Toggle button for desktop collapse -->
-                <button onclick="toggleSidebarCollapse()" class="hidden md:block text-gray-400 hover:text-gray-600 dark:hover:text-white shrink-0">
+                <button id="sidebar-toggle-btn" onclick="toggleSidebarCollapse()" class="hidden md:block text-gray-400 hover:text-gray-600 dark:hover:text-white shrink-0">
                     <span class="material-symbols-outlined text-[20px]" id="sidebar-toggle-chevron">chevron_left</span>
                 </button>
                 <!-- Close button for mobile drawer -->
@@ -723,43 +1086,43 @@
 
             <!-- Navigation Rail -->
             <nav class="flex-1 space-y-1">
-                <button onclick="switchTab('welcome')" id="sidebar-welcome" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-primary font-semibold bg-primary/5 transition-all text-left">
+                <button onclick="switchTab('welcome')" id="sidebar-welcome" title="Welcome Home" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-primary font-semibold bg-primary/5 transition-all text-left">
                     <span class="material-symbols-outlined">home</span>
                     <span class="font-body-md text-sm sidebar-text-element">Welcome Home</span>
                 </button>
-                <button onclick="switchTab('dashboard')" id="sidebar-dashboard" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('dashboard')" id="sidebar-dashboard" title="Dashboard" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span class="font-body-md text-sm sidebar-text-element">Dashboard</span>
                 </button>
-                <button onclick="switchTab('jobs')" id="sidebar-jobs" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('jobs')" id="sidebar-jobs" title="Jobs &amp; JDs" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">description</span>
                     <span class="font-body-md text-sm sidebar-text-element">Jobs &amp; JDs</span>
                 </button>
-                <button onclick="switchTab('candidates')" id="sidebar-candidates" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('candidates')" id="sidebar-candidates" title="Candidates Database" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">group</span>
                     <span class="font-body-md text-sm sidebar-text-element">Candidates Database</span>
                 </button>
-                <button onclick="switchTab('decision')" id="sidebar-decision" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('decision')" id="sidebar-decision" title="Decision Center" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">fact_check</span>
                     <span class="font-body-md text-sm sidebar-text-element">Decision Center</span>
                 </button>
-                <button onclick="switchTab('interviews')" id="sidebar-interviews" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('interviews')" id="sidebar-interviews" title="Interviews Panel" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">calendar_today</span>
                     <span class="font-body-md text-sm sidebar-text-element">Interviews Panel</span>
                 </button>
-                <button onclick="switchTab('analytics')" id="sidebar-analytics" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('analytics')" id="sidebar-analytics" title="Analytics &amp; Reports" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">analytics</span>
                     <span class="font-body-md text-sm sidebar-text-element">Analytics &amp; Reports</span>
                 </button>
-                <button onclick="switchTab('compliance')" id="sidebar-compliance" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('compliance')" id="sidebar-compliance" title="Compliance Logs" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">verified_user</span>
                     <span class="font-body-md text-sm sidebar-text-element">Compliance Logs</span>
                 </button>
-                <button onclick="switchTab('team')" id="sidebar-team" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('team')" id="sidebar-team" title="Team Management" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">manage_accounts</span>
                     <span class="font-body-md text-sm sidebar-text-element">Team Management</span>
                 </button>
-                <button onclick="switchTab('settings')" id="sidebar-settings" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
+                <button onclick="switchTab('settings')" id="sidebar-settings" title="System Settings" class="w-full flex items-center gap-3 px-sm py-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-surface-container transition-all text-left">
                     <span class="material-symbols-outlined">settings</span>
                     <span class="font-body-md text-sm sidebar-text-element">System Settings</span>
                 </button>
@@ -820,14 +1183,14 @@
         <div class="flex-grow h-screen flex flex-col overflow-hidden relative">
             
             <!-- GLOBAL TOP HEADER -->
-            <header class="h-16 border-b border-outline-variant/60 bg-surface dark:bg-dark-surface px-md flex items-center justify-between shrink-0 z-30">
+            <header id="global-header" class="h-16 border-b border-outline-variant/60 bg-surface dark:bg-dark-surface px-md flex items-center justify-between shrink-0 z-30">
                 <div class="flex items-center gap-sm flex-1">
                     <!-- Hamburger menu button for mobile -->
                     <button onclick="toggleMobileSidebar(true)" class="block md:hidden text-gray-400 hover:text-primary mr-1 flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-surface-container">
                         <span class="material-symbols-outlined text-[24px]">menu</span>
                     </button>
                     <span class="material-symbols-outlined text-gray-400">search</span>
-                    <input type="text" id="global-search-input" oninput="handleGlobalSearch()" placeholder="Search..." class="w-full sm:w-64 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant/60 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-primary focus:w-80 transition-all"/>
+                    <input type="text" id="global-search-input" oninput="handleGlobalSearch()" placeholder="Search..." class="w-28 sm:w-64 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant/60 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-primary focus:w-36 sm:focus:w-80 transition-all"/>
                 </div>
 
                 <!-- Header Actions -->
@@ -837,6 +1200,11 @@
                         <span class="material-symbols-outlined text-xs">verified</span>
                         <span id="header-masking-indicator">Bias Shield Active</span>
                     </div>
+
+                    <!-- Sound Toggle -->
+                    <button id="header-sound-toggle" onclick="toggleSound()" class="hidden sm:flex w-9 h-9 border border-outline-variant/60 hover:bg-gray-50 dark:hover:bg-dark-surface-container rounded-xl items-center justify-center transition-all text-gray-500" title="Toggle Programmatic Synthesized sound system">
+                        <span class="material-symbols-outlined text-[20px]" id="header-sound-icon">volume_up</span>
+                    </button>
 
                     <!-- Theme Toggle -->
                     <button onclick="toggleDarkMode()" class="w-9 h-9 border border-outline-variant/60 hover:bg-gray-50 dark:hover:bg-dark-surface-container rounded-xl flex items-center justify-center transition-all text-gray-500">
@@ -906,7 +1274,7 @@
                         <div class="absolute inset-0 bg-white/5 opacity-50 mix-blend-overlay"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
                             <div class="space-y-xs">
-                                <h2 class="text-xl sm:text-2xl md:text-headline-md font-extrabold tracking-tight text-white">Welcome back, Recruiter 👋</h2>
+                                <h2 class="text-xl sm:text-2xl md:text-headline-md font-extrabold tracking-tight text-white flex items-center gap-2">Welcome back, Recruiter <span class="material-symbols-outlined text-2xl text-amber-400 animate-bounce">waving_hand</span></h2>
                                 <p class="text-xs sm:text-sm md:text-body-lg opacity-90 text-white/90">You have: <span class="font-bold text-white">24 new candidates</span>, <span class="font-bold text-white">5 interviews today</span>, and <span class="font-bold text-amber-300">3 jobs awaiting approval</span>.</p>
                             </div>
                             <div class="flex gap-sm w-full md:w-auto flex-col sm:flex-row">
@@ -985,50 +1353,54 @@
                                 </div>
                                 <div class="space-y-sm">
                                     <!-- Job Card -->
-                                    <div onclick="switchTab('jobs')" class="flex flex-col md:flex-row items-center gap-md p-sm rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant">
-                                        <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
-                                            <span class="material-symbols-outlined text-primary">terminal</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <h4 class="font-title-md text-title-md font-bold">Senior Full Stack Engineer</h4>
-                                            <p class="text-body-md text-on-surface-variant text-xs">Product Engineering · Remote · $140k - $180k</p>
-                                        </div>
-                                        <div class="flex items-center gap-xl">
-                                            <div class="text-center">
-                                                <p class="text-[10px] text-outline uppercase font-bold">Candidates</p>
-                                                <p class="font-bold">245</p>
+                                    <div onclick="switchTab('jobs')" class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-md p-sm rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant">
+                                        <div class="flex items-center gap-sm w-full sm:w-auto">
+                                            <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+                                                <span class="material-symbols-outlined text-primary">terminal</span>
                                             </div>
-                                            <div class="text-center">
-                                                <p class="text-[10px] text-outline uppercase font-bold">In Progress</p>
-                                                <p class="font-bold text-secondary">12</p>
+                                            <div>
+                                                <h4 class="font-title-md text-title-md font-bold text-sm sm:text-base">Senior Full Stack Engineer</h4>
+                                                <p class="text-body-md text-on-surface-variant text-[11px] sm:text-xs">Product Engineering · Remote · $140k - $180k</p>
                                             </div>
-                                            <div class="h-8 w-24 bg-surface-container-high rounded-full overflow-hidden relative">
+                                        </div>
+                                        <div class="flex items-center justify-between sm:justify-end gap-sm sm:gap-xl w-full sm:w-auto mt-xs sm:mt-0 pl-0 sm:pl-0">
+                                            <div class="text-center sm:text-left">
+                                                <p class="text-[9px] sm:text-[10px] text-outline uppercase font-bold">Candidates</p>
+                                                <p class="font-bold text-xs sm:text-sm">245</p>
+                                            </div>
+                                            <div class="text-center sm:text-left">
+                                                <p class="text-[9px] sm:text-[10px] text-outline uppercase font-bold">In Progress</p>
+                                                <p class="font-bold text-secondary text-xs sm:text-sm">12</p>
+                                            </div>
+                                            <div class="h-7 w-20 sm:h-8 sm:w-24 bg-surface-container-high rounded-full overflow-hidden relative shrink-0">
                                                 <div class="absolute inset-y-0 left-0 bg-primary w-[65%]"></div>
-                                                <span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold">65% Match</span>
+                                                <span class="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold">65% Match</span>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Job Card 2 -->
-                                    <div onclick="switchTab('jobs')" class="flex flex-col md:flex-row items-center gap-md p-sm rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant">
-                                        <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
-                                            <span class="material-symbols-outlined text-secondary">palette</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <h4 class="font-title-md text-title-md font-bold">Principal UI Designer</h4>
-                                            <p class="text-body-md text-on-surface-variant text-xs">Design Team · New York, NY · $150k - $200k</p>
-                                        </div>
-                                        <div class="flex items-center gap-xl">
-                                            <div class="text-center">
-                                                <p class="text-[10px] text-outline uppercase font-bold">Candidates</p>
-                                                <p class="font-bold">89</p>
+                                    <div onclick="switchTab('jobs')" class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-md p-sm rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant">
+                                        <div class="flex items-center gap-sm w-full sm:w-auto">
+                                            <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+                                                <span class="material-symbols-outlined text-secondary">palette</span>
                                             </div>
-                                            <div class="text-center">
-                                                <p class="text-[10px] text-outline uppercase font-bold">In Progress</p>
-                                                <p class="font-bold text-secondary">5</p>
+                                            <div>
+                                                <h4 class="font-title-md text-title-md font-bold text-sm sm:text-base">Principal UI Designer</h4>
+                                                <p class="text-body-md text-on-surface-variant text-[11px] sm:text-xs">Design Team · New York, NY · $150k - $200k</p>
                                             </div>
-                                            <div class="h-8 w-24 bg-surface-container-high rounded-full overflow-hidden relative">
+                                        </div>
+                                        <div class="flex items-center justify-between sm:justify-end gap-sm sm:gap-xl w-full sm:w-auto mt-xs sm:mt-0 pl-0 sm:pl-0">
+                                            <div class="text-center sm:text-left">
+                                                <p class="text-[9px] sm:text-[10px] text-outline uppercase font-bold">Candidates</p>
+                                                <p class="font-bold text-xs sm:text-sm">89</p>
+                                            </div>
+                                            <div class="text-center sm:text-left">
+                                                <p class="text-[9px] sm:text-[10px] text-outline uppercase font-bold">In Progress</p>
+                                                <p class="font-bold text-secondary text-xs sm:text-sm">5</p>
+                                            </div>
+                                            <div class="h-7 w-20 sm:h-8 sm:w-24 bg-surface-container-high rounded-full overflow-hidden relative shrink-0">
                                                 <div class="absolute inset-y-0 left-0 bg-emerald-500 w-[82%]"></div>
-                                                <span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold">82% Match</span>
+                                                <span class="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold">82% Match</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1043,7 +1415,7 @@
                                     <p class="text-body-md text-on-surface-variant text-xs self-start mb-md">Based on pipeline health and AI matching</p>
                                     <div class="relative w-36 h-36 flex items-center justify-center">
                                         <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                            <circle cx="50" cy="50" r="40" stroke="#f0ecf9" stroke-width="8" fill="transparent"/>
+                                            <circle class="gauge-bg-circle" cx="50" cy="50" r="40" stroke="#f0ecf9" stroke-width="8" fill="transparent"/>
                                             <circle cx="50" cy="50" r="40" stroke="#3525cd" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-width="8" fill="transparent" stroke-linecap="round"/>
                                         </svg>
                                         <div class="absolute flex flex-col items-center">
@@ -1277,49 +1649,51 @@
                             <button onclick="switchJobsSubTab('subtab-create')" class="text-xs px-3 py-1.5 border border-primary text-primary rounded-xl hover:bg-primary/5 transition-all">New Requisition</button>
                         </div>
                         <div class="bg-white dark:bg-dark-surface border border-outline-variant/60 rounded-2xl shadow-sm overflow-hidden">
-                            <table class="w-full text-left border-collapse text-xs">
-                                <thead>
-                                    <tr class="bg-gray-50 dark:bg-dark-surface-container text-gray-500 border-b border-outline-variant">
-                                        <th class="p-md">Job Title</th>
-                                        <th class="p-md">Department</th>
-                                        <th class="p-md">Compliance</th>
-                                        <th class="p-md">Submissions</th>
-                                        <th class="p-md text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
-                                        <td class="p-md font-bold">Lead DevOps &amp; Infrastructure Engineer</td>
-                                        <td class="p-md">Engineering</td>
-                                        <td class="p-md text-emerald-600 font-bold">95% (Safe)</td>
-                                        <td class="p-md">12 applications</td>
-                                        <td class="p-md text-right space-x-2">
-                                            <button onclick="loadJobTemplate('devops')" class="text-primary hover:underline font-semibold">Analyze JD</button>
-                                            <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
-                                        <td class="p-md font-bold">Senior React Frontend Architect</td>
-                                        <td class="p-md">Engineering</td>
-                                        <td class="p-md text-amber-600 font-bold">55% (Biased)</td>
-                                        <td class="p-md">8 applications</td>
-                                        <td class="p-md text-right space-x-2">
-                                            <button onclick="loadJobTemplate('react')" class="text-primary hover:underline font-semibold">Analyze JD</button>
-                                            <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
-                                        <td class="p-md font-bold">Technical Product Manager (Core Platform)</td>
-                                        <td class="p-md">Product Management</td>
-                                        <td class="p-md text-emerald-600 font-bold">85% (Safe)</td>
-                                        <td class="p-md">5 applications</td>
-                                        <td class="p-md text-right space-x-2">
-                                            <button onclick="loadJobTemplate('pm')" class="text-primary hover:underline font-semibold">Analyze JD</button>
-                                            <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs min-w-[650px] sm:min-w-0">
+                                    <thead>
+                                        <tr class="bg-gray-50 dark:bg-dark-surface-container text-gray-500 border-b border-outline-variant">
+                                            <th class="p-md">Job Title</th>
+                                            <th class="p-md">Department</th>
+                                            <th class="p-md">Compliance</th>
+                                            <th class="p-md">Submissions</th>
+                                            <th class="p-md text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
+                                            <td class="p-md font-bold">Lead DevOps &amp; Infrastructure Engineer</td>
+                                            <td class="p-md">Engineering</td>
+                                            <td class="p-md text-emerald-600 font-bold">95% (Safe)</td>
+                                            <td class="p-md">12 applications</td>
+                                            <td class="p-md text-right space-x-2">
+                                                <button onclick="loadJobTemplate('devops')" class="text-primary hover:underline font-semibold">Analyze JD</button>
+                                                <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
+                                            <td class="p-md font-bold">Senior React Frontend Architect</td>
+                                            <td class="p-md">Engineering</td>
+                                            <td class="p-md text-amber-600 font-bold">55% (Biased)</td>
+                                            <td class="p-md">8 applications</td>
+                                            <td class="p-md text-right space-x-2">
+                                                <button onclick="loadJobTemplate('react')" class="text-primary hover:underline font-semibold">Analyze JD</button>
+                                                <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-outline-variant/60 hover:bg-gray-50/50 dark:hover:bg-dark-surface-container">
+                                            <td class="p-md font-bold">Technical Product Manager (Core Platform)</td>
+                                            <td class="p-md">Product Management</td>
+                                            <td class="p-md text-emerald-600 font-bold">85% (Safe)</td>
+                                            <td class="p-md">5 applications</td>
+                                            <td class="p-md text-right space-x-2">
+                                                <button onclick="loadJobTemplate('pm')" class="text-primary hover:underline font-semibold">Analyze JD</button>
+                                                <button onclick="showToast('Cloned requisition.', 'success')" class="text-gray-400 hover:text-gray-600 font-semibold">Clone</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -1385,6 +1759,7 @@
                                         <p class="text-[10px] text-gray-400 mb-2">PDF, DOCX, TXT (Max 5MB)</p>
                                         <button class="px-4 py-1 border border-primary text-primary rounded-lg font-bold text-xs hover:bg-primary/5 transition-all">Select Files</button>
                                     </div>
+                                    <input type="file" id="jd-file-uploader" accept=".pdf,.docx,.txt" class="hidden" onchange="handleJdPdfUpload(event)" />
 
                                     <!-- Live Editor -->
                                     <div class="bg-white dark:bg-dark-surface p-sm rounded-xl border border-outline-variant/60">
@@ -1415,7 +1790,7 @@
                                     <div class="flex items-center gap-md">
                                         <div class="relative w-24 h-24 flex items-center justify-center shrink-0">
                                             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                                <circle cx="50" cy="50" r="40" stroke="#f0ecf9" stroke-width="8" fill="transparent"/>
+                                                <circle class="gauge-bg-circle" cx="50" cy="50" r="40" stroke="#f0ecf9" stroke-width="8" fill="transparent"/>
                                                 <circle id="jd-score-circle" cx="50" cy="50" r="40" stroke="#4f46e5" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-width="8" fill="transparent" stroke-linecap="round"/>
                                             </svg>
                                             <span id="jd-score-text" class="absolute font-extrabold text-lg">75%</span>
@@ -1481,10 +1856,10 @@
                 <!-- TAB: CANDIDATES DATABASE -->
                 <div id="tab-candidates" class="space-y-md hidden">
                     <!-- Header Section -->
-                    <div class="flex justify-between items-end mb-lg">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-md mb-lg">
                         <div>
                             <h2 class="text-xl font-bold text-on-surface">Candidate Pool</h2>
-                            <div class="flex items-center gap-4 text-on-surface-variant text-xs">
+                            <div class="flex items-center gap-4 text-on-surface-variant text-xs mt-1">
                                 <span class="flex items-center gap-1">
                                     <span class="material-symbols-outlined text-[16px]">group</span> <span id="cand-total-count">0</span> Total
                                 </span>
@@ -1493,14 +1868,18 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="flex gap-3">
-                            <label class="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant rounded-xl text-xs cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-surface-container">
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                            <label class="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant rounded-xl text-xs cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-surface-container flex-1 sm:flex-none justify-center">
                                 <input type="checkbox" id="hidden-gems-toggle" onchange="filterCandidatesList()" class="rounded border-outline-variant text-primary focus:ring-primary text-xs"/>
-                                <span>Show Hidden Gems Only</span>
+                                <span class="whitespace-nowrap">Show Hidden Gems Only</span>
                             </label>
-                            <button onclick="switchTab('jobs'); switchJobsSubTab('subtab-create');" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-label-md text-xs hover:bg-opacity-90 active:scale-95 transition-all shadow-sm">
-                                <span class="material-symbols-outlined text-[18px]">add</span> New Candidate
+                            <button onclick="switchTab('jobs'); switchJobsSubTab('subtab-create');" class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-label-md text-xs hover:bg-opacity-90 active:scale-95 transition-all shadow-sm flex-1 sm:flex-none">
+                                <span class="material-symbols-outlined text-[18px]">add</span> <span class="whitespace-nowrap">New Requisition</span>
                             </button>
+                            <button onclick="triggerResumeUpload()" class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-primary text-primary font-label-md text-xs hover:bg-primary/5 active:scale-95 transition-all shadow-sm flex-1 sm:flex-none">
+                                <span class="material-symbols-outlined text-[18px]">cloud_upload</span> <span class="whitespace-nowrap">Upload Resume PDF</span>
+                            </button>
+                            <input type="file" id="resume-file-uploader" accept=".pdf,.docx,.txt" class="hidden" onchange="handleResumePdfUpload(event)" />
                         </div>
                     </div>
 
@@ -1522,22 +1901,24 @@
 
                     <!-- Candidate List Table -->
                     <div class="bg-white dark:bg-dark-surface border border-outline-variant/60 rounded-2xl shadow-sm overflow-hidden">
-                        <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-gray-50 dark:bg-dark-surface-container text-gray-500 border-b border-outline-variant">
-                                    <th class="px-6 py-4 font-bold text-gray-500">Candidate Name</th>
-                                    <th class="px-6 py-4 font-bold text-gray-500 text-center">AI Match</th>
-                                    <th class="px-6 py-4 font-bold text-gray-500">Status</th>
-                                    <th class="px-6 py-4 font-bold text-gray-500">Tags</th>
-                                    <th class="px-6 py-4 font-bold text-gray-500 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="candidates-table-body">
-                                <tr>
-                                    <td colspan="5" class="p-lg text-center text-gray-400 font-semibold">Run Deep Analysis &amp; Sourcing Match from Jobs tab to compute scores.</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs min-w-[700px] sm:min-w-0">
+                                <thead>
+                                    <tr class="bg-gray-50 dark:bg-dark-surface-container text-gray-500 border-b border-outline-variant">
+                                        <th class="px-6 py-4 font-bold text-gray-500">Candidate Name</th>
+                                        <th class="px-6 py-4 font-bold text-gray-500 text-center">AI Match</th>
+                                        <th class="px-6 py-4 font-bold text-gray-500">Status</th>
+                                        <th class="px-6 py-4 font-bold text-gray-500">Tags</th>
+                                        <th class="px-6 py-4 font-bold text-gray-500 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="candidates-table-body">
+                                    <tr>
+                                        <td colspan="5" class="p-lg text-center text-gray-400 font-semibold">Run Deep Analysis &amp; Sourcing Match from Jobs tab to compute scores.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -1712,61 +2093,103 @@
                     </div>
                 </div>
 
-                <!-- TAB: INTERVIEWS PANEL -->
+                                <!-- TAB: INTERVIEWS PANEL -->
                 <div id="tab-interviews" class="space-y-md hidden">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-xs">
                         <div>
                             <h2 class="text-xl font-bold">Calendar &amp; Interview Panel</h2>
                             <p class="text-xs text-gray-500">Configure panel interviews and evaluate candidate assessments</p>
                         </div>
-                        <button onclick="toggleHeaderPanel('schedule-modal')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm"><span class="material-symbols-outlined text-sm">event</span>Schedule Interview</button>
+                        <button onclick="toggleHeaderPanel('schedule-modal')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow-md hover:scale-105 active:scale-95 transition-all"><span class="material-symbols-outlined text-sm">event</span>Schedule Interview</button>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-md">
-                        <!-- Left: Interview Scheduler List -->
-                        <div class="lg:col-span-8 bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm">
-                            <h3 class="font-bold text-sm">Scheduled Evaluations</h3>
-                            <div class="space-y-xs" id="interviews-panel-list">
-                                <div class="flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30 text-xs">
-                                    <div>
-                                        <span class="font-bold block">Aria Sterling</span>
-                                        <span class="text-[10px] text-gray-400">Panel Interviewer: Tom Rivera, Sarah Jenkins • 2:00 PM</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span id="status-badge-Aria-Sterling" class="px-2 py-1 bg-blue-100 text-blue-800 rounded font-bold text-[9px]">CONFIRMED</span>
-                                        <button onclick="launchVideoCall('Aria Sterling', 'Senior NLP / ML Engineer', 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_2sr8nV-gDPHZi0UpRvWlKFj1W235aew4wtZDnt9KvAyscDfQmJwtx2n63J0r9B9DUSp1AJG5hGg7yRKIoSiVz4hiX03VbXzS9ZqCseE6KGwQtSEsG2cEPVt-tHplZFmZNNAXaWMU61gl29YifdwA8TxuLZp_8gHmNGu8zt-kusFSXcluU8sLr1r-HWh2Md5-GPlNiUhUdNzxj1AaKa7fvY-qh26dcTtuBpXDpdRIV3rMiFY_EHlIlt9v1BF8YPlE5ttBFW0T1x4')" class="px-2.5 py-1 bg-primary text-white rounded-lg font-bold hover:scale-105 active:scale-95 transition-all">Join Call</button>
-                                        <button onclick="showToast('Invites resent to panel.', 'success')" class="text-xs text-gray-400 hover:text-gray-600"><span class="material-symbols-outlined text-sm">share</span></button>
-                                    </div>
+                    <!-- 3-Column Layout -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-md items-start">
+                        
+                        <!-- Left Panel: stats & panelist management (col-span-3) -->
+                        <div class="lg:col-span-3 space-y-md">
+                            <!-- Panelists -->
+                            <div class="bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm">
+                                <h3 class="font-bold text-sm flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">group</span>Active Interviewers</h3>
+                                <div class="space-y-sm text-xs" id="interview-panelists-container">
+                                    <!-- Dynamic panelists -->
+                                </div>
+                            </div>
+                            
+                            <!-- Mini list of Scheduled Evaluations -->
+                            <div class="bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm">
+                                <h3 class="font-bold text-sm flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">list_alt</span>Timeline Feed</h3>
+                                <div class="space-y-xs max-h-[300px] overflow-y-auto custom-scrollbar" id="interviews-panel-list">
+                                    <!-- Dynamically filled upcoming events -->
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Right: Interview Panel Management -->
-                        <div class="lg:col-span-4 bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm">
-                            <h3 class="font-bold text-sm">Active Interviewers</h3>
-                            <div class="space-y-sm text-xs" id="interview-panelists-container">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden"><img src="https://api.dicebear.com/7.x/initials/svg?seed=Tom&radius=50"/></div>
-                                        <div>
-                                            <span class="font-bold block">Tom Rivera</span>
-                                            <span class="text-[9px] text-gray-500">Lead Infrastructure</span>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-semibold text-emerald-600 flex items-center gap-0.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>Available</span>
+                        <!-- Center Panel: Monthly Google Calendar Month Grid (col-span-6) -->
+                        <div class="lg:col-span-6 bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm relative">
+                            <!-- Month navigation header -->
+                            <div class="flex justify-between items-center pb-2 border-b border-outline-variant/40">
+                                <div class="flex items-center gap-sm">
+                                    <h3 class="font-bold text-md text-primary dark:text-white" id="calendar-month-year-label">June 2026</h3>
+                                    <span class="px-2 py-0.5 bg-primary/10 text-primary font-bold text-[9px] rounded-full">Hiring View</span>
                                 </div>
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden"><img src="https://api.dicebear.com/7.x/initials/svg?seed=Sarah&radius=50"/></div>
-                                        <div>
-                                            <span class="font-bold block">Sarah Jenkins</span>
-                                            <span class="text-[9px] text-gray-500">Talent Acquisition</span>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-semibold text-emerald-600 flex items-center gap-0.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>Available</span>
+                                <div class="flex items-center gap-xs">
+                                    <button onclick="navigateCalendarMonth(-1)" class="p-1 hover:bg-gray-50 dark:hover:bg-dark-surface-container rounded-lg text-gray-400 hover:text-primary transition-all flex items-center justify-center"><span class="material-symbols-outlined text-base">chevron_left</span></button>
+                                    <button onclick="navigateCalendarMonth(0)" class="px-2.5 py-1 hover:bg-gray-50 dark:hover:bg-dark-surface-container rounded-lg text-xs font-bold text-primary transition-all">Today</button>
+                                    <button onclick="navigateCalendarMonth(1)" class="p-1 hover:bg-gray-50 dark:hover:bg-dark-surface-container rounded-lg text-gray-400 hover:text-primary transition-all flex items-center justify-center"><span class="material-symbols-outlined text-base">chevron_right</span></button>
+                                </div>
+                            </div>
+                            
+                            <!-- Weekdays Header -->
+                            <div class="grid grid-cols-7 text-center text-[10px] font-bold text-gray-400 uppercase py-1 border-b border-outline-variant/30">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            
+                            <!-- Month Grid Days -->
+                            <div class="grid grid-cols-7 gap-1" id="calendar-grid-cells">
+                                <!-- Dynamically generated day cells -->
+                            </div>
+                            
+                            <!-- Inline Event/Day Details Popover (absolute overlay) -->
+                            <div id="calendar-event-details-popup" class="absolute hidden bg-white dark:bg-dark-surface border border-outline-variant/80 rounded-2xl shadow-2xl p-sm z-40 w-[240px] text-xs space-y-sm">
+                                <div class="flex justify-between items-center border-b pb-1 border-gray-100 dark:border-gray-800">
+                                    <span class="font-bold text-primary" id="popup-date-label">June 26</span>
+                                    <button onclick="closeCalendarPopup()" class="text-gray-400 hover:text-gray-650 flex items-center justify-center"><span class="material-symbols-outlined text-sm">close</span></button>
+                                </div>
+                                <div id="popup-events-container" class="space-y-xs max-h-40 overflow-y-auto custom-scrollbar">
+                                    <!-- Populated on day click -->
+                                </div>
+                                <div class="pt-1 flex gap-1 justify-end">
+                                    <button onclick="triggerQuickSchedule()" class="px-2 py-1 bg-primary text-white rounded-lg text-[10px] font-bold flex items-center gap-0.5 hover:scale-105 active:scale-95 transition-all"><span class="material-symbols-outlined text-[10px]">add</span>Schedule</button>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Right Panel: Google Tasks Sidebar (col-span-3) -->
+                        <div class="lg:col-span-3 bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm flex flex-col gap-sm">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-sm flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">playlist_add_check</span>Google Tasks</h3>
+                                <span class="text-[9px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full" id="task-completed-counter">1/4 Done</span>
+                            </div>
+                            
+                            <!-- Quick add task -->
+                            <form onsubmit="handleQuickAddTask(event)" class="flex gap-xs">
+                                <input type="text" id="task-input-quick" placeholder="Add a task..." required class="flex-1 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant/60 rounded-xl px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-primary"/>
+                                <button type="submit" class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center hover:scale-105 transition-all shrink-0"><span class="material-symbols-outlined text-sm">add</span></button>
+                            </form>
+                            
+                            <!-- Tasks list -->
+                            <div class="space-y-sm max-h-[350px] overflow-y-auto custom-scrollbar" id="calendar-tasks-list">
+                                <!-- Dynamic tasks -->
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -2038,7 +2461,7 @@
                             <div class="bg-white dark:bg-dark-surface p-md border border-outline-variant/60 rounded-2xl shadow-sm space-y-sm">
                                 <h3 class="font-bold text-xs">Accessibility & Visual Settings</h3>
                                 <p class="text-[10px] text-gray-500 font-medium">Configure accessibility options to customize your visual experience.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-md pt-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md pt-2">
                                     <!-- Contrast Switch -->
                                     <div class="flex items-center justify-between p-sm border border-outline-variant rounded-xl bg-gray-50 dark:bg-dark-surface-container">
                                         <div>
@@ -2057,6 +2480,26 @@
                                         </div>
                                         <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 rounded-full relative cursor-pointer transition-colors duration-200" id="toggle-animations-bg" onclick="toggleAnimations()">
                                             <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 shadow-sm" id="toggle-animations-knob"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Sound switch -->
+                                    <div class="flex items-center justify-between p-sm border border-outline-variant rounded-xl bg-gray-50 dark:bg-dark-surface-container">
+                                        <div>
+                                            <span class="text-xs font-bold block">Enable UI Sounds</span>
+                                            <span class="text-[9px] text-gray-500 block">Play synthesized clicks and notifications.</span>
+                                        </div>
+                                        <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 rounded-full relative cursor-pointer transition-colors duration-200" id="toggle-sound-bg" onclick="toggleSound()">
+                                            <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 shadow-sm" id="toggle-sound-knob"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Theme Switch -->
+                                    <div class="flex items-center justify-between p-sm border border-outline-variant rounded-xl bg-gray-50 dark:bg-dark-surface-container">
+                                        <div>
+                                            <span class="text-xs font-bold block">Dark Theme</span>
+                                            <span class="text-[9px] text-gray-500 block">Switch the application layout to a sleek dark interface.</span>
+                                        </div>
+                                        <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 rounded-full relative cursor-pointer transition-colors duration-200" id="toggle-dark-bg" onclick="toggleDarkMode()">
+                                            <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 shadow-sm" id="toggle-dark-knob"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -2308,7 +2751,7 @@
                             <!-- SVG Score Gauge -->
                             <div class="relative w-28 h-28 flex items-center justify-center shrink-0">
                                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 140 140">
-                                    <circle cx="70" cy="70" r="62" stroke="#f0ecf9" stroke-width="10" fill="transparent"/>
+                                    <circle class="gauge-bg-circle" cx="70" cy="70" r="62" stroke="#f0ecf9" stroke-width="10" fill="transparent"/>
                                     <circle id="modal-score-svg-circle" cx="70" cy="70" r="62" stroke="#6b38d4" stroke-dasharray="390" stroke-dashoffset="100" stroke-width="10" fill="transparent" stroke-linecap="round"/>
                                 </svg>
                                 <span id="modal-score-percentage" class="absolute font-extrabold text-xl">85%</span>
@@ -2541,10 +2984,13 @@
             <!-- Chat Logs scrollable -->
             <div id="floating-copilot-history" class="flex-1 p-sm overflow-y-auto custom-scrollbar space-y-sm text-xs bg-gray-50/50 dark:bg-dark-background/20">
                 <!-- preloaded greeting -->
-                <div class="flex gap-2">
+                <div class="flex gap-sm" id="chat-msg-greeting">
                     <div class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] shrink-0">AI</div>
-                    <div class="bg-white dark:bg-dark-surface border border-outline-variant/60 p-2 rounded-lg rounded-tl-none max-w-[85%] shadow-sm">
-                        <p class="leading-relaxed">Hi Sarah! I am your TalentMind recruiting co-pilot. How can I assist you with sourcing metrics today?</p>
+                    <div class="bg-white dark:bg-dark-surface border border-outline-variant/60 p-2 rounded-lg rounded-tl-none max-w-[85%] shadow-sm relative group">
+                        <p class="leading-relaxed text-[11px]">Hi Sarah! I am your TalentMind recruiting co-pilot. How can I assist you with sourcing metrics today?</p>
+                        <button onclick="toggleSpeakMessage('chat-msg-greeting')" class="absolute -right-6 top-1 text-gray-400 hover:text-primary transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 flex items-center justify-center p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-surface-container" title="Read message aloud (Text to Talk)">
+                            <span class="material-symbols-outlined text-[13px]">volume_up</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2744,80 +3190,37 @@
         </div>
     </div>
     <!-- VIDEO CALL ROOM MODAL -->
-    <div id="modal-video-call" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[150] flex items-center justify-center p-md hidden">
-        <div class="w-full max-w-5xl bg-white dark:bg-dark-surface rounded-2xl shadow-2xl border border-outline-variant/60 overflow-hidden flex flex-col h-[85vh]">
+    <div id="modal-video-call" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[150] flex items-center justify-center sm:p-md hidden">
+        <div class="w-full h-full sm:h-[85vh] sm:max-w-5xl bg-white dark:bg-dark-surface sm:rounded-2xl shadow-2xl border-none sm:border border-outline-variant/60 overflow-hidden flex flex-col">
             <!-- Header -->
-            <div class="p-md bg-gray-50 dark:bg-dark-surface-container border-b border-outline-variant flex justify-between items-center shrink-0">
+            <div class="p-sm sm:p-md bg-gray-50 dark:bg-dark-surface-container border-b border-outline-variant flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm shrink-0">
                 <div class="flex items-center gap-3">
                     <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
                     <div>
-                        <h3 class="font-extrabold text-sm text-on-surface dark:text-gray-100 flex items-center gap-2">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-on-surface dark:text-gray-100 flex flex-wrap items-center gap-1 sm:gap-2">
                             <span>Live Interview Room:</span>
-                            <span id="video-candidate-name" class="text-primary">Aria Sterling</span>
+                            <span id="video-candidate-name" class="text-primary font-bold">Aria Sterling</span>
                         </h3>
-                        <p id="video-candidate-role" class="text-[10px] text-gray-500 font-medium">Senior DevOps Engineer • Panel Interview</p>
+                        <p id="video-candidate-role" class="text-[9px] sm:text-[10px] text-gray-500 font-medium">Senior DevOps Engineer • Panel Interview</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                     <span id="video-call-duration" class="font-mono text-xs px-2.5 py-1 bg-gray-200 dark:bg-dark-surface-container rounded-lg font-bold text-gray-600 dark:text-gray-300">00:00</span>
-                    <button onclick="endVideoCall(true)" class="px-3.5 py-1.5 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700 flex items-center gap-1 shadow-sm">
+                    <button onclick="toggleIframeFullscreen()" class="p-1.5 bg-gray-200 dark:bg-dark-surface-container hover:bg-gray-300 dark:hover:bg-opacity-80 text-gray-700 dark:text-gray-300 rounded-xl text-xs font-bold flex items-center justify-center shadow-sm" id="btn-parent-fullscreen" title="Toggle Fullscreen Panel">
+                        <span class="material-symbols-outlined text-sm">fullscreen</span>
+                    </button>
+                    <button onclick="endVideoCall(true)" class="px-3 py-1.5 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700 flex items-center gap-1 shadow-sm">
                         <span class="material-symbols-outlined text-sm">call_end</span> End Call
                     </button>
                 </div>
             </div>
             
             <!-- Main Content Area -->
-            <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
+            <div class="flex-1 overflow-y-auto sm:overflow-hidden flex flex-col md:flex-row">
                 
-                <!-- Left Column: Video Feeds -->
-                <div class="flex-1 bg-gray-900 p-md flex flex-col gap-md justify-center relative overflow-hidden">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-sm h-full max-h-[550px] relative z-10">
-                        <!-- Candidate Feed Card -->
-                        <div class="bg-gray-800 rounded-xl overflow-hidden relative border border-gray-700 flex flex-col items-center justify-center text-center shadow-lg group">
-                            <!-- Simulated Video stream (using candidate photo or glowing avatar) -->
-                            <div class="relative w-24 h-24 rounded-full bg-primary/10 border-4 border-primary/30 flex items-center justify-center text-white mb-2 animate-pulse overflow-hidden">
-                                <img id="video-candidate-avatar" src="" class="w-full h-full object-cover hidden"/>
-                                <span id="video-candidate-initials" class="text-3xl font-bold">AS</span>
-                            </div>
-                            <span class="text-xs font-bold text-gray-200" id="video-feed-name">Aria Sterling (Candidate)</span>
-                            <span class="text-[9px] text-gray-400 mt-1 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
-                                Audio Connected
-                            </span>
-                            <!-- Overlay controls placeholder -->
-                            <div class="absolute bottom-3 left-3 bg-black/60 px-2 py-0.5 rounded text-[8px] text-gray-300 font-bold">Remote Camera Feed</div>
-                        </div>
-
-                        <!-- Recruiter Feed Card (True Webcam or avatar fallback) -->
-                        <div class="bg-gray-800 rounded-xl overflow-hidden relative border border-gray-700 flex flex-col items-center justify-center text-center shadow-lg group">
-                            <!-- Real video stream element -->
-                            <video id="webcam-video" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover hidden"></video>
-                            
-                            <!-- Webcam fallback avatar -->
-                            <div id="webcam-fallback" class="relative w-24 h-24 rounded-full bg-indigo-900 border-4 border-indigo-700 flex items-center justify-center text-white mb-2 overflow-hidden">
-                                <span class="text-3xl font-bold">SJ</span>
-                            </div>
-                            <span class="text-xs font-bold text-gray-200 z-10" id="webcam-feed-name">Sarah Jenkins (You)</span>
-                            <span class="text-[9px] text-gray-450 mt-1 flex items-center gap-1 z-10" id="webcam-status-label">
-                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                                Camera Off
-                            </span>
-                            <div class="absolute bottom-3 left-3 bg-black/60 px-2 py-0.5 rounded text-[8px] text-gray-300 font-bold z-10">Local Camera Feed</div>
-                        </div>
-                    </div>
-
-                    <!-- Video Controls Bar -->
-                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 bg-gray-800/90 backdrop-blur-xs border border-gray-700 px-md py-xs rounded-2xl flex items-center gap-md shadow-2xl">
-                        <button onclick="toggleMicrophone()" id="btn-toggle-mic" class="w-10 h-10 rounded-xl bg-gray-750 hover:bg-gray-700 text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Toggle Mic">
-                            <span class="material-symbols-outlined text-lg" id="icon-toggle-mic">mic</span>
-                        </button>
-                        <button onclick="toggleCamera()" id="btn-toggle-camera" class="w-10 h-10 rounded-xl bg-gray-750 hover:bg-gray-700 text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Toggle Video">
-                            <span class="material-symbols-outlined text-lg" id="icon-toggle-camera">videocam_off</span>
-                        </button>
-                        <button onclick="toggleScreenShare()" id="btn-toggle-share" class="w-10 h-10 rounded-xl bg-gray-750 hover:bg-gray-700 text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Share Screen">
-                            <span class="material-symbols-outlined text-lg" id="icon-toggle-share">present_to_all</span>
-                        </button>
-                    </div>
+                <!-- Left Column: Video Feeds (Redesigned NexCall Iframe) -->
+                <div class="flex-1 bg-[#060a14] flex flex-col justify-center items-center relative overflow-hidden" id="video-call-left-panel" style="min-height: 480px;">
+                    <iframe id="video-call-iframe" src="" class="absolute inset-0 w-full h-full border-none" allow="camera; microphone; fullscreen" allowfullscreen></iframe>
                 </div>
 
                 <!-- Right Column: Real-time Transcript & Evaluation Panel -->
@@ -2825,8 +3228,14 @@
                     
                     <!-- Tab Selector for Side Panel -->
                     <div class="flex border-b border-outline-variant shrink-0 bg-gray-50 dark:bg-dark-surface-container">
-                        <button onclick="switchVideoSideTab('transcript')" id="video-tab-btn-transcript" class="flex-1 py-3 text-[11px] font-bold border-b-2 border-primary text-primary text-center">🤖 AI Copilot Live</button>
-                        <button onclick="switchVideoSideTab('scorecard')" id="video-tab-btn-scorecard" class="flex-1 py-3 text-[11px] font-bold border-b-2 border-transparent text-gray-500 text-center">📝 Scorecard</button>
+                        <button onclick="switchVideoSideTab('transcript')" id="video-tab-btn-transcript" class="flex-1 py-3 text-[11px] font-bold border-b-2 border-primary text-primary text-center flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                            <span>AI Copilot Live</span>
+                        </button>
+                        <button onclick="switchVideoSideTab('scorecard')" id="video-tab-btn-scorecard" class="flex-1 py-3 text-[11px] font-bold border-b-2 border-transparent text-gray-500 text-center flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">rate_review</span>
+                            <span>Scorecard</span>
+                        </button>
                     </div>
 
                     <!-- AI COPILOT LIVE TAB PANEL -->
@@ -2901,10 +3310,10 @@
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-700 dark:text-gray-300 mb-1">Interview Decision Result</label>
                                 <select id="eval-decision" class="w-full p-2 bg-gray-50 dark:bg-dark-surface-container border border-outline-variant rounded-xl text-[10px] outline-none">
-                                    <option value="Strong Hire">🚀 Strong Hire (Recommend Onboarding)</option>
-                                    <option value="Hire" selected>✅ Hire (Proceed to next round)</option>
-                                    <option value="Hold">⏳ Hold (Keep in Talent pool)</option>
-                                    <option value="Reject">❌ Reject (Not aligned)</option>
+                                    <option value="Strong Hire">★ Strong Hire (Recommend Onboarding)</option>
+                                    <option value="Hire" selected>✓ Hire (Proceed to next round)</option>
+                                    <option value="Hold">⧗ Hold (Keep in Talent pool)</option>
+                                    <option value="Reject">✕ Reject (Not aligned)</option>
                                 </select>
                             </div>
 
@@ -2939,7 +3348,20 @@
             selectedPlan: 'pro',
             jdScore: 75,
             activeStatusFilter: 'all',
-            autoVoiceMode: false
+            autoVoiceMode: false,
+            calendarEvents: [
+                { id: '1', title: 'Aria Sterling', date: '2026-06-26', time: '14:00', panelist: 'Tom Rivera, Sarah Jenkins', role: 'Senior NLP / ML Engineer', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_2sr8nV-gDPHZi0UpRvWlKFj1W235aew4wtZDnt9KvAyscDfQmJwtx2n63J0r9B9DUSp1AJG5hGg7yRKIoSiVz4hiX03VbXzS9ZqCseE6KGwQtSEsG2cEPVt-tHplZFmZNNAXaWMU61gl29YifdwA8TxuLZp_8gHmNGu8zt-usenG8U5y91_bN2LWHr2u2mF6c_aEaC9eCIzCLzih1iOWh8jxhO_W7FaJk8SBdyfetmDnyLI1BJNUIgoQecs_AumahYAdEs6-A8Thjed36OubfbB94MsDT-xJd49JFR02wV01kD54jK9Yc5pwz1HdlKkrS1FASkuW1XT-HD53mCR0cES04', status: 'CONFIRMED' },
+                { id: '2', title: 'Jordan Davis', date: '2026-06-27', time: '11:00', panelist: 'Sarah Jenkins', role: 'Senior React Developer', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Jordan&radius=50', status: 'PENDING' },
+                { id: '3', title: 'Amara Miller', date: '2026-06-29', time: '15:30', panelist: 'Tom Rivera', role: 'DevOps Lead', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Amara&radius=50', status: 'CONFIRMED' },
+                { id: '4', title: 'Steven Kraus', date: '2026-06-30', time: '09:00', panelist: 'Tom Rivera, Sarah Jenkins', role: 'Cloud Architect', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Steven&radius=50', status: 'CONFIRMED' }
+            ],
+            calendarTasks: [
+                { id: 't1', title: "Review Aria Sterling's NLP coding test", done: false },
+                { id: 't2', title: "Calibrate DevOps salary bandwidths", done: true },
+                { id: 't3', title: "Approve React developer offer letter template", done: false },
+                { id: 't4', title: "Flush security compliance logs audit draft", done: false }
+            ],
+            currentMonth: new Date(2026, 5, 1) // June 2026 (0-indexed month)
         };
 
         // DOM Elements
@@ -2966,6 +3388,11 @@
 
         // Toast Notification helper
         function showToast(message, type = 'info') {
+            if (typeof playSuccess === 'function') {
+                if (type === 'success') playSuccess();
+                else if (type === 'error') playError();
+                else playChime();
+            }
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `p-sm rounded-xl text-xs font-bold shadow-lg flex items-center gap-2 transform translate-y-5 opacity-0 transition-all duration-300 ${
@@ -2990,12 +3417,12 @@
 
         // Landing Page & Modal Triggers
         function openAuthFromLanding(screen = 'login') {
-            document.getElementById('auth-container').classList.remove('hidden');
+            openModal('auth-container');
             showAuthScreen(screen);
         }
 
         function closeAuthModal() {
-            document.getElementById('auth-container').classList.add('hidden');
+            closeModal('auth-container');
         }
 
         // Auth Screens management
@@ -3127,9 +3554,17 @@
             window.open(`/api/auth/mock-sso?provider=${provider}`, `${provider} Login`, `width=${width},height=${height},top=${top},left=${left}`);
         }
 
-        // Handle postMessage events from the SSO popup
+        // Handle postMessage events from the SSO popup and video call iframe
         window.addEventListener('message', async (event) => {
             const data = event.data;
+            if (data && data.type === 'end-video-call') {
+                endVideoCall(true);
+                return;
+            }
+            if (data && data.type === 'video-call-joined') {
+                startActiveVideoCall();
+                return;
+            }
             if (data && data.type === 'social-login-success') {
                 const provider = data.provider;
                 const email = data.email;
@@ -3328,6 +3763,8 @@
 
         // Tab views state machine switcher
         function switchTab(tabId) {
+            if (typeof playTabSwitch === 'function') playTabSwitch();
+            
             // Close mobile sidebar drawer if it was open
             toggleMobileSidebar(false);
 
@@ -3365,6 +3802,8 @@
                 loadTalentClusters();
             } else if (tabId === 'compliance') {
                 loadComplianceLogs();
+            } else if (tabId === 'interviews') {
+                initCalendarEngine();
             }
         }
 
@@ -3389,6 +3828,7 @@
 
         // Header panels toggling
         function toggleHeaderPanel(panelId) {
+            if (typeof playPop === 'function') playPop();
             const panel = document.getElementById(panelId);
             if (panel.classList.contains('hidden')) {
                 // Close others
@@ -3400,19 +3840,39 @@
             }
         }
 
-        // Dark/Light Mode toggle
-        function toggleDarkMode() {
+        // Dark/Light Mode state initialization
+        let isDarkMode = localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        function applyTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-toggle-icon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.textContent = 'dark_mode';
-                showToast('Light mode active.');
-            } else {
+            const darkBg = document.getElementById('toggle-dark-bg');
+            const darkKnob = document.getElementById('toggle-dark-knob');
+
+            if (isDarkMode) {
                 html.classList.add('dark');
-                icon.textContent = 'light_mode';
-                showToast('Dark mode active.');
+                if (icon) icon.textContent = 'light_mode';
+                if (darkBg && darkKnob) {
+                    darkBg.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                    darkBg.classList.add('bg-primary');
+                    darkKnob.classList.add('translate-x-4');
+                }
+            } else {
+                html.classList.remove('dark');
+                if (icon) icon.textContent = 'dark_mode';
+                if (darkBg && darkKnob) {
+                    darkBg.classList.remove('bg-primary');
+                    darkBg.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                    darkKnob.classList.remove('translate-x-4');
+                }
             }
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            applyTheme();
+            showToast(isDarkMode ? 'Dark mode active.' : 'Light mode active.', 'success');
         }
 
         // GDPR Settings controls
@@ -3593,11 +4053,77 @@
         }
 
         function simulateFileInput() {
-            const devops = jobTemplates.devops;
-            jdLiveEditor.innerHTML = `<p class="mb-4"><strong>${devops.title}</strong></p><p class="mb-4">${devops.text.replace(/\n/g, '<br/>')}</p>`;
-            onEditorInput();
-            triggerMatchMatching();
-            showToast('Simulated docx resume upload parsed.', 'success');
+            const jdInput = document.getElementById('jd-file-uploader');
+            if (jdInput) jdInput.click();
+        }
+
+        async function handleJdPdfUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append("file", file);
+            
+            showToast("Uploading and parsing Job Description...", "info");
+            
+            try {
+                const response = await fetch("/api/parse-jd-file", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || "Parse failed");
+                }
+                
+                const data = await response.json();
+                
+                jdLiveEditor.innerHTML = `<p class="mb-4"><strong>${data.title}</strong></p><p class="mb-4">${data.original_text.replace(/\n/g, '<br/>')}</p>`;
+                onEditorInput();
+                triggerMatchMatching();
+                showToast("Job description file parsed successfully!", "success");
+            } catch (error) {
+                showToast("Error parsing file: " + error.message, "error");
+            } finally {
+                event.target.value = "";
+            }
+        }
+
+        function triggerResumeUpload() {
+            const resumeInput = document.getElementById('resume-file-uploader');
+            if (resumeInput) resumeInput.click();
+        }
+
+        async function handleResumePdfUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append("file", file);
+            
+            showToast("Uploading and parsing Resume...", "info");
+            
+            try {
+                const response = await fetch("/api/upload-resume-pdf", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || "Upload failed");
+                }
+                
+                const data = await response.json();
+                showToast(`Added candidate ${data.candidate.name} successfully!`, "success");
+                
+                triggerMatchMatching(true);
+            } catch (error) {
+                showToast("Error uploading resume: " + error.message, "error");
+            } finally {
+                event.target.value = "";
+            }
         }
 
         function applyJdRewrite(index) {
@@ -3826,7 +4352,7 @@
                 const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.name)}&radius=50`;
 
                 // Badge colors based on status
-                let statusBadgeClass = "bg-gray-100 text-gray-800";
+                let statusBadgeClass = "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
                 let statusLabel = item.computed_status.toUpperCase();
                 if (item.computed_status === "offers") {
                     statusBadgeClass = "bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-400";
@@ -4029,11 +4555,11 @@
             // Load KNN similar candidates
             loadSimilarCandidates(candidateId);
 
-            document.getElementById('candidate-detail-modal').classList.remove('hidden');
+            openModal('candidate-detail-modal');
         }
 
         function closeCandidateModal() {
-            document.getElementById('candidate-detail-modal').classList.add('hidden');
+            closeModal('candidate-detail-modal');
         }
 
         async function loadSimilarCandidates(candidateId) {
@@ -4353,43 +4879,33 @@
             const date = document.getElementById('schedule-date').value;
             const time = document.getElementById('schedule-time').value;
 
-            const container = document.getElementById('interviews-panel-list');
-            const div = document.createElement('div');
-            div.className = "flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30 text-xs";
-            div.innerHTML = `
-                <div>
-                    <span class="font-bold block">${candidate}</span>
-                    <span class="text-[10px] text-gray-400">Panel Interviewer: ${panelist} • ${date} ${time}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span id="status-badge-${candidate.replace(/\s+/g, '-')}" class="px-2 py-1 bg-blue-100 text-blue-800 rounded font-bold text-[9px]">CONFIRMED</span>
-                    <button onclick="launchVideoCall('${candidate}', 'Technical Specialist')" class="px-2.5 py-1 bg-primary text-white rounded-lg font-bold hover:scale-105 active:scale-95 transition-all">Join Call</button>
-                    <button onclick="showToast('Invites resent to panel.', 'success')" class="text-xs text-gray-400 hover:text-gray-650"><span class="material-symbols-outlined text-sm">share</span></button>
-                </div>
-            `;
-            container.appendChild(div);
+            // Find matching candidate profile to get avatar or role details if available
+            const candidateProfile = globalState.candidates.find(c => c.name === candidate);
+            const role = candidateProfile ? candidateProfile.experience_timeline[0]?.role || 'Technical Specialist' : 'Technical Specialist';
             
-            // Add row to welcome tab list as well
-            const welcomeList = document.getElementById('welcome-interviews-list');
-            const welcomeDiv = document.createElement('div');
-            welcomeDiv.className = "flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30";
-            welcomeDiv.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">${(() => {
-                        let chars = candidate.split(' ').filter(w => isNaN(w)).map(x => x[0]).join('').substring(0, 2).toUpperCase();
-                        if (chars.length === 1 && candidate.length > 1) chars = candidate.substring(0, 2).toUpperCase();
-                        return chars || 'CA';
-                    })()}</div>
-                    <div>
-                        <span class="text-xs font-bold block">${candidate}</span>
-                        <span class="text-[10px] text-gray-500">Scheduled: ${date} • ${time}</span>
-                    </div>
-                </div>
-                <button onclick="launchVideoCall('${candidate}', 'Technical Specialist')" class="text-xs px-3 py-1 bg-primary text-white rounded-lg font-bold">Join Call</button>
-            `;
-            welcomeList.appendChild(welcomeDiv);
+            // Generate avatar seed
+            const avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(candidate)}&radius=50`;
+
+            const newEvent = {
+                id: 'e-' + Date.now(),
+                title: candidate,
+                date: date,
+                time: time,
+                panelist: panelist,
+                role: role,
+                avatar: avatar,
+                status: 'CONFIRMED'
+            };
+
+            globalState.calendarEvents.push(newEvent);
+
+            // Re-render the calendar month, timelines
+            renderCalendarMonth();
+            renderUpcomingInterviewsTimeline();
+            closeCalendarPopup();
 
             toggleHeaderPanel('schedule-modal');
+            if (typeof playSuccess === 'function') playSuccess();
             showToast('Interview scheduled & calendar invitations dispatched.', 'success');
         }
 
@@ -4611,6 +5127,7 @@
                     svg.appendChild(circle);
                 });
             }
+            if (typeof playSuccess === 'function') playSuccess();
         }
 
         // Compliance Logs retrieval
@@ -4652,6 +5169,349 @@
             }
         }
 
+        // ================= GOOGLE CALENDAR & TASKS ENGINE =================
+        function initCalendarEngine() {
+            renderCalendarMonth();
+            renderUpcomingInterviewsTimeline();
+            renderCalendarTasks();
+            renderActivePanelists();
+        }
+
+        function renderCalendarMonth() {
+            const cellsContainer = document.getElementById('calendar-grid-cells');
+            const label = document.getElementById('calendar-month-year-label');
+            if (!cellsContainer || !label) return;
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const year = globalState.currentMonth.getFullYear();
+            const monthIdx = globalState.currentMonth.getMonth();
+
+            label.textContent = `${monthNames[monthIdx]} ${year}`;
+
+            cellsContainer.innerHTML = '';
+
+            // Day of week of first day of month (0 = Sun, 1 = Mon, ...)
+            const firstDay = new Date(year, monthIdx, 1).getDay();
+            // Total days in month
+            const totalDays = new Date(year, monthIdx + 1, 0).getDate();
+            // Previous month total days to fill starting blocks
+            const prevTotalDays = new Date(year, monthIdx, 0).getDate();
+
+            // Draw empty/prev month day slots
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const dayNum = prevTotalDays - i;
+                const cell = document.createElement('div');
+                cell.className = "min-h-[60px] p-1 border border-outline-variant/20 bg-gray-50/50 dark:bg-dark-background/20 text-gray-300 dark:text-gray-600 rounded text-[10px] select-none";
+                cell.textContent = dayNum;
+                cellsContainer.appendChild(cell);
+            }
+
+            // Draw active month days
+            for (let day = 1; day <= totalDays; day++) {
+                const cell = document.createElement('div');
+                const dateStr = `${year}-${String(monthIdx + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                // Check if today
+                const isToday = (year === 2026 && monthIdx === 5 && day === 26);
+                
+                cell.className = `min-h-[60px] p-1 border border-outline-variant/30 dark:border-gray-800 rounded bg-white dark:bg-dark-surface-container flex flex-col justify-between hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors cursor-pointer relative ${isToday ? 'ring-2 ring-primary bg-primary/2 dark:bg-primary/5' : ''}`;
+                
+                // Top day number row
+                const numRow = document.createElement('div');
+                numRow.className = "flex justify-between items-center";
+                
+                const numSpan = document.createElement('span');
+                numSpan.className = `text-[10px] font-bold ${isToday ? 'w-4 h-4 bg-primary text-white flex items-center justify-center rounded-full text-[9px]' : 'text-gray-700 dark:text-gray-300'}`;
+                numSpan.textContent = day;
+                numRow.appendChild(numSpan);
+                cell.appendChild(numRow);
+
+                // Filter events on this day
+                const dayEvents = globalState.calendarEvents.filter(ev => ev.date === dateStr);
+                const eventContainer = document.createElement('div');
+                eventContainer.className = "space-y-0.5 mt-1 overflow-hidden";
+
+                dayEvents.forEach(ev => {
+                    const pill = document.createElement('div');
+                    const isConfirmed = ev.status === 'CONFIRMED';
+                    pill.className = `text-[8px] px-1 py-0.5 rounded truncate font-bold ${
+                        isConfirmed 
+                        ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200/50' 
+                        : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200/50'
+                    }`;
+                    pill.textContent = ev.title;
+                    pill.title = `${ev.title} (${ev.time})`;
+                    eventContainer.appendChild(pill);
+                });
+                cell.appendChild(eventContainer);
+
+                // Add day click listener
+                cell.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showDayDetails(dateStr, cell);
+                });
+
+                cellsContainer.appendChild(cell);
+            }
+        }
+
+        function navigateCalendarMonth(direction) {
+            if (typeof playClick === 'function') playClick();
+            if (direction === 0) {
+                // Today (June 2026)
+                globalState.currentMonth = new Date(2026, 5, 1);
+            } else {
+                const month = globalState.currentMonth.getMonth();
+                globalState.currentMonth.setMonth(month + direction);
+            }
+            renderCalendarMonth();
+            closeCalendarPopup();
+        }
+
+        function showDayDetails(dateStr, cellElement) {
+            if (typeof playPop === 'function') playPop();
+            const popup = document.getElementById('calendar-event-details-popup');
+            const dateLabel = document.getElementById('popup-date-label');
+            const eventsContainer = document.getElementById('popup-events-container');
+            if (!popup || !dateLabel || !eventsContainer) return;
+
+            // Format date label
+            const dateObj = new Date(dateStr + "T00:00:00");
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            dateLabel.textContent = dateObj.toLocaleDateString('en-US', options);
+
+            // Populate events
+            const dayEvents = globalState.calendarEvents.filter(ev => ev.date === dateStr);
+            eventsContainer.innerHTML = '';
+
+            if (dayEvents.length === 0) {
+                eventsContainer.innerHTML = `<p class="text-[10px] text-gray-400 italic py-xs text-center">No evaluations scheduled on this day.</p>`;
+            } else {
+                dayEvents.forEach(ev => {
+                    const row = document.createElement('div');
+                    row.className = "p-1.5 bg-gray-50 dark:bg-dark-surface-container rounded-lg border border-outline-variant/30 space-y-1 text-[10px]";
+                    
+                    const header = document.createElement('div');
+                    header.className = "flex justify-between items-center font-bold";
+                    header.innerHTML = `
+                        <span class="text-primary truncate">${ev.title}</span>
+                        <span class="text-gray-400 shrink-0">${ev.time}</span>
+                    `;
+                    row.appendChild(header);
+
+                    const desc = document.createElement('div');
+                    desc.className = "text-[9px] text-gray-500 space-y-0.5";
+                    desc.innerHTML = `
+                        <p class="truncate"><strong>Role:</strong> ${ev.role}</p>
+                        <p class="truncate"><strong>Panel:</strong> ${ev.panelist}</p>
+                    `;
+                    row.appendChild(desc);
+
+                    const actions = document.createElement('div');
+                    actions.className = "flex justify-end gap-1 pt-1";
+                    
+                    const joinBtn = document.createElement('button');
+                    joinBtn.className = "px-2 py-0.5 bg-primary text-white rounded text-[9px] font-bold hover:scale-105 transition-all";
+                    joinBtn.textContent = "Join Call";
+                    joinBtn.onclick = () => {
+                        closeCalendarPopup();
+                        launchVideoCall(ev.title, ev.role, ev.avatar);
+                    };
+                    actions.appendChild(joinBtn);
+                    row.appendChild(actions);
+
+                    eventsContainer.appendChild(row);
+                });
+            }
+
+            // Save date to scheduling form input automatically
+            document.getElementById('schedule-date').value = dateStr;
+
+            // Position popup absolutely near the clicked cell element
+            const rect = cellElement.getBoundingClientRect();
+            const parentRect = cellElement.offsetParent.getBoundingClientRect();
+            
+            // Adjust offset to fit nicely
+            const topPos = rect.top - parentRect.top + rect.height;
+            const leftPos = Math.min(rect.left - parentRect.left, parentRect.width - 250);
+
+            popup.style.top = `${topPos}px`;
+            popup.style.left = `${leftPos}px`;
+            popup.classList.remove('hidden');
+        }
+
+        function closeCalendarPopup() {
+            const popup = document.getElementById('calendar-event-details-popup');
+            if (popup) popup.classList.add('hidden');
+        }
+
+        function triggerQuickSchedule() {
+            closeCalendarPopup();
+            toggleHeaderPanel('schedule-modal');
+        }
+
+        function renderUpcomingInterviewsTimeline() {
+            const listContainer = document.getElementById('interviews-panel-list');
+            const welcomeList = document.getElementById('welcome-interviews-list');
+            if (!listContainer) return;
+
+            listContainer.innerHTML = '';
+            if (welcomeList) welcomeList.innerHTML = '';
+
+            // Sort upcoming events chronologically
+            const sortedEvents = [...globalState.calendarEvents].sort((a, b) => new Date(a.date + "T" + a.time) - new Date(b.date + "T" + b.time));
+
+            if (sortedEvents.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-gray-400 py-md italic text-xs">No interviews scheduled in timeline feed.</p>`;
+                if (welcomeList) welcomeList.innerHTML = `<p class="text-center text-gray-400 py-md italic text-xs">No interviews scheduled today.</p>`;
+                return;
+            }
+
+            sortedEvents.forEach(ev => {
+                const dateObj = new Date(ev.date + "T" + ev.time);
+                const isConfirmed = ev.status === 'CONFIRMED';
+                
+                // 1. Interviews tab timeline feed list
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30 text-xs hover:shadow-xs transition-all";
+                row.innerHTML = `
+                    <div class="overflow-hidden pr-2">
+                        <span class="font-bold block text-gray-800 dark:text-gray-200 truncate">${ev.title}</span>
+                        <span class="text-[10px] text-gray-400 block truncate">Interviewer: ${ev.panelist} • ${ev.time} (${dateObj.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})})</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <span class="px-2 py-0.5 ${isConfirmed ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'} rounded font-bold text-[9px]">${ev.status}</span>
+                        <button onclick="launchVideoCall('${ev.title}', '${ev.role}', '${ev.avatar}')" class="px-2.5 py-1 bg-primary text-white rounded-lg font-bold hover:scale-105 active:scale-95 transition-all text-[10px]">Join Call</button>
+                    </div>
+                `;
+                listContainer.appendChild(row);
+
+                // 2. Home dashboard feed list
+                if (welcomeList) {
+                    const welcomeDiv = document.createElement('div');
+                    welcomeDiv.className = "flex justify-between items-center p-sm bg-gray-50 dark:bg-dark-surface-container rounded-xl border border-outline-variant/30 hover:shadow-xs transition-all";
+                    
+                    let chars = ev.title.split(' ').filter(w => isNaN(w)).map(x => x[0]).join('').substring(0, 2).toUpperCase();
+                    if (chars.length === 1 && ev.title.length > 1) chars = ev.title.substring(0, 2).toUpperCase();
+                    
+                    welcomeDiv.innerHTML = `
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs shrink-0">${chars || 'CA'}</div>
+                            <div class="overflow-hidden">
+                                <span class="text-xs font-bold block truncate text-gray-800 dark:text-gray-200">${ev.title}</span>
+                                <span class="text-[10px] text-gray-500 block truncate">${dateObj.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} • ${ev.time}</span>
+                            </div>
+                        </div>
+                        <button onclick="launchVideoCall('${ev.title}', '${ev.role}', '${ev.avatar}')" class="text-[10px] px-3 py-1 bg-primary text-white rounded-lg font-bold hover:scale-105 active:scale-95 transition-all shrink-0">Join Call</button>
+                    `;
+                    welcomeList.appendChild(welcomeDiv);
+                }
+            });
+        }
+
+        function renderCalendarTasks() {
+            const container = document.getElementById('calendar-tasks-list');
+            const counter = document.getElementById('task-completed-counter');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const doneCount = globalState.calendarTasks.filter(t => t.done).length;
+            const totalCount = globalState.calendarTasks.length;
+            if (counter) counter.textContent = `${doneCount}/${totalCount} Done`;
+
+            if (totalCount === 0) {
+                container.innerHTML = `<p class="text-center text-gray-400 py-md italic text-xs">No pending tasks.</p>`;
+                return;
+            }
+
+            globalState.calendarTasks.forEach(task => {
+                const div = document.createElement('div');
+                div.className = `flex items-center justify-between p-2.5 rounded-xl border border-outline-variant/30 text-xs transition-all ${
+                    task.done ? 'bg-gray-50/50 dark:bg-dark-surface-container/30 opacity-70' : 'bg-white dark:bg-dark-surface'
+                }`;
+                
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden pr-2">
+                        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTaskDone('${task.id}')" class="rounded border-outline-variant/60 text-primary focus:ring-primary w-4.5 h-4.5 cursor-pointer accent-primary"/>
+                        <span class="truncate font-semibold select-none cursor-pointer ${task.done ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-300'}" onclick="toggleTaskDone('${task.id}')">${task.title}</span>
+                    </div>
+                    <button onclick="deleteCalendarTask('${task.id}')" class="text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center p-0.5"><span class="material-symbols-outlined text-sm">delete</span></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function handleQuickAddTask(event) {
+            event.preventDefault();
+            const input = document.getElementById('task-input-quick');
+            if (!input) return;
+            const title = input.value.trim();
+            if (!title) return;
+
+            const newTask = {
+                id: 't-' + Date.now(),
+                title: title,
+                done: false
+            };
+
+            globalState.calendarTasks.unshift(newTask);
+            input.value = '';
+
+            if (typeof playClick === 'function') playClick();
+            renderCalendarTasks();
+            showToast('New task added.', 'success');
+        }
+
+        function toggleTaskDone(taskId) {
+            const task = globalState.calendarTasks.find(t => t.id === taskId);
+            if (!task) return;
+            task.done = !task.done;
+
+            if (task.done) {
+                if (typeof playSuccess === 'function') playSuccess();
+            } else {
+                if (typeof playPop === 'function') playPop();
+            }
+
+            renderCalendarTasks();
+        }
+
+        function deleteCalendarTask(taskId) {
+            globalState.calendarTasks = globalState.calendarTasks.filter(t => t.id !== taskId);
+            if (typeof playPop === 'function') playPop();
+            renderCalendarTasks();
+            showToast('Task removed.', 'info');
+        }
+
+        function renderActivePanelists() {
+            const container = document.getElementById('interview-panelists-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-surface-container p-1 rounded-lg transition-colors">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden"><img src="https://api.dicebear.com/7.x/initials/svg?seed=Tom&radius=50"/></div>
+                        <div>
+                            <span class="font-bold block text-gray-800 dark:text-gray-200">Tom Rivera</span>
+                            <span class="text-[9px] text-gray-500">Lead Infrastructure</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-semibold text-emerald-600 flex items-center gap-0.5 shrink-0"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>Available</span>
+                </div>
+                <div class="flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-surface-container p-1 rounded-lg transition-colors">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden"><img src="https://api.dicebear.com/7.x/initials/svg?seed=Sarah&radius=50"/></div>
+                        <div>
+                            <span class="font-bold block text-gray-800 dark:text-gray-200">Sarah Jenkins</span>
+                            <span class="text-[9px] text-gray-500">Talent Acquisition</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-semibold text-emerald-600 flex items-center gap-0.5 shrink-0"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>Available</span>
+                </div>
+            `;
+        }
+
         // Notification center controls
         function clearAllNotifications() {
             document.getElementById('notifications-list-container').innerHTML = `
@@ -4689,6 +5549,7 @@
 
         // Floating AI Copilot Chat Toggle
         function toggleFloatingCopilot() {
+            if (typeof playPop === 'function') playPop();
             if (floatCopilotChat.classList.contains('hidden')) {
                 floatCopilotChat.classList.remove('hidden');
                 floatCopilotIcon.textContent = 'close';
@@ -4769,6 +5630,32 @@
         let isListening = false;
         let currentlySpeakingUtterance = null;
         let currentlySpeakingId = null;
+
+        // Unlock Web Speech API Synthesis on mobile/touch interfaces (requires user click event context)
+        function unlockVoiceSystem() {
+            if (typeof window !== 'undefined' && window.speechSynthesis) {
+                try {
+                    const u = new SpeechSynthesisUtterance('');
+                    window.speechSynthesis.speak(u);
+                } catch (e) {
+                    console.warn("Failed to unlock speech synthesis:", e);
+                }
+            }
+        }
+
+        function unlockSystemOnInteraction() {
+            unlockVoiceSystem();
+            if (typeof getAudioContext === 'function') {
+                const ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+            }
+            document.removeEventListener('click', unlockSystemOnInteraction);
+            document.removeEventListener('touchstart', unlockSystemOnInteraction);
+        }
+        document.addEventListener('click', unlockSystemOnInteraction);
+        document.addEventListener('touchstart', unlockSystemOnInteraction);
 
         function initSpeechRecognition() {
             const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -4999,7 +5886,7 @@
                 </div>
                 <div class="bg-white dark:bg-dark-surface border border-outline-variant/60 p-2 rounded-lg rounded-tl-none max-w-[85%] shadow-sm relative group">
                     <p class="leading-relaxed text-[11px]">${text}</p>
-                    <button onclick="toggleSpeakMessage('${id}')" class="absolute -right-6 top-1 text-gray-400 hover:text-primary transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 flex items-center justify-center p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-surface-container" title="Read message aloud (Text to Talk)">
+                    <button onclick="toggleSpeakMessage('${id}')" class="absolute -right-6 top-1 text-gray-400 hover:text-primary transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 flex items-center justify-center p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-surface-container" title="Read message aloud (Text to Talk)">
                         <span class="material-symbols-outlined text-[13px]">volume_up</span>
                     </button>
                 </div>
@@ -5011,6 +5898,7 @@
 
         // Recruiter controls accordion
         function toggleSettingsConsole() {
+            if (typeof playPop === 'function') playPop();
             const content = document.getElementById('settings-console-content');
             const arrow = document.getElementById('settings-console-arrow');
             if (content.classList.contains('hidden')) {
@@ -5039,6 +5927,9 @@
 
         function applyAccessibilitySettings() {
             const html = document.documentElement;
+            
+            // Sync theme state and switches
+            applyTheme();
             
             // Apply High Contrast
             const contrastBg = document.getElementById('toggle-contrast-bg');
@@ -5075,6 +5966,30 @@
                     animBg.classList.remove('bg-primary');
                     animBg.classList.add('bg-gray-200');
                     animKnob.classList.remove('translate-x-4');
+                }
+            }
+
+            // Apply Sound Toggle Settings & Header Icon
+            const soundBg = document.getElementById('toggle-sound-bg');
+            const soundKnob = document.getElementById('toggle-sound-knob');
+            const headerSoundIcon = document.getElementById('header-sound-icon');
+            if (soundEnabled) {
+                if (soundBg && soundKnob) {
+                    soundBg.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                    soundBg.classList.add('bg-primary');
+                    soundKnob.classList.add('translate-x-4');
+                }
+                if (headerSoundIcon) {
+                    headerSoundIcon.textContent = 'volume_up';
+                }
+            } else {
+                if (soundBg && soundKnob) {
+                    soundBg.classList.remove('bg-primary');
+                    soundBg.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                    soundKnob.classList.remove('translate-x-4');
+                }
+                if (headerSoundIcon) {
+                    headerSoundIcon.textContent = 'volume_off';
                 }
             }
 
@@ -5193,6 +6108,7 @@
             const modal = document.getElementById(id);
             if (modal) {
                 modal.classList.remove('hidden');
+                if (typeof playChime === 'function') playChime();
             }
         }
 
@@ -5200,6 +6116,7 @@
             const modal = document.getElementById(id);
             if (modal) {
                 modal.classList.add('hidden');
+                if (typeof playClick === 'function') playClick();
             }
         }
 
@@ -5402,26 +6319,45 @@
             showToast('Screen sharing stopped.', 'info');
         }
 
+        function toggleIframeFullscreen() {
+            const container = document.getElementById('video-call-left-panel');
+            const btn = document.getElementById('btn-parent-fullscreen');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().then(() => {
+                    if (btn) btn.innerHTML = '<span class="material-symbols-outlined text-sm">fullscreen_exit</span>';
+                }).catch(err => {
+                    showToast('Fullscreen not supported or blocked by browser settings.', 'error');
+                });
+            } else {
+                document.exitFullscreen();
+                if (btn) btn.innerHTML = '<span class="material-symbols-outlined text-sm">fullscreen</span>';
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('btn-parent-fullscreen');
+            if (btn) {
+                if (document.fullscreenElement) {
+                    btn.innerHTML = '<span class="material-symbols-outlined text-sm">fullscreen_exit</span>';
+                } else {
+                    btn.innerHTML = '<span class="material-symbols-outlined text-sm">fullscreen</span>';
+                }
+            }
+        });
+
         function launchVideoCall(candidateName, candidateRole, avatarUrl) {
             currentVideoCandidateName = candidateName;
             currentVideoCandidateRole = candidateRole || 'Technical Specialist';
             
             document.getElementById('video-candidate-name').textContent = currentVideoCandidateName;
             document.getElementById('video-candidate-role').textContent = `${currentVideoCandidateRole} • Technical Evaluation`;
-            document.getElementById('video-feed-name').textContent = `${currentVideoCandidateName} (Candidate)`;
             
-            const avatarImg = document.getElementById('video-candidate-avatar');
-            const initialsSpan = document.getElementById('video-candidate-initials');
-            if (avatarUrl && avatarUrl.trim() !== '') {
-                avatarImg.src = avatarUrl;
-                avatarImg.classList.remove('hidden');
-                initialsSpan.classList.add('hidden');
-            } else {
-                let initials = currentVideoCandidateName.split(' ').filter(w => isNaN(w)).map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                if (initials.length === 1 && currentVideoCandidateName.length > 1) initials = currentVideoCandidateName.substring(0, 2).toUpperCase();
-                initialsSpan.textContent = initials;
-                initialsSpan.classList.remove('hidden');
-                avatarImg.classList.add('hidden');
+            const iframe = document.getElementById('video-call-iframe');
+            if (iframe) {
+                const encodedName = encodeURIComponent(currentVideoCandidateName);
+                const encodedRole = encodeURIComponent(currentVideoCandidateRole);
+                const encodedAvatar = encodeURIComponent(avatarUrl || '');
+                iframe.src = `./video-call-redesign/index.html?candidate=${encodedName}&role=${encodedRole}&avatar=${encodedAvatar}&embed=true`;
             }
             
             switchVideoSideTab('transcript');
@@ -5438,59 +6374,107 @@
             document.getElementById('eval-decision').value = 'Hire';
             
             const transcriptBox = document.getElementById('video-transcript-box');
-            transcriptBox.innerHTML = '<div class="text-gray-400 text-center py-xs italic">Interview started. Audio connection established...</div>';
+            if (transcriptBox) {
+                transcriptBox.innerHTML = '<div class="text-gray-400 text-center py-xs italic">Lobby active. Waiting for you to join the call...</div>';
+            }
             
-            document.getElementById('suggested-question-text').textContent = 'Analyzing introductory answers... Waiting for candidate response.';
+            document.getElementById('suggested-question-text').textContent = 'Waiting for interview to begin...';
+            const startSuggIcon = document.querySelector('#video-ai-suggested-question span.material-symbols-outlined');
+            if (startSuggIcon) {
+                startSuggIcon.textContent = 'help_outline';
+                startSuggIcon.style.fontVariationSettings = "'FILL' 0";
+                startSuggIcon.className = "material-symbols-outlined text-xs text-primary mt-0.5";
+            }
             
             if (videoCallInterval) clearInterval(videoCallInterval);
             videoCallSeconds = 0;
             const durationLabel = document.getElementById('video-call-duration');
-            durationLabel.textContent = '00:00';
-            videoCallInterval = setInterval(() => {
-                videoCallSeconds++;
-                const mins = String(Math.floor(videoCallSeconds / 60)).padStart(2, '0');
-                const secs = String(videoCallSeconds % 60).padStart(2, '0');
-                durationLabel.textContent = `${mins}:${secs}`;
-            }, 1000);
+            if (durationLabel) durationLabel.textContent = '00:00';
             
             currentDialogIndex = 0;
             if (dialogTimeout) clearTimeout(dialogTimeout);
             
-            function triggerNextDialog() {
-                if (currentDialogIndex >= MOCK_DIALOGS.length) {
-                    return;
-                }
-                
-                const turn = MOCK_DIALOGS[currentDialogIndex];
-                const isRecruiter = turn.speaker === 'Recruiter';
-                const speakerName = isRecruiter ? 'Sarah Jenkins' : currentVideoCandidateName;
-                
-                const turnDiv = document.createElement('div');
-                turnDiv.className = `p-2 rounded-xl text-[10px] space-y-0.5 ${
-                    isRecruiter 
-                        ? 'bg-blue-50/70 dark:bg-blue-900/10 border border-blue-100/30 self-end ml-8 text-right' 
-                        : 'bg-gray-100/80 dark:bg-dark-surface-container border border-outline-variant/30 self-start mr-8'
-                }`;
-                
-                turnDiv.innerHTML = `
-                    <span class="font-bold block ${isRecruiter ? 'text-blue-600 dark:text-blue-400' : 'text-primary'}">${speakerName}:</span>
-                    <span class="text-gray-750 dark:text-gray-250">${turn.text}</span>
-                `;
-                
-                transcriptBox.appendChild(turnDiv);
-                transcriptBox.scrollTop = transcriptBox.scrollHeight;
-                
-                if (!isRecruiter && turn.suggestion) {
-                    document.getElementById('suggested-question-text').textContent = turn.suggestion;
-                    showToast('AI Copilot suggestions updated.', 'info');
-                }
-                
-                currentDialogIndex++;
-                dialogTimeout = setTimeout(triggerNextDialog, isRecruiter ? 4000 : 7000);
+            openModal('modal-video-call');
+        }
+
+        function triggerNextDialog() {
+            if (currentDialogIndex >= MOCK_DIALOGS.length) {
+                return;
             }
             
-            triggerNextDialog();
-            openModal('modal-video-call');
+            const turn = MOCK_DIALOGS[currentDialogIndex];
+            const isRecruiter = turn.speaker === 'Recruiter';
+            const speakerName = isRecruiter ? 'Sarah Jenkins' : currentVideoCandidateName;
+            
+            const transcriptBox = document.getElementById('video-transcript-box');
+            if (!transcriptBox) return;
+            
+            const turnDiv = document.createElement('div');
+            turnDiv.className = `p-2 rounded-xl text-[10px] space-y-0.5 ${
+                isRecruiter 
+                    ? 'bg-blue-50/70 dark:bg-blue-900/10 border border-blue-100/30 self-end ml-8 text-right' 
+                    : 'bg-gray-100/80 dark:bg-dark-surface-container border border-outline-variant/30 self-start mr-8'
+            }`;
+            
+            turnDiv.innerHTML = `
+                <span class="font-bold block ${isRecruiter ? 'text-blue-600 dark:text-blue-400' : 'text-primary'}">${speakerName}:</span>
+                <span class="text-gray-750 dark:text-gray-250">${turn.text}</span>
+            `;
+            
+            transcriptBox.appendChild(turnDiv);
+            transcriptBox.scrollTop = transcriptBox.scrollHeight;
+            
+            // Send dialog turn to iframe for live subtitles and soundwaves
+            const iframe = document.getElementById('video-call-iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({
+                    type: 'dialog-turn',
+                    speaker: turn.speaker,
+                    text: turn.text,
+                    candidateName: currentVideoCandidateName
+                }, '*');
+            }
+            
+            if (!isRecruiter && turn.suggestion) {
+                let cleanedSuggestion = turn.suggestion;
+                if (cleanedSuggestion.startsWith('💡 ')) {
+                    cleanedSuggestion = cleanedSuggestion.substring(2);
+                }
+                document.getElementById('suggested-question-text').textContent = cleanedSuggestion;
+                const suggIcon = document.querySelector('#video-ai-suggested-question span.material-symbols-outlined');
+                if (suggIcon) {
+                    suggIcon.textContent = 'lightbulb';
+                    suggIcon.style.fontVariationSettings = "'FILL' 1";
+                    suggIcon.className = "material-symbols-outlined text-xs text-amber-500 animate-pulse mt-0.5";
+                }
+                showToast('AI Copilot suggestions updated.', 'info');
+            }
+            
+            currentDialogIndex++;
+            dialogTimeout = setTimeout(triggerNextDialog, isRecruiter ? 4000 : 7000);
+        }
+
+        function startActiveVideoCall() {
+            if (videoCallInterval) clearInterval(videoCallInterval);
+            videoCallSeconds = 0;
+            const durationLabel = document.getElementById('video-call-duration');
+            if (durationLabel) durationLabel.textContent = '00:00';
+            videoCallInterval = setInterval(() => {
+                videoCallSeconds++;
+                const mins = String(Math.floor(videoCallSeconds / 60)).padStart(2, '0');
+                const secs = String(videoCallSeconds % 60).padStart(2, '0');
+                if (durationLabel) durationLabel.textContent = `${mins}:${secs}`;
+            }, 1000);
+            
+            const transcriptBox = document.getElementById('video-transcript-box');
+            if (transcriptBox) {
+                transcriptBox.innerHTML = '<div class="text-emerald-500 font-bold text-center py-xs italic">Connected. Interview session active.</div>';
+            }
+            
+            currentDialogIndex = 0;
+            if (dialogTimeout) clearTimeout(dialogTimeout);
+            
+            setTimeout(triggerNextDialog, 1500);
         }
 
         function endVideoCall(wasCanceled) {
@@ -5526,6 +6510,8 @@
             if (micIcon) micIcon.textContent = 'mic';
             isMuted = false;
             
+            const iframe = document.getElementById('video-call-iframe');
+            if (iframe) iframe.src = '';
             closeModal('modal-video-call');
             
             if (wasCanceled) {
@@ -5586,6 +6572,190 @@
             endVideoCall(false);
         }
 
+        /* ─── Programmatic Web Audio Synthesized Sound System ─── */
+        let audioCtx = null;
+        let soundEnabled = localStorage.getItem('talentmind_sounds_enabled') !== 'false';
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('talentmind_sounds_enabled', soundEnabled);
+            applyAccessibilitySettings();
+            showToast(soundEnabled ? 'Synthesized UI sounds enabled.' : 'Synthesized UI sounds muted.', 'info');
+            if (soundEnabled) {
+                playClick();
+            }
+        }
+
+        function getAudioContext() {
+            if (!soundEnabled) return null;
+            try {
+                if (!audioCtx || audioCtx.state === 'closed') {
+                    const Ctx = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new Ctx();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                return audioCtx;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function adsr(gainNode, ctx, env, peak = 0.1) {
+            const t = ctx.currentTime;
+            const { attack = 0.01, decay = 0.1, sustain = 0.5, release = 0.3 } = env;
+            gainNode.gain.setValueAtTime(0.0001, t);
+            gainNode.gain.linearRampToValueAtTime(peak, t + attack);
+            gainNode.gain.linearRampToValueAtTime(peak * sustain, t + attack + decay);
+            gainNode.gain.setValueAtTime(peak * sustain, t + attack + decay);
+            gainNode.gain.linearRampToValueAtTime(0.0001, t + attack + decay + release);
+        }
+
+        function playTabSwitch() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(450, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.08);
+                
+                gain.gain.setValueAtTime(0.001, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.095);
+            } catch (e) {}
+        }
+
+        function playClick() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.035);
+                
+                gain.gain.setValueAtTime(0.001, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.002);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.045);
+            } catch (e) {}
+        }
+
+        function playPop() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(640, ctx.currentTime + 0.08);
+                
+                gain.gain.setValueAtTime(0.001, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.095);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.1);
+            } catch (e) {}
+        }
+
+        function playSuccess() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const freqs = [523.25, 659.25, 783.99, 1046.5]; // C5 - E5 - G5 - C6 arpeggio
+                freqs.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    
+                    const tStart = ctx.currentTime + idx * 0.06;
+                    osc.frequency.setValueAtTime(freq, tStart);
+                    
+                    gain.gain.setValueAtTime(0, tStart);
+                    gain.gain.linearRampToValueAtTime(0.06, tStart + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, tStart + 0.4);
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(tStart);
+                    osc.stop(tStart + 0.45);
+                });
+            } catch (e) {}
+        }
+
+        function playChime() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const frequencies = [880, 1320, 1760]; // Harmonics
+                frequencies.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    gain.gain.setValueAtTime(0, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(idx === 0 ? 0.08 : 0.03, ctx.currentTime + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.8);
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.85);
+                });
+            } catch (e) {}
+        }
+
+        function playError() {
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state === 'suspended') return;
+            try {
+                const freqs = [180, 150];
+                freqs.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    
+                    const tStart = ctx.currentTime + idx * 0.08;
+                    osc.frequency.setValueAtTime(freq, tStart);
+                    
+                    gain.gain.setValueAtTime(0, tStart);
+                    gain.gain.linearRampToValueAtTime(0.08, tStart + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, tStart + 0.15);
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(tStart);
+                    osc.stop(tStart + 0.18);
+                });
+            } catch (e) {}
+        }
+
+        // Global Click Sound Trigger
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button, a, [role="button"], input[type="checkbox"], input[type="radio"], select');
+            if (btn && btn.id !== 'header-sound-toggle' && btn.id !== 'toggle-sound-bg') {
+                playClick();
+            }
+        });
+
         // Initialize App State
         window.addEventListener('load', () => {
             // Preload speech synthesis voices
@@ -5599,6 +6769,7 @@
             }
             onEditorInput();
             applyAccessibilitySettings();
+            initCalendarEngine();
             
             // Check for referral code in URL parameters
             const urlParams = new URLSearchParams(window.location.search);
@@ -5623,5 +6794,6 @@
     
     <!-- Interactive K-Means Tooltip -->
     <div id="cluster-tooltip" class="absolute hidden bg-white/95 dark:bg-dark-surface/95 border border-outline-variant p-2.5 rounded-xl shadow-xl text-[10px] pointer-events-none z-[100] max-w-[200px] backdrop-blur-xs font-semibold space-y-1"></div>
+
 </body>
 </html>

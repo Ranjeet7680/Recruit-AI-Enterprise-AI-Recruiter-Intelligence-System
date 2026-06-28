@@ -31,8 +31,8 @@
   --success: #10d48e;
 
   --text-primary: #f0f4ff;
-  --text-secondary: rgba(240, 244, 255, 0.6);
-  --text-tertiary: rgba(240, 244, 255, 0.35);
+  --text-secondary: rgba(240, 244, 255, 0.82);
+  --text-tertiary: rgba(240, 244, 255, 0.6);
 
   --border-subtle: rgba(255,255,255,0.06);
   --border-medium: rgba(255,255,255,0.1);
@@ -58,6 +58,18 @@
 html, body {
   height: 100%;
   overflow: hidden;
+}
+
+/* Keyboard accessibility - Focus indicator */
+button:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible,
+.bg-option:focus-visible,
+.bg-thumb:focus-visible,
+.filter-item:focus-visible {
+  outline: 2.5px solid var(--accent) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(0, 212, 255, 0.5) !important;
 }
 
 body {
@@ -1478,3 +1490,238 @@ body {
 ::selection {
   background: rgba(124, 92, 252, 0.3);
 }
+
+/* ── Embed Mode overrides (Desktop/Dashboard rendering) ── */
+body.embed-mode {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+body.embed-mode .app-wrapper {
+  width: 100vw;
+  height: 100vh;
+  gap: 0;
+  max-width: 100%;
+}
+body.embed-mode .phone-frame {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: #060a14;
+}
+body.embed-mode .phone-notch,
+body.embed-mode .status-bar,
+body.embed-mode .home-bar,
+body.embed-mode .screen-nav,
+body.embed-mode .nav-labels {
+  display: none !important;
+}
+body.embed-mode .screens-container {
+  height: 100%;
+}
+body.embed-mode .screen {
+  padding-top: 20px;
+}
+
+/* Pre-join screen responsive adjustments in embed mode */
+body.embed-mode #screen-prejoin {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+}
+body.embed-mode .prejoin-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 20px;
+  min-height: 0;
+  overflow: hidden;
+}
+body.embed-mode .waiting-label {
+  margin-bottom: 4px;
+}
+body.embed-mode .video-preview-container {
+  max-width: 280px;
+  width: 100%;
+  flex-shrink: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.embed-mode .video-preview-card {
+  aspect-ratio: 16/9;
+  width: 100%;
+  max-height: 158px;
+  height: auto;
+}
+body.embed-mode .video-preview-card .avatar-ring {
+  width: 70px !important;
+  height: 70px !important;
+}
+body.embed-mode .video-preview-card .avatar-inner {
+  font-size: 20px !important;
+}
+body.embed-mode .user-info-card {
+  max-width: 280px;
+  padding: 6px 12px;
+  margin-top: 4px;
+}
+body.embed-mode .user-avatar-sm {
+  width: 32px;
+  height: 32px;
+}
+body.embed-mode .user-name {
+  font-size: 13px;
+}
+body.embed-mode .user-email {
+  font-size: 10px;
+}
+body.embed-mode .prejoin-sheet {
+  background: transparent;
+  border-top: none;
+  padding: 8px 16px 20px;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+body.embed-mode .prejoin-sheet .sheet-handle {
+  display: none !important;
+}
+body.embed-mode .join-actions {
+  gap: 10px;
+}
+body.embed-mode .primary-btn {
+  height: 40px;
+  font-size: 14px;
+}
+body.embed-mode .secondary-btn {
+  height: 34px;
+  font-size: 11px;
+}
+
+/* Scale up elements slightly for larger desktop viewports in embed mode */
+body.embed-mode .avatar-ring {
+  width: 130px;
+  height: 130px;
+}
+body.embed-mode .call-avatar-large .call-avatar-ring {
+  width: 160px;
+  height: 160px;
+}
+body.embed-mode .pip-container {
+  top: 20px;
+  right: 20px;
+}
+body.embed-mode .pip-card {
+  width: 120px;
+  height: 160px;
+}
+body.embed-mode .call-controls-bar {
+  bottom: 30px;
+  gap: 20px;
+}
+body.embed-mode .ctrl-btn {
+  transform: scale(1.1);
+}
+body.embed-mode .call-captions-overlay {
+  bottom: 140px;
+}
+body.embed-mode .caption-bubble {
+  font-size: 13px;
+  padding: 10px 20px;
+}
+
+/* ── Premium Micro-Animations and Hover Effects ── */
+button, 
+.tab-btn, 
+.bg-option, 
+.bg-thumb, 
+.filter-item {
+  transition: all var(--transition-fast) !important;
+}
+button:hover,
+[role="button"]:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 12px rgba(124, 92, 252, 0.2);
+}
+button:active,
+[role="button"]:active {
+  transform: translateY(0) scale(0.98);
+}
+/* Controls active status glow */
+.ctrl-btn:hover .ctrl-icon {
+  transform: scale(1.06);
+  box-shadow: 0 0 14px rgba(124, 92, 252, 0.4);
+}
+.ctrl-btn.active .ctrl-icon {
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+.end-btn:hover .ctrl-icon {
+  box-shadow: 0 0 14px var(--danger-glow) !important;
+}
+.join-btn:hover {
+  box-shadow: 0 0 20px var(--primary-glow);
+}
+
+/* Responsive adjustments for mobile viewports (e.g. iframe embedded on mobile) */
+@media (max-width: 576px) {
+  body.embed-mode .call-avatar-large .call-avatar-ring {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  body.embed-mode .call-avatar-large {
+    gap: 12px !important;
+  }
+  body.embed-mode .call-avatar-text {
+    font-size: 28px !important;
+  }
+  body.embed-mode .audio-wave {
+    transform: scale(0.85) !important;
+  }
+  body.embed-mode .pip-card {
+    width: 80px !important;
+    height: 110px !important;
+  }
+  body.embed-mode .pip-container {
+    top: 12px !important;
+    right: 12px !important;
+  }
+  body.embed-mode .pip-avatar {
+    font-size: 14px !important;
+  }
+  body.embed-mode .pip-label {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+  }
+  body.embed-mode .call-controls-bar {
+    bottom: 16px !important;
+    gap: 12px !important;
+    padding: 10px 8px !important;
+  }
+  body.embed-mode .ctrl-btn {
+    transform: scale(0.9) !important;
+  }
+  body.embed-mode .call-captions-overlay {
+    bottom: 100px !important;
+  }
+  body.embed-mode .caption-bubble {
+    font-size: 11px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}
+

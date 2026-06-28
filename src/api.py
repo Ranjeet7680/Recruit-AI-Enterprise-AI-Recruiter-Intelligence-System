@@ -1,12 +1,17 @@
 import os
 import json
 from typing import List, Dict, Any, Optional
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from src.parser import CandidateProfile, JobDescription, mask_candidate_profile
+from src.parser import (
+    CandidateProfile, JobDescription, mask_candidate_profile,
+    extract_text_from_pdf_bytes, extract_text_from_docx,
+    extract_text_from_txt_bytes, parse_resume_to_profile
+)
 from src.jd_understanding import parse_jd
 from src.embeddings import VectorSearchEngine
 from src.scorer import score_candidate
@@ -47,6 +52,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.mount(
+    "/video-call-redesign",
+    StaticFiles(directory=os.path.join(os.path.dirname(os.path.dirname(__file__)), "video-call-redesign")),
+    name="video-call-redesign"
 )
 
 auditor = SecureAuditor()
@@ -267,6 +278,66 @@ def api_candidate_similar(candidate_id: str, count: int = 4):
             "similarity_score": round(sim * 100.0, 1)
         })
     return results
+
+
+@app.post("/api/parse-jd-file")
+async def api_parse_jd_file(file: UploadFile = File(...)):
+    """Extracts text from PDF/docx/txt and parses it as a JobDescription."""
+    contents = await file.read()
+    filename = file.filename.lower()
+    
+    if filename.endswith(".pdf"):
+        text = extract_text_from_pdf_bytes(contents)
+    elif filename.endswith(".docx"):
+        text = extract_text_from_docx(contents)
+    elif filename.endswith(".txt"):
+        text = extract_text_from_txt_bytes(contents)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file format. Please upload PDF, DOCX, or TXT.")
+        
+    if not text:
+        raise HTTPException(status_code=400, detail="Failed to extract text from file or file is empty.")
+        
+    jd_parsed = parse_jd(text)
+    return jd_parsed
+
+
+@app.post("/api/upload-resume-pdf")
+async def api_upload_resume_pdf(file: UploadFile = File(...)):
+    """Extracts text from PDF/docx/txt resume, parses it, and persists in candidates.json."""
+    contents = await file.read()
+    filename = file.filename.lower()
+    
+    if filename.endswith(".pdf"):
+        text = extract_text_from_pdf_bytes(contents)
+    elif filename.endswith(".docx"):
+        text = extract_text_from_docx(contents)
+    elif filename.endswith(".txt"):
+        text = extract_text_from_txt_bytes(contents)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file format. Please upload PDF, DOCX, or TXT.")
+        
+    if not text:
+        raise HTTPException(status_code=400, detail="Failed to extract text from file or file is empty.")
+        
+    new_candidate = parse_resume_to_profile(text)
+    candidates = load_candidates_db()
+    new_candidate.id = f"cand_{len(candidates) + 1:03d}"
+    candidates.append(new_candidate)
+    
+    try:
+        candidates_dict = [c.model_dump() for c in candidates]
+        with open(CANDIDATES_FILE, "w", encoding="utf-8") as f:
+            json.dump(candidates_dict, f, indent=2)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update candidates database: {e}")
+        
+    auditor._log_system_event("System", f"Added candidate {new_candidate.name} ({new_candidate.email}) via resume PDF upload.")
+    
+    return {
+        "status": "success",
+        "candidate": new_candidate
+    }
 
 @app.get("/api/security/audit-logs")
 def api_audit_logs():

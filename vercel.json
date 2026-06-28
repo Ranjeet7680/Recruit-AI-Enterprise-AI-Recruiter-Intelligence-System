@@ -1,6 +1,8 @@
 {
-  "framework": "nextjs",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.py" }
+  "builds": [
+    { "src": "src/api.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "src/api.py" }
   ]
 }
