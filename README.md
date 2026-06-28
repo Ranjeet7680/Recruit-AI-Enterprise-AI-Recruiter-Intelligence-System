@@ -1,4 +1,4 @@
-# 🧠 RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
+# RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
 
 RecruitAI (also known as **TalentMind AI**) is a state-of-the-art, high-scoring enterprise hiring, evaluation, and video screening platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
 
@@ -6,32 +6,32 @@ RecruitAI acts like a senior human recruiter and expert AI analyst combined. It 
 
 ---
 
-## 🌐 Live Production Deployment
+## Live Production Deployment
 The application API, interactive landing page, and developer interfaces are fully live:
 - **Production Web Application**: [https://recruit-ai-enterprise-ai-recruiter.vercel.app](https://recruit-ai-enterprise-ai-recruiter.vercel.app)
 - **FastAPI Backend Health Check**: [https://recruit-ai-enterprise-ai-recruiter.vercel.app/api/health](https://recruit-ai-enterprise-ai-recruiter.vercel.app/api/health)
 
 ---
 
-## 🚀 Key Features & Capabilities
+##  Key Features & Capabilities
 
-### 1. 🎥 Real-Time Video Interview Screen (Zoom Reference App)
+### 1.  Real-Time Video Interview Screen (Zoom Reference App)
 * **Draggable PiP Tiles**: Custom Picture-in-Picture candidate tiles that can be dragged and repositioned freely during live calls.
 * **Audio Waveform Visualizers**: Real-time waveform telemetry displaying microphone activity for both candidate and interviewer.
 * **Live Recruiter Scorecard**: In-call interactive sliding gauges (1-5 star scales) across multiple vectors (Technical Depth, Communication, Culture Fit, Problem Solving).
 * **Cross-Device Optimization**: Tailored UI layout that adapts seamlessly to desktop wide screens and mobile portrait viewports with zero layout breakage.
 
-### 2. 🗣️ Voice-to-Voice & Text-to-Text AI Copilot
+### 2.  Voice-to-Voice & Text-to-Text AI Copilot
 * **Hands-Free Voice Mode**: Uses Web Speech API (`SpeechRecognition` + `SpeechSynthesis`) to allow voice-only conversations. Copilot replies are spoken aloud.
 * **Voice Speed & Pitch Modulations**: Adjustable text-to-speech rendering settings (0.5x to 2.0x speeds, pitch levels).
 * **Recruiter Intelligence**: Natural language assistant capable of complex parsing (e.g. *"who knows Docker and PyTorch"*, *"compare Amit vs Priya"*).
 
-### 3. 📂 Drag-and-Drop JD Importer
+### 3.Drag-and-Drop JD Importer
 * **Multi-Format Ingestion**: Supports drag-and-drop or click-to-upload for PDF, DOCX, and TXT files (up to 5MB).
 * **History Caching**: Maintains uploaded JD history for rapid swapping.
 * **Clear & Refresh Operations**: Allows recruiters to quickly reset the matching pipeline.
 
-### 4. 🧮 Hybrid Multi-Factor Scoring Engine
+### 4.Hybrid Multi-Factor Scoring Engine
 Every candidate profile is scored using a rigorous 6-factor deterministic model:
 $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15\% \text{ Experience Relevance} + 10\% \text{ Project Impact} + 10\% \text{ Behavioral Fit} + 5\% \text{ Activity Signal}$$
 * **Semantic Fit (35%)**: SentenceTransformers (`all-MiniLM-L6-v2`) semantic similarity against the JD text.
@@ -41,21 +41,21 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 * **Behavioral Fit (10%)**: Tone and culture alignment checks.
 * **Activity Signal (5%)**: Credits active contributors, open-source presence, and professional certifications.
 
-### 5. 🛡️ Demographic Masking (Bias Reduction)
+### 5. Demographic Masking (Bias Reduction)
 * **Single-Toggle Masking**: Instantly hide names, emails, phones, universities, and ages to evaluate candidates strictly on skills and experience.
 * **GDPR & HIPAA Alignment**: Prevents unconscious bias and complies with equal opportunity hiring policies.
 
-### 6. 📊 Explainable AI (XAI) & Analytics
+### 6. Explainable AI (XAI) & Analytics
 * **SHAP / Feature Breakdowns**: Clearly shows why a candidate scored the way they did.
 * **Fit vs Risk Quadrant**: Plots candidates dynamically based on potential and risk.
 * **K-Means Talent Clustering**: Automatically clusters talent pool into logical groups (e.g., "Full-Stack Guru", "Data Wizards").
 * **KNN Look-Alikes**: Retrieve similar candidate profiles to a selected profile with a single click.
 
-### 7. 🔐 Social Auth & Referral Credits
+### 7. Social Auth & Referral Credits
 * **Federated SSO Gateways**: Support for Google, LinkedIn, Microsoft, and Facebook mock logins.
 * **Referral Module**: Invite colleagues, track clicks, and earn hiring credits ($50/referral).
 
-### 8. 🔊 Synthesized Web Audio Sound System
+### 8. Synthesized Web Audio Sound System
 * **Zero External Files**: All interface sounds are programmatically synthesized in real-time via the Web Audio API (`AudioContext`).
 * **ADSR Envelopes**: Clean attack-decay-sustain-release curves for click, pop, chimes, slider ticks, and level-up audio alerts.
 * **Reverb & Lowpass Filters**: Programmable convolver-like impulse noise and biquad filters to add warmth and spatial depth to UI responses.
@@ -63,7 +63,7 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies Used |
 |---|---|
@@ -76,7 +76,7 @@ $$\text{Final Score} = 35\% \text{ Semantic Fit} + 25\% \text{ Skill Match} + 15
 
 ---
 
-## 🏗️ Technical Architecture & React 19 Purity Standards
+##  Technical Architecture & React 19 Purity Standards
 
 To conform with React 19 strict compilation standards, the application implements specific architecture guidelines:
 1. **Initial State Purity**: Initializing states with dynamic calls like `Date.now()` or `Math.random()` inside the render body is avoided. Initial states are set using lazy initializers (e.g., `useState(() => Msg[])`) to avoid running impure functions during render cycles.
@@ -85,7 +85,7 @@ To conform with React 19 strict compilation standards, the application implement
 
 ---
 
-## 📂 System Directory Structure
+## System Directory Structure
 
 ```text
 RecruitAI/
@@ -120,7 +120,7 @@ RecruitAI/
 
 ---
 
-## ⚡ Installation & Quick Start
+## Installation & Quick Start
 
 ### 1. Clone & Setup Python Environment
 Ensure you have Python 3.10+ installed:
@@ -155,15 +155,15 @@ Open `http://localhost:3000` to interact with the system.
 
 ## 🔌 API Endpoints Reference
 
-### 🔐 SSO & Referral Gateway
+### SSO & Referral Gateway
 * `GET /api/auth/mock-sso` - Launches federated provider SSO gateways.
 * `POST /api/auth/social` - Processes session metadata and audit logs.
 * `GET /api/referrals` - Retrieves referral metrics and credit stats.
 
-### 🤖 Copilot Chat Engine
+### Copilot Chat Engine
 * `POST /api/chat` - Natural language recruiter assistant with candidate comparisons.
 
-### 🧮 Matching & Analytics Engine
+###  Matching & Analytics Engine
 * `GET /api/candidates` - Candidate directory (demographic masking supported).
 * `POST /api/match` - Triggers matching, SHAP visualizers, fraud detectors, and interview questions.
 * `GET /api/talent-clusters` - K-Means talent pool cluster mapping.
@@ -171,7 +171,7 @@ Open `http://localhost:3000` to interact with the system.
 
 ---
 
-## 🚀 Deployment to Vercel
+## Deployment to Vercel
 
 The application is configured to deploy as a combined Next.js frontend and Python FastAPI serverless backend using `vercel.json` rewrites. 
 
