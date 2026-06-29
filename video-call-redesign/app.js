@@ -14,6 +14,7 @@ if (isEmbed) {
 // ── Screen Navigation ─────────────────────
 const screens = ['screen-prejoin', 'screen-call', 'screen-effects', 'screen-more'];
 let currentScreen = 0;
+let previousScreen = 0;
 let callTimerInterval = null;
 let callSeconds = 0;
 
@@ -78,6 +79,11 @@ function stopWebcam() {
     pipVideo.srcObject = null;
     pipVideo.classList.add('hidden');
   }
+  const effectsVideo = document.getElementById('effects-webcam');
+  if (effectsVideo) {
+    effectsVideo.srcObject = null;
+    effectsVideo.classList.add('hidden');
+  }
 }
 
 /**
@@ -91,6 +97,52 @@ function updateTrackStates() {
   localMediaStream.getAudioTracks().forEach(track => {
     track.enabled = micActive;
   });
+}
+
+/**
+ * Helper to position the sliding active tab indicator pill
+ */
+function updateTabIndicator(btn) {
+  const tabIndicator = document.querySelector('.tab-indicator');
+  if (!tabIndicator || !btn) return;
+  tabIndicator.style.left = btn.offsetLeft + 'px';
+  tabIndicator.style.width = btn.offsetWidth + 'px';
+  tabIndicator.style.height = btn.offsetHeight + 'px';
+}
+
+/**
+ * Synchronizes the visibility of webcam elements and placeholder avatar tiles.
+ */
+function syncWebcamFeeds() {
+  const prejoinVideo = document.getElementById('prejoin-webcam');
+  const pipVideo = document.getElementById('pip-webcam');
+  const effectsVideo = document.getElementById('effects-webcam');
+  
+  const prejoinAvatar = document.querySelector('.video-preview-card .video-person-avatar');
+  const pipAvatar = document.getElementById('pip-user-avatar-initials');
+  const effectsAvatar = document.getElementById('effects-user-avatar-initials');
+
+  if (prejoinVideo) prejoinVideo.classList.add('hidden');
+  if (pipVideo) pipVideo.classList.add('hidden');
+  if (effectsVideo) effectsVideo.classList.add('hidden');
+
+  if (camActive) {
+    if (currentScreen === 0) {
+      startWebcam('prejoin-webcam');
+      if (prejoinAvatar) prejoinAvatar.classList.add('hidden');
+    } else if (currentScreen === 1) {
+      startWebcam('pip-webcam');
+      if (pipAvatar) pipAvatar.style.display = 'none';
+    } else if (currentScreen === 2) {
+      startWebcam('effects-webcam');
+      if (effectsAvatar) effectsAvatar.classList.add('hidden');
+    }
+  } else {
+    stopWebcam();
+    if (prejoinAvatar) prejoinAvatar.classList.remove('hidden');
+    if (pipAvatar) pipAvatar.style.display = 'flex';
+    if (effectsAvatar) effectsAvatar.classList.remove('hidden');
+  }
 }
 
 /**
@@ -123,35 +175,22 @@ function showScreen(index, direction = 1) {
   targetScreen.style.transform = 'translateX(0)';
   targetScreen.style.pointerEvents = 'all';
 
+  if (index !== currentScreen) {
+    previousScreen = currentScreen;
+  }
   currentScreen = index;
 
-  if (index === 0) {
-    const prejoinAvatar = document.querySelector('.video-preview-card .video-person-avatar');
-    if (camActive) {
-      startWebcam('prejoin-webcam');
-      if (prejoinAvatar) prejoinAvatar.classList.add('hidden');
-    } else {
-      stopWebcam();
-      if (prejoinAvatar) prejoinAvatar.classList.remove('hidden');
-    }
-  } else if (index === 1) {
+  if (index === 1) {
     startCallTimer();
-    const pipAvatar = document.getElementById('pip-user-avatar-initials');
-    const prejoinVideo = document.getElementById('prejoin-webcam');
-    if (prejoinVideo) {
-      prejoinVideo.srcObject = null;
-      prejoinVideo.classList.add('hidden');
-    }
-    if (camActive) {
-      startWebcam('pip-webcam');
-      if (pipAvatar) pipAvatar.style.display = 'none';
-    } else {
-      if (pipAvatar) pipAvatar.style.display = 'flex';
-      const pipVideo = document.getElementById('pip-webcam');
-      if (pipVideo) {
-        pipVideo.srcObject = null;
-        pipVideo.classList.add('hidden');
-      }
+  }
+
+  syncWebcamFeeds();
+
+  // Tab indicator slide position sync
+  if (index === 2) {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) {
+      setTimeout(() => updateTabIndicator(activeTab), 150);
     }
   }
 }
@@ -187,30 +226,27 @@ document.getElementById('btn-effects').addEventListener('click', () => {
 
 document.getElementById('btn-toggle-cam').addEventListener('click', function() {
   camActive = !camActive;
-  this.classList.toggle('active', camActive);
-  const prejoinAvatar = document.querySelector('.video-preview-card .video-person-avatar');
-  if (camActive) {
-    this.style.background = '';
-    this.style.color = '';
-    startWebcam('prejoin-webcam');
-    if (prejoinAvatar) prejoinAvatar.classList.add('hidden');
-  } else {
-    this.style.background = 'rgba(255,77,109,0.3)';
-    this.style.color = 'var(--danger)';
-    stopWebcam();
-    if (prejoinAvatar) prejoinAvatar.classList.remove('hidden');
+  
+  // Sync all camera button styles
+  const lobbyBtn = document.getElementById('btn-toggle-cam');
+  const callBtn = document.getElementById('btn-cam-call');
+  
+  if (lobbyBtn) {
+    lobbyBtn.classList.toggle('active', camActive);
+    lobbyBtn.style.background = camActive ? '' : 'rgba(255,77,109,0.3)';
+    lobbyBtn.style.color = camActive ? '' : 'var(--danger)';
   }
   
-  // Sync call button state
-  const callCamBtn = document.getElementById('btn-cam-call');
-  if (callCamBtn) {
-    callCamBtn.classList.toggle('active', camActive);
-    const icon = callCamBtn.querySelector('.ctrl-icon');
+  if (callBtn) {
+    callBtn.classList.toggle('active', camActive);
+    const icon = callBtn.querySelector('.ctrl-icon');
     if (icon) {
       icon.style.background = camActive ? 'rgba(124,92,252,0.3)' : 'rgba(255,77,109,0.3)';
       icon.style.borderColor = camActive ? 'var(--primary)' : 'var(--danger)';
     }
   }
+  
+  syncWebcamFeeds();
 });
 
 document.getElementById('btn-toggle-mic').addEventListener('click', function() {
@@ -296,34 +332,27 @@ document.getElementById('btn-mic-call').addEventListener('click', function() {
 // Camera toggle
 document.getElementById('btn-cam-call').addEventListener('click', function() {
   camActive = !camActive;
-  this.classList.toggle('active', camActive);
-  const icon = this.querySelector('.ctrl-icon');
-  if (icon) {
-    icon.style.background = camActive ? 'rgba(124,92,252,0.3)' : 'rgba(255,77,109,0.3)';
-    icon.style.borderColor = camActive ? 'var(--primary)' : 'var(--danger)';
+  
+  // Sync all camera button styles
+  const lobbyBtn = document.getElementById('btn-toggle-cam');
+  const callBtn = document.getElementById('btn-cam-call');
+  
+  if (lobbyBtn) {
+    lobbyBtn.classList.toggle('active', camActive);
+    lobbyBtn.style.background = camActive ? '' : 'rgba(255,77,109,0.3)';
+    lobbyBtn.style.color = camActive ? '' : 'var(--danger)';
   }
   
-  const pipAvatar = document.getElementById('pip-user-avatar-initials');
-  const pipVideo = document.getElementById('pip-webcam');
-  if (camActive) {
-    startWebcam('pip-webcam');
-    if (pipAvatar) pipAvatar.style.display = 'none';
-  } else {
-    if (pipAvatar) pipAvatar.style.display = 'flex';
-    if (pipVideo) {
-      pipVideo.srcObject = null;
-      pipVideo.classList.add('hidden');
+  if (callBtn) {
+    callBtn.classList.toggle('active', camActive);
+    const icon = callBtn.querySelector('.ctrl-icon');
+    if (icon) {
+      icon.style.background = camActive ? 'rgba(124,92,252,0.3)' : 'rgba(255,77,109,0.3)';
+      icon.style.borderColor = camActive ? 'var(--primary)' : 'var(--danger)';
     }
-    updateTrackStates();
   }
   
-  // Sync prejoin button state
-  const prejoinCamBtn = document.getElementById('btn-toggle-cam');
-  if (prejoinCamBtn) {
-    prejoinCamBtn.classList.toggle('active', camActive);
-    prejoinCamBtn.style.background = camActive ? '' : 'rgba(255,77,109,0.3)';
-    prejoinCamBtn.style.color = camActive ? '' : 'var(--danger)';
-  }
+  syncWebcamFeeds();
 });
 
 // Speaker toggle on pre-join
@@ -333,7 +362,7 @@ document.getElementById('btn-speaker').addEventListener('click', function() {
 
 // ── Effects Screen ────────────────────────
 document.getElementById('btn-close-effects').addEventListener('click', () => {
-  showScreen(currentScreen === 2 ? 0 : currentScreen);
+  showScreen(previousScreen);
 });
 
 // Tab switching
@@ -351,8 +380,58 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     this.setAttribute('aria-selected', 'true');
     const tabContent = document.getElementById(`tab-content-${tabId}`);
     if (tabContent) tabContent.classList.remove('hidden');
+    
+    updateTabIndicator(this);
   });
 });
+
+// Apply simulated background replacement effect (filters & overlays)
+function applyBackgroundEffect(effectId) {
+  const overlay = document.getElementById('effects-bg-overlay');
+  const webcam = document.getElementById('effects-webcam');
+  if (!overlay) return;
+  
+  // Reset overlay classes and opacity
+  overlay.className = 'effects-bg-overlay';
+  overlay.style.opacity = '0';
+  
+  // Reset blur
+  if (webcam) webcam.style.filter = '';
+  
+  if (effectId === 'bg-none') {
+    showToast("Background effect disabled.");
+    return;
+  }
+  
+  if (effectId === 'bg-blur') {
+    if (webcam) webcam.style.filter = 'blur(6px)';
+    showToast("Background blur applied.");
+    return;
+  }
+  
+  if (effectId === 'bg-blur-strong') {
+    if (webcam) webcam.style.filter = 'blur(15px)';
+    showToast("Strong background blur applied.");
+    return;
+  }
+  
+  // Match overlays
+  let className = '';
+  let toastMsg = '';
+  
+  if (effectId === 'bg-studio') { className = 'bg-studio'; toastMsg = 'Studio light effect active.'; }
+  else if (effectId === 'bg-aurora') { className = 'bg-aurora'; toastMsg = 'Aurora background filter active.'; }
+  else if (effectId === 'bg-ocean') { className = 'bg-ocean'; toastMsg = 'Ocean background filter active.'; }
+  else if (effectId === 'bg-space') { className = 'bg-space'; toastMsg = '360° Space VR filter active.'; }
+  else if (effectId === 'bg-desert') { className = 'bg-desert'; toastMsg = '360° Desert VR filter active.'; }
+  else if (effectId === 'bg-sky') { className = 'bg-sky'; toastMsg = '360° Sky VR filter active.'; }
+  
+  if (className) {
+    overlay.classList.add(className);
+    overlay.style.opacity = '1';
+    showToast(`✨ ${toastMsg}`);
+  }
+}
 
 // Background options
 document.querySelectorAll('.bg-option').forEach(btn => {
@@ -360,6 +439,9 @@ document.querySelectorAll('.bg-option').forEach(btn => {
     document.querySelectorAll('.bg-option').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
     ripple(this);
+    
+    const effect = this.dataset.effect;
+    applyBackgroundEffect(effect);
   });
 });
 
@@ -370,6 +452,9 @@ document.querySelectorAll('.bg-thumb').forEach(btn => {
     this.style.border = '2px solid var(--primary)';
     this.style.boxShadow = '0 0 16px var(--primary-glow)';
     ripple(this);
+    
+    const effect = this.dataset.effect;
+    applyBackgroundEffect(effect);
   });
 });
 
@@ -849,5 +934,102 @@ if (toggleEyes) {
     const isActive = this.classList.contains('active');
     showToast(isActive ? "👁️ AI Eye Contact correction active." : "AI Eye Contact correction inactive.");
   });
+}
+
+// ── Draggable PiP Container ───────────────────
+const pip = document.querySelector('.pip-container');
+if (pip) {
+  let isDragging = false;
+  let startX, startY;
+  let initialX, initialY;
+
+  const onStart = (e) => {
+    isDragging = true;
+    pip.style.transition = 'none';
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    startX = clientX;
+    startY = clientY;
+    
+    const rect = pip.getBoundingClientRect();
+    const parentRect = document.querySelector('.call-fullscreen').getBoundingClientRect();
+    
+    initialX = rect.left - parentRect.left;
+    initialY = rect.top - parentRect.top;
+    
+    pip.style.right = 'auto';
+    pip.style.left = initialX + 'px';
+    pip.style.top = initialY + 'px';
+    
+    if (e.type === 'mousedown') e.preventDefault();
+  };
+
+  const onMove = (e) => {
+    if (!isDragging) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    const dx = clientX - startX;
+    const dy = clientY - startY;
+    
+    let nextX = initialX + dx;
+    let nextY = initialY + dy;
+    
+    const parent = document.querySelector('.call-fullscreen');
+    const parentRect = parent.getBoundingClientRect();
+    const pipRect = pip.getBoundingClientRect();
+    
+    const maxX = parentRect.width - pipRect.width;
+    const maxY = parentRect.height - pipRect.height;
+    
+    nextX = Math.max(0, Math.min(nextX, maxX));
+    nextY = Math.max(0, Math.min(nextY, maxY));
+    
+    pip.style.left = nextX + 'px';
+    pip.style.top = nextY + 'px';
+  };
+
+  const onEnd = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    
+    pip.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    const parent = document.querySelector('.call-fullscreen');
+    const parentRect = parent.getBoundingClientRect();
+    const pipRect = pip.getBoundingClientRect();
+    
+    const currentLeft = parseFloat(pip.style.left);
+    const currentTop = parseFloat(pip.style.top);
+    
+    const middleX = parentRect.width / 2;
+    const middleY = parentRect.height / 2;
+    
+    let targetX, targetY;
+    
+    if (currentLeft + pipRect.width / 2 < middleX) {
+      targetX = 14;
+    } else {
+      targetX = parentRect.width - pipRect.width - 14;
+    }
+    
+    if (currentTop + pipRect.height / 2 < middleY) {
+      targetY = 80;
+    } else {
+      targetY = parentRect.height - pipRect.height - 100;
+    }
+    
+    pip.style.left = targetX + 'px';
+    pip.style.top = targetY + 'px';
+  };
+
+  pip.addEventListener('mousedown', onStart);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onEnd);
+  
+  pip.addEventListener('touchstart', onStart, { passive: true });
+  window.addEventListener('touchmove', onMove, { passive: true });
+  window.addEventListener('touchend', onEnd, { passive: true });
 }
 

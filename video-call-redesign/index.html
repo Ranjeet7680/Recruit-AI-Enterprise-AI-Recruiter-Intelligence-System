@@ -258,7 +258,9 @@
           <div class="effects-overlay">
             <div class="effects-preview-area">
               <div class="effects-video-preview">
-                <div class="effects-avatar" id="effects-user-avatar-initials">RK</div>
+                <video id="effects-webcam" autoplay playsinline muted class="hidden" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; border-radius: inherit;"></video>
+                <div class="effects-bg-overlay" id="effects-bg-overlay"></div>
+                <div class="effects-avatar" id="effects-user-avatar-initials" style="position: relative; z-index: 3;">RK</div>
                 <div class="effects-preview-glow"></div>
               </div>
               <div class="effects-header-top">
@@ -280,15 +282,15 @@
 
               <div class="tab-content" id="tab-content-backgrounds">
                 <div class="bg-options-row">
-                  <button class="bg-option active" id="bg-none" title="No background">
+                  <button class="bg-option active" id="bg-none" data-effect="bg-none" title="No background">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                     <span>None</span>
                   </button>
-                  <button class="bg-option" id="bg-blur" title="Blur background">
+                  <button class="bg-option" id="bg-blur" data-effect="bg-blur" title="Blur background">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
                     <span>Blur</span>
                   </button>
-                  <button class="bg-option" id="bg-blur-strong" title="Strong blur">
+                  <button class="bg-option" id="bg-blur-strong" data-effect="bg-blur-strong" title="Strong blur">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5" opacity=".4"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
                     <span>Strong</span>
                   </button>
@@ -300,13 +302,13 @@
                     <button class="see-all-btn">See all →</button>
                   </div>
                   <div class="bg-thumbnails">
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <button class="bg-thumb" data-effect="bg-studio" style="background: linear-gradient(135deg, #667eea, #764ba2);">
                       <span class="bg-thumb-label">Studio</span>
                     </button>
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <button class="bg-thumb" data-effect="bg-aurora" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
                       <span class="bg-thumb-label">Aurora</span>
                     </button>
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <button class="bg-thumb" data-effect="bg-ocean" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
                       <span class="bg-thumb-label">Ocean</span>
                     </button>
                   </div>
@@ -318,15 +320,15 @@
                     <button class="see-all-btn">See all →</button>
                   </div>
                   <div class="bg-thumbnails">
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+                    <button class="bg-thumb" data-effect="bg-space" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
                       <span class="bg-thumb-label">Space</span>
                       <div class="vr-badge">VR</div>
                     </button>
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">
+                    <button class="bg-thumb" data-effect="bg-desert" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">
                       <span class="bg-thumb-label">Desert</span>
                       <div class="vr-badge">VR</div>
                     </button>
-                    <button class="bg-thumb" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                    <button class="bg-thumb" data-effect="bg-sky" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
                       <span class="bg-thumb-label">Sky</span>
                       <div class="vr-badge">VR</div>
                     </button>

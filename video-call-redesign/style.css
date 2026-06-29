@@ -726,24 +726,38 @@ body {
   align-items: center;
   gap: 4px;
   height: 30px;
+  opacity: 0.3;
+  transition: all var(--transition-med);
 }
 
 .audio-wave span {
   display: block;
   width: 3px;
+  height: 6px;
   border-radius: 2px;
-  background: linear-gradient(180deg, var(--accent), var(--primary));
-  animation: waveBar 1.2s ease-in-out infinite;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all var(--transition-med);
+  animation: none;
 }
 
-.audio-wave span:nth-child(1) { height: 10px; animation-delay: 0s; }
-.audio-wave span:nth-child(2) { height: 22px; animation-delay: 0.1s; }
-.audio-wave span:nth-child(3) { height: 30px; animation-delay: 0.2s; }
-.audio-wave span:nth-child(4) { height: 18px; animation-delay: 0.3s; }
-.audio-wave span:nth-child(5) { height: 12px; animation-delay: 0.4s; }
+.audio-wave.active-speaking {
+  opacity: 1;
+}
+
+.audio-wave.active-speaking span {
+  background: linear-gradient(180deg, var(--accent), var(--primary));
+  animation: waveBar 1.2s ease-in-out infinite;
+  box-shadow: 0 0 6px rgba(0, 242, 254, 0.5);
+}
+
+.audio-wave.active-speaking span:nth-child(1) { height: 10px; animation-duration: 0.8s; }
+.audio-wave.active-speaking span:nth-child(2) { height: 22px; animation-duration: 0.6s; }
+.audio-wave.active-speaking span:nth-child(3) { height: 30px; animation-duration: 0.7s; }
+.audio-wave.active-speaking span:nth-child(4) { height: 18px; animation-duration: 0.5s; }
+.audio-wave.active-speaking span:nth-child(5) { height: 12px; animation-duration: 0.9s; }
 
 @keyframes waveBar {
-  0%, 100% { transform: scaleY(0.5); opacity: 0.6; }
+  0%, 100% { transform: scaleY(0.4); opacity: 0.7; }
   50% { transform: scaleY(1); opacity: 1; }
 }
 
@@ -998,9 +1012,7 @@ body {
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, var(--primary), rgba(0,212,255,0.8));
   color: white;
-  box-shadow: 0 2px 12px var(--primary-glow);
 }
 
 .tab-content {
@@ -1723,5 +1735,78 @@ button:active,
 /* Utility classes */
 .hidden {
   display: none !important;
+}
+
+/* Sliding Tab Indicator */
+.effects-tabs {
+  position: relative;
+  z-index: 1;
+}
+
+.tab-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  background: linear-gradient(135deg, var(--primary), rgba(0, 212, 255, 0.8));
+  border-radius: var(--radius-sm);
+  z-index: 0;
+  box-shadow: 0 2px 12px var(--primary-glow);
+  transition: all var(--transition-med);
+  pointer-events: none;
+}
+
+/* Draggable PiP card */
+.pip-container {
+  touch-action: none;
+}
+
+.pip-card {
+  cursor: grab;
+  user-select: none;
+}
+
+.pip-card:active {
+  cursor: grabbing;
+}
+
+/* Background Replacement Overlays */
+.effects-bg-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  transition: all var(--transition-med);
+  opacity: 0;
+}
+
+.effects-bg-overlay.bg-studio {
+  background: radial-gradient(circle at center, rgba(124, 92, 252, 0.4) 0%, transparent 80%);
+  opacity: 1;
+}
+
+.effects-bg-overlay.bg-aurora {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.35) 0%, rgba(124, 92, 252, 0.35) 100%);
+  opacity: 1;
+}
+
+.effects-bg-overlay.bg-ocean {
+  background: linear-gradient(180deg, rgba(79, 172, 254, 0.35) 0%, rgba(0, 242, 254, 0.45) 100%);
+  opacity: 1;
+}
+
+.effects-bg-overlay.bg-space {
+  background: radial-gradient(circle at top right, rgba(161, 140, 209, 0.45) 0%, rgba(251, 194, 235, 0.35) 100%);
+  opacity: 1;
+}
+
+.effects-bg-overlay.bg-desert {
+  background: linear-gradient(135deg, rgba(255, 236, 210, 0.4) 0%, rgba(252, 182, 159, 0.5) 100%);
+  opacity: 1;
+}
+
+.effects-bg-overlay.bg-sky {
+  background: linear-gradient(135deg, rgba(161, 196, 253, 0.45) 0%, rgba(194, 233, 251, 0.45) 100%);
+  opacity: 1;
 }
 
