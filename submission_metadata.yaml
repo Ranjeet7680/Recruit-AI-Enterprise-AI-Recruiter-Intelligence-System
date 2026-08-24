@@ -5,17 +5,23 @@
 # ============================================================================
 # Team identity
 # ============================================================================
-team_name: "Team Ranjeet"
+team_name: "Nexora"
 
 primary_contact:
   name: "Ranjeet Kumar"
-  email: "ranjeet.kumar@example.com"
+  email: "rajranjeet7680@gmail.com"
   phone: "+91-9999999999"
 
 team_members:
   - name: "Ranjeet Kumar"
-    email: "ranjeet.kumar@example.com"
-    role: "ML Engineer"
+    email: "rajranjeet7680@gmail.com"
+    role: "Team Leader & AI Architect"
+  - name: "GLS Santhosh"
+    email: "glssanthosh1306@gmail.com"
+    role: "AI Engineer & Data Scientist"
+  - name: "Abhishek Kantharia"
+    email: "abhishek11111997@gmail.com"
+    role: "Full-Stack & Systems Engineer"
 
 # ============================================================================
 # Code and reproducibility
@@ -23,7 +29,7 @@ team_members:
 github_repo: "https://github.com/Ranjeet7680/Recruit-AI-Enterprise-AI-Recruiter-Intelligence-System"
 sandbox_link: "https://huggingface.co/spaces/Ranjeet7680/redrob-ranker"
 
-reproduce_command: "python rank.py --candidates ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/candidates.jsonl --out ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/team_ranjeet.csv"
+reproduce_command: "python rank.py --candidates ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/candidates.jsonl --out ./[PUB] India_runs_data_and_ai_challenge/India_runs_data_and_ai_challenge/team_nexora.csv"
 
 # ============================================================================
 # Compute environment

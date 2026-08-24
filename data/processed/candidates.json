@@ -1,0 +1,548 @@
+[
+  {
+    "id": "cand_001",
+    "name": "Amit Sharma",
+    "email": "amit.sharma.dev@gmail.com",
+    "phone": "+91-9876543210",
+    "gender": "Male",
+    "age": 28,
+    "education": {
+      "degree": "B.Tech in Computer Science",
+      "university": "Indian Institute of Technology, Delhi",
+      "year": 2019
+    },
+    "experience_years": 5.0,
+    "hard_skills": ["Python", "PyTorch", "TensorFlow", "FastAPI", "Docker", "AWS", "SQL", "Scikit-Learn", "NLTK"],
+    "soft_skills": ["Leadership", "Ownership", "Team Player", "Problem Solving", "Technical Writing"],
+    "summary": "Innovative Machine Learning Engineer with 5 years of experience building and deploying scalable NLP and computer vision pipelines in production. Experienced in startup environments, leading small engineering teams, and optimizing model inference latency by up to 50%. Strongly focused on business impact and product-driven AI.",
+    "experience_timeline": [
+      {
+        "role": "Senior ML Engineer",
+        "company": "CognitiveSaaS AI",
+        "duration": "2022 - Present",
+        "description": "Led a team of 3 developers to design and ship an LLM-powered chatbot platform, reducing customer service tickets by 45%. Designed high-performance inference endpoints using FastAPI, Docker, and AWS ECS."
+      },
+      {
+        "role": "Machine Learning Engineer",
+        "company": "DeepData Solutions",
+        "duration": "2019 - 2022",
+        "description": "Developed predictive models for customer churn with 88% accuracy. Configured CI/CD pipelines for ML models using GitHub Actions and AWS Sagemaker."
+      }
+    ],
+    "projects": [
+      {
+        "name": "SaaS AI Agent Hub",
+        "description": "Architected an autonomous workflow builder powered by LangChain and GPT-4, enabling non-technical users to run database lookups and generate reports.",
+        "technologies": ["LangChain", "OpenAI API", "PostgreSQL", "FastAPI"],
+        "impact": "Boosted monthly active users by 35% within the first 6 months and reduced generation latency by 300ms."
+      },
+      {
+        "name": "Quantified Predictive Engine",
+        "description": "Built a real-time timeseries anomaly detection engine for server logs to prevent downtime.",
+        "technologies": ["TensorFlow", "Docker", "Prometheus", "Grafana"],
+        "impact": "Slashed system critical outages by 20% and saved approximately $40k in annual infrastructure maintenance costs."
+      }
+    ],
+    "certifications": ["AWS Certified Machine Learning - Specialty", "TensorFlow Developer Certificate"],
+    "linkedin_activity": {
+      "frequency": "Weekly",
+      "consistency_score": 85,
+      "open_source_contributions": "Active contributor to LangChain and Hugging Face repositories, with 120+ commits in the past year."
+    }
+  },
+  {
+    "id": "cand_002",
+    "name": "Sarah Connor",
+    "email": "sarah.connor.cyber@protonmail.com",
+    "phone": "+1-555-0199",
+    "gender": "Female",
+    "age": 34,
+    "education": {
+      "degree": "M.S. in Cybersecurity",
+      "university": "Stanford University",
+      "year": 2015
+    },
+    "experience_years": 9.0,
+    "hard_skills": ["Python", "Bash", "Wireshark", "Metasploit", "Kubernetes", "AWS", "Nmap", "Docker", "Linux"],
+    "soft_skills": ["Critical Thinking", "Risk Management", "Crisis Resolution", "Collaboration", "Mentorship"],
+    "summary": "Seasoned Cybersecurity Analyst and Systems Engineer with 9 years of dedicated experience securing cloud infrastructure and leading penetration testing. Expert in implementing zero-trust architectures and managing Kubernetes security compliance.",
+    "experience_timeline": [
+      {
+        "role": "Lead Security Architect",
+        "company": "CyberShield Labs",
+        "duration": "2020 - Present",
+        "description": "Created security roadmap for containerized SaaS application. Supervised 5 engineers in conducting quarterly penetration testing and vulnerability assessments."
+      },
+      {
+        "role": "Senior Cloud Security Engineer",
+        "company": "Nebula Cloud Corp",
+        "duration": "2015 - 2020",
+        "description": "Designed identity access management policies and hardened AWS clusters. Led incident response for two high-profile database breach attempts."
+      }
+    ],
+    "projects": [
+      {
+        "name": "KubeGuard Firewall",
+        "description": "Developed an open-source daemon controller that monitors outbound traffic in Kubernetes namespaces and alerts on suspicious data exfiltration.",
+        "technologies": ["Go", "Kubernetes API", "eBPF", "gRPC"],
+        "impact": "Adopted by 50+ GitHub organizations and received 1.2k stars; prevented several sensitive API key leakage events."
+      }
+    ],
+    "certifications": ["CISSP", "Certified Ethical Hacker (CEH)", "AWS Certified Security - Specialty"],
+    "linkedin_activity": {
+      "frequency": "Monthly",
+      "consistency_score": 60,
+      "open_source_contributions": "Maintains a security scanning GitHub Action used by over 300 developers."
+    }
+  },
+  {
+    "id": "cand_003",
+    "name": "Priya Nair",
+    "email": "priya.nair.ux@outlook.com",
+    "phone": "+91-9988776655",
+    "gender": "Female",
+    "age": 27,
+    "education": {
+      "degree": "Bachelor of Design",
+      "university": "National Institute of Design, Ahmedabad",
+      "year": 2020
+    },
+    "experience_years": 4.5,
+    "hard_skills": ["Figma", "Adobe XD", "HTML", "CSS", "User Research", "Wireframing", "Prototyping", "JavaScript"],
+    "soft_skills": ["Empathy", "Communication", "Cross-functional Collaboration", "User Advocacy"],
+    "summary": "Empathetic UI/UX Product Designer with over 4 years of experience crafting interactive, accessible web and mobile products. Skilled in leading user research, creating design systems, and converting complex analytical workflows into clean, intuitive UI.",
+    "experience_timeline": [
+      {
+        "role": "Senior UX Designer",
+        "company": "FintechFlow India",
+        "duration": "2022 - Present",
+        "description": "Redesigned core mobile payment dashboard. Conducted over 50 deep user interviews to inform product roadmap decisions."
+      },
+      {
+        "role": "UI/UX Designer",
+        "company": "PixelPerfect Studios",
+        "duration": "2020 - 2022",
+        "description": "Created responsive design systems for e-commerce and logistics clients. Handled wireframing and interactive prototypes."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Fintech Accessibility Revamp",
+        "description": "Led the total redesign of an investment application targeting elderly and visually-impaired demographics, achieving WCAG 2.1 compliance.",
+        "technologies": ["Figma", "User Testing", "HTML5", "CSS Grid"],
+        "impact": "Increased user conversion rate by 60% and raised user retention score from 3.2 to 4.7 stars on App Store."
+      }
+    ],
+    "certifications": ["Google UX Design Professional Certificate", "Nielsen Norman Group UX Certification"],
+    "linkedin_activity": {
+      "frequency": "Daily",
+      "consistency_score": 95,
+      "open_source_contributions": "Publishes weekly UI tips on LinkedIn with an active audience of 15k+ followers. Shares Figma community UI kits."
+    }
+  },
+  {
+    "id": "cand_004",
+    "name": "John Doe",
+    "email": "john.doe.dev@gmail.com",
+    "phone": "+1-202-555-0143",
+    "gender": "Male",
+    "age": 30,
+    "education": {
+      "degree": "B.S. in Software Engineering",
+      "university": "University of Texas, Austin",
+      "year": 2017
+    },
+    "experience_years": 7.0,
+    "hard_skills": ["React", "TypeScript", "Next.js", "TailwindCSS", "Node.js", "Jest", "GraphQL", "Redux", "Git"],
+    "soft_skills": ["Collaboration", "Agile Mindset", "Communication", "Time Management"],
+    "summary": "Front-End Developer specializing in building blazing-fast React and Next.js single-page applications. Experienced in optimizing client-side performance, developing unified styling guidelines, and migrating legacy web portals.",
+    "experience_timeline": [
+      {
+        "role": "Senior Frontend Developer",
+        "company": "SaaSify Systems",
+        "duration": "2020 - Present",
+        "description": "Led frontend architecture migration from legacy Angular to Next.js. Mentored 4 junior frontend developers on custom React Hooks."
+      },
+      {
+        "role": "Frontend Developer",
+        "company": "WebCraft Solutions",
+        "duration": "2017 - 2020",
+        "description": "Built reusable UI component library in React, ensuring visual brand consistency across multiple SaaS products."
+      }
+    ],
+    "projects": [
+      {
+        "name": "NextGen Dashboard",
+        "description": "Designed and coded an enterprise operations dashboard displaying high-frequency server state data with minimal render lag.",
+        "technologies": ["React", "TypeScript", "TailwindCSS", "Chart.js"],
+        "impact": "Decreased initial page load times by 40% (LCP under 1.2s) and boosted user productivity metrics by 15%."
+      }
+    ],
+    "certifications": ["Meta Front-End Developer Professional Certificate"],
+    "linkedin_activity": {
+      "frequency": "Bi-weekly",
+      "consistency_score": 75,
+      "open_source_contributions": "Maintains small packages on npm for React context utilities with 5k weekly downloads."
+    }
+  },
+  {
+    "id": "cand_005",
+    "name": "Rohan Deshmukh",
+    "email": "rohan.deshmukh.devops@gmail.com",
+    "phone": "+91-9123456789",
+    "gender": "Male",
+    "age": 29,
+    "education": {
+      "degree": "B.E. in Information Technology",
+      "university": "Pune University",
+      "year": 2018
+    },
+    "experience_years": 6.0,
+    "hard_skills": ["AWS", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitHub Actions", "Python", "Bash", "Prometheus", "Grafana"],
+    "soft_skills": ["Ownership", "Adaptability", "Collaboration", "Problem Solving"],
+    "summary": "Action-oriented DevOps and Site Reliability Engineer with 6 years of experience provisioning Infrastructure as Code (IaC), managing multi-region Kubernetes clusters, and setting up automated CI/CD pipelines. Strong proponent of the 'infrastructure as software' mindset and gitops practices.",
+    "experience_timeline": [
+      {
+        "role": "Senior Cloud SRE",
+        "company": "ScaleCloud Technologies",
+        "duration": "2021 - Present",
+        "description": "Architected and managed production AWS infrastructure spanning 200+ Kubernetes microservices. Implemented autoscaling strategies, saving thousands of dollars."
+      },
+      {
+        "role": "DevOps Engineer",
+        "company": "WebScale Solutions",
+        "duration": "2018 - 2021",
+        "description": "Maintained CI/CD deployment servers, shifting deployments from bi-weekly manual steps to 100% automated blue-green pipelines."
+      }
+    ],
+    "projects": [
+      {
+        "name": "GitOps Terraform Auto-Applier",
+        "description": "Wrote custom controller to automatically trigger Terraform plans/applies on PR merges with state lock validation.",
+        "technologies": ["Python", "Terraform", "GitHub API", "Slack API"],
+        "impact": "Saved developer ops time by 8 hours weekly and reduced manual configuration drifts to 0%."
+      }
+    ],
+    "certifications": ["AWS Certified Solutions Architect - Professional", "Certified Kubernetes Administrator (CKA)"],
+    "linkedin_activity": {
+      "frequency": "Weekly",
+      "consistency_score": 80,
+      "open_source_contributions": "Contributed bug fixes to Terraform AWS provider and Kubernetes helm charts."
+    }
+  },
+  {
+    "id": "cand_006",
+    "name": "Elise Dubois",
+    "email": "elise.dubois.ds@outlook.fr",
+    "phone": "+33-6-1234-5678",
+    "gender": "Female",
+    "age": 31,
+    "education": {
+      "degree": "Ph.D. in Statistics",
+      "university": "Sorbonne University",
+      "year": 2019
+    },
+    "experience_years": 5.0,
+    "hard_skills": ["Python", "R", "SQL", "Pandas", "NumPy", "Scikit-Learn", "XGBoost", "Tableau", "Git", "Spark"],
+    "soft_skills": ["Communication", "Analytical Thinking", "Research Mindset", "Presentation Skills"],
+    "summary": "Ph.D. Data Scientist combining deep scientific rigor with 5 years of commercial experience translating structured and unstructured data into strategic business growth. Specialized in customer behavior clustering, recommendation algorithms, and causal inference models.",
+    "experience_timeline": [
+      {
+        "role": "Lead Data Scientist",
+        "company": "RetailPredict Paris",
+        "duration": "2021 - Present",
+        "description": "Built enterprise pricing recommendation model that adjusted product pricing based on real-time competitor stock and demand metrics."
+      },
+      {
+        "role": "Data Scientist",
+        "company": "AeroSpace Analytics",
+        "duration": "2019 - 2021",
+        "description": "Analyzed complex flight sensor data to predict component failure rates. Designed data stories for C-level executives."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Causal Retail Engine",
+        "description": "Constructed a double machine learning model to estimate the true uplift of promotional emails on sales value.",
+        "technologies": ["Python", "CausalML", "Scikit-Learn", "Snowflake"],
+        "impact": "Identified $1.2M in inefficient campaign expenditures, enabling positive reallocation and boosting net promotional ROI by 18%."
+      }
+    ],
+    "certifications": ["Databricks Certified Associate Developer for Apache Spark"],
+    "linkedin_activity": {
+      "frequency": "Rarely",
+      "consistency_score": 30,
+      "open_source_contributions": "Published 3 peer-reviewed articles on machine learning in top-tier journals."
+    }
+  },
+  {
+    "id": "cand_007",
+    "name": "Alexander Wright",
+    "email": "alex.wright.pm@gmail.com",
+    "phone": "+1-415-555-2671",
+    "gender": "Male",
+    "age": 36,
+    "education": {
+      "degree": "MBA in Strategic Management",
+      "university": "Harvard Business School",
+      "year": 2016
+    },
+    "experience_years": 8.0,
+    "hard_skills": ["Agile", "Jira", "SQL", "Product Roadmap", "Market Research", "A/B Testing", "Figma", "User Analytics"],
+    "soft_skills": ["Leadership", "Stakeholder Management", "Strategic Vision", "Empathy", "Public Speaking"],
+    "summary": "Impact-driven Senior Product Manager with 8 years of experience spearheading multi-disciplinary agile teams to build and scale B2B SaaS software. Expert in data-informed prioritization, rapid user-testing loops, and product led growth strategies.",
+    "experience_timeline": [
+      {
+        "role": "Principal Product Manager",
+        "company": "WorkSync SaaS",
+        "duration": "2020 - Present",
+        "description": "Own product vision and roadmap for team collaboration module. Coordinate across 15 developers, designers, and sales leads to release monthly updates."
+      },
+      {
+        "role": "Product Manager",
+        "company": "LaunchPad Tech",
+        "duration": "2016 - 2020",
+        "description": "Managed onboarding flow experiments. Increased registration-to-activation rate by focusing on interactive guide steps."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Zero-friction Onboarding",
+        "description": "Designed and oversaw the development of a self-serve workspace activation tool for enterprise buyers.",
+        "technologies": ["Optimizely", "Mixpanel", "Jira", "Figma"],
+        "impact": "Slashed sales-assisted onboarding cycle by 14 days and catalyzed a 40% surge in bottom-up user adoption."
+      }
+    ],
+    "certifications": ["Pragmatic Institute Certified (Level VI)", "Certified Scrum Product Owner (CSPO)"],
+    "linkedin_activity": {
+      "frequency": "Monthly",
+      "consistency_score": 50,
+      "open_source_contributions": "Writes deep-dive product case studies on Substack."
+    }
+  },
+  {
+    "id": "cand_008",
+    "name": "Marcus Aurelius",
+    "email": "marcus.aurelius.em@outlook.com",
+    "phone": "+1-312-555-9011",
+    "gender": "Male",
+    "age": 42,
+    "education": {
+      "degree": "B.S. in Computer Science & Psychology",
+      "university": "Massachusetts Institute of Technology",
+      "year": 2006
+    },
+    "experience_years": 16.0,
+    "hard_skills": ["Python", "Java", "System Architecture", "SQL", "Kubernetes", "AWS", "Agile Methodologies", "Budgeting"],
+    "soft_skills": ["Leadership", "Mentorship", "Emotional Intelligence", "Conflict Resolution", "Strategic Thinking"],
+    "summary": "Engineering Manager and technical leader with 16 years of software experience, including 6 years in engineering management. Passionate about empowering high-performance teams, designing sustainable service architectures, and building constructive engineering cultures based on transparency, ownership, and high execution velocity.",
+    "experience_timeline": [
+      {
+        "role": "Director of Engineering",
+        "company": "GlobalScale SaaS",
+        "duration": "2020 - Present",
+        "description": "Directly manage 3 engineering managers and 25 ICs across multiple time zones. Oversaw migration of transaction systems, maintaining 99.99% system availability."
+      },
+      {
+        "role": "Software Engineering Manager",
+        "company": "ApexCommerce",
+        "duration": "2016 - 2020",
+        "description": "Hired and scaled team from 4 to 12 engineers. Introduced formal mentorship programs and refined promotion cycles."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Distributed Transaction Coordinator",
+        "description": "Spearheaded the redesign and rollout of a highly resilient transactional processing microservice to replace a legacy database lock system.",
+        "technologies": ["Java", "Spring Boot", "Kafka", "AWS DynamoDB"],
+        "impact": "Improved database system throughput by 300% and successfully processed $200M+ in error-free annual sales volume."
+      }
+    ],
+    "certifications": ["Certified ScrumMaster (CSM)", "AWS Certified Cloud Practitioner"],
+    "linkedin_activity": {
+      "frequency": "Bi-weekly",
+      "consistency_score": 70,
+      "open_source_contributions": "Active speaker at tech leadership meetups and writes essays on team psychological safety."
+    }
+  },
+  {
+    "id": "cand_009",
+    "name": "Jane Chen",
+    "email": "jane.chen.nlp@gmail.com",
+    "phone": "+1-650-555-7834",
+    "gender": "Female",
+    "age": 26,
+    "education": {
+      "degree": "M.S. in Computational Linguistics",
+      "university": "University of Washington",
+      "year": 2022
+    },
+    "experience_years": 3.5,
+    "hard_skills": ["Python", "spaCy", "Hugging Face", "Transformers", "FastAPI", "PostgreSQL", "PyTorch", "Git", "Scikit-Learn"],
+    "soft_skills": ["Startup Mindset", "Ownership", "Curiosity", "Self-starter", "Problem Solving"],
+    "summary": "NLP Engineer with 3.5 years of industry experience specializing in text extraction, structured entity parsing, and domain-adapted semantic search. Highly motivated self-starter with a strong startup mindset, eager to take ownership of complex product features from conception to production deployment.",
+    "experience_timeline": [
+      {
+        "role": "NLP Research Engineer",
+        "company": "TextMind AI",
+        "duration": "2022 - Present",
+        "description": "Built custom NER models for processing complex medical records. Optimized transformer models using TensorRT, achieving a 4x boost in inference throughput."
+      },
+      {
+        "role": "AI Research Assistant",
+        "company": "UW Linguistics Lab",
+        "duration": "2020 - 2022",
+        "description": "Created high-quality labeled token datasets for parsing complex syntax. Built search indices using ElasticSearch and semantic embeddings."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Document Parser Pipeline",
+        "description": "Built a scalable document parsing pipeline that extracts key terms, skills, and timelines from unstructured CVs.",
+        "technologies": ["Python", "spaCy", "FastAPI", "Docker"],
+        "impact": "Processed over 500k documents with 92% parsing accuracy, saving clients hundreds of hours of manual entry work."
+      }
+    ],
+    "certifications": ["DeepLearning.AI TensorFlow Developer Specialization"],
+    "linkedin_activity": {
+      "frequency": "Weekly",
+      "consistency_score": 90,
+      "open_source_contributions": "Active contributor to spaCy plugins and maintains a text cleanup package with 400 github stars."
+    }
+  },
+  {
+    "id": "cand_010",
+    "name": "Vikram Malhotra",
+    "email": "vikram.malhotra@rediffmail.com",
+    "phone": "+91-9920112233",
+    "gender": "Male",
+    "age": 33,
+    "education": {
+      "degree": "B.E. in Computer Science",
+      "university": "BITS Pilani",
+      "year": 2014
+    },
+    "experience_years": 10.0,
+    "hard_skills": ["Java", "Spring Boot", "AWS", "SQL", "Docker", "Kubernetes", "Redis", "Kafka", "Hibernate", "Microservices"],
+    "soft_skills": ["Team Player", "Problem Solving", "Communication", "Work Ethic"],
+    "summary": "Enterprise Full-Stack Developer with 10 years of experience designing robust microservices and distributed transaction systems in Java and AWS. Deeply technical with a solid foundation in algorithm optimization, relational database modeling, and scalable messaging infrastructure.",
+    "experience_timeline": [
+      {
+        "role": "Lead Software Architect",
+        "company": "Invesco Digital Services",
+        "duration": "2019 - Present",
+        "description": "Redesigned financial trade execution back-end. Managed a team of 8 senior developers on cloud migration strategies."
+      },
+      {
+        "role": "Senior Software Engineer",
+        "company": "TCS Financial Systems",
+        "duration": "2014 - 2019",
+        "description": "Developed Core Java modules for global banking clients. Implemented high-throughput messaging cues using JMS and RabbitMQ."
+      }
+    ],
+    "projects": [
+      {
+        "name": "High-Throughput Settlement Gate",
+        "description": "Created an event-driven trade matching engine using Kafka and Spring Boot.",
+        "technologies": ["Java", "Spring Boot", "Kafka", "PostgreSQL", "AWS Elasticache"],
+        "impact": "Decreased transaction settlement times by 75% and boosted continuous throughput capacity to 10k trade requests per second."
+      }
+    ],
+    "certifications": ["Oracle Certified Professional - Java SE 11 Developer", "AWS Certified Solutions Architect - Associate"],
+    "linkedin_activity": {
+      "frequency": "Rarely",
+      "consistency_score": 15,
+      "open_source_contributions": "Maintains private packages for bank internal security utilities."
+    }
+  },
+  {
+    "id": "cand_011",
+    "name": "Emily Watson",
+    "email": "emily.watson.marketing@gmail.com",
+    "phone": "+1-212-555-3290",
+    "gender": "Female",
+    "age": 29,
+    "education": {
+      "degree": "B.A. in Communications & Marketing",
+      "university": "New York University",
+      "year": 2018
+    },
+    "experience_years": 6.0,
+    "hard_skills": ["SEO", "Google Analytics", "SQL", "Copywriting", "A/B Testing", "HTML", "Social Media Advertising", "CRM"],
+    "soft_skills": ["Creativity", "Storytelling", "Collaboration", "Empathy", "Agility"],
+    "summary": "Growth Marketing Manager and SEO specialist with 6 years of experience scaling consumer SaaS and e-commerce brands. Exceptional track record in content marketing strategy, customer acquisition, and performance-based marketing campaigns.",
+    "experience_timeline": [
+      {
+        "role": "Growth Marketing Lead",
+        "company": "EduTech Wave",
+        "duration": "2021 - Present",
+        "description": "Oversaw a marketing budget of $500k annually. Designed search engine optimization strategy that rank-targeted high intent keywords."
+      },
+      {
+        "role": "SEO Specialist",
+        "company": "Boutique Commerce",
+        "duration": "2018 - 2021",
+        "description": "Authored marketing copy and managed email marketing newsletter of 200k subscribers."
+      }
+    ],
+    "projects": [
+      {
+        "name": "EduTech SEO Domain Authority Push",
+        "description": "Executed an organic backlink acquisition plan and core content cluster rewrite.",
+        "technologies": ["Ahrefs", "Google Analytics", "WordPress", "Mailchimp"],
+        "impact": "Elevated monthly organic search traffic from 15k to 120k clicks, creating a 35% growth in monthly inbound product signups."
+      }
+    ],
+    "certifications": ["Google Analytics Individual Qualification", "Hubspot Inbound Marketing Certification"],
+    "linkedin_activity": {
+      "frequency": "Daily",
+      "consistency_score": 98,
+      "open_source_contributions": "Highly active influencer on marketing LinkedIn sharing insights twice a day. Host of the GrowSaaS podcast."
+    }
+  },
+  {
+    "id": "cand_012",
+    "name": "Kenji Sato",
+    "email": "k.sato.dev@yahoo.co.jp",
+    "phone": "+81-90-1234-5678",
+    "gender": "Male",
+    "age": 27,
+    "education": {
+      "degree": "B.S. in Information Science",
+      "university": "Tokyo Institute of Technology",
+      "year": 2020
+    },
+    "experience_years": 4.0,
+    "hard_skills": ["Python", "FastAPI", "React", "TypeScript", "SQL", "PostgreSQL", "Docker", "Git", "Redis", "AWS"],
+    "soft_skills": ["Startup Mindset", "Curiosity", "Problem Solving", "Adaptability", "Collaboration"],
+    "summary": "Full-Stack Software Engineer with 4 years of experience building scalable API endpoints and highly responsive frontend dashboards. Thrives in high-paced startup environments where developers are encouraged to wear multiple hats and own features end-to-end.",
+    "experience_timeline": [
+      {
+        "role": "Full Stack Engineer",
+        "company": "Nippon SaaS Inc",
+        "duration": "2022 - Present",
+        "description": "Design secure authentication interfaces using OAuth2.0 and build responsive UI pages in React."
+      },
+      {
+        "role": "Junior Backend Dev",
+        "company": "Koto Tech Studio",
+        "duration": "2020 - 2022",
+        "description": "Engineered REST APIs for delivery dispatch application. Optimized database query performance on PostgreSQL tables."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Startup CRM Dashboard",
+        "description": "Coded a unified customer relations dashboard for sales reps, integrating active pipelines and email sequences.",
+        "technologies": ["FastAPI", "TypeScript", "React", "Docker", "TailwindCSS"],
+        "impact": "Successfully launched to 15 internal beta clients; reduced sales log entry time by 10 minutes per call."
+      }
+    ],
+    "certifications": ["AWS Certified Developer - Associate"],
+    "linkedin_activity": {
+      "frequency": "Weekly",
+      "consistency_score": 75,
+      "open_source_contributions": "Maintains an open-source database migration helper tool on GitHub (120 stars)."
+    }
+  }
+]

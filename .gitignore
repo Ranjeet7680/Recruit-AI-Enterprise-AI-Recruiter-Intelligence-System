@@ -1,18 +1,32 @@
+# OS & editor artifacts
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# Python & environments
 __pycache__/
 *.py[cod]
 *$py.class
-.env
+*.so
 .venv/
 venv/
 env/
-.streamlit/secrets.toml
-candidates.jsonl
-*.jsonl
-__MACOSX/
+.env
+.env.*
+!.env.example
+.pytest_cache/
 
+# Streamlit & Secrets
+.streamlit/secrets.toml
+
+# Large datasets & raw outputs
+*.jsonl
+test_submission.csv
+
+# Frontend build & cache
 node_modules/
 .next/
 dist/
 *.tsbuildinfo
 .vercel/
-.env*.local
+.wiki/

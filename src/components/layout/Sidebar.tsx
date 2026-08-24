@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Sparkles, BarChart3, Settings, Video, Zap, Layers } from 'lucide-react';
+import { Home, Users, Sparkles, BarChart3, Settings, Video, Layers, Bot } from 'lucide-react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { playClick } from '@/lib/sounds';
@@ -18,6 +19,7 @@ const navItems: NavItem[] = [
   { name: 'Overview',      href: '/overview',   icon: Layers, isNew: true },
   { name: 'Dashboard',    href: '/',           icon: Home },
   { name: 'Candidates',   href: '/candidates', icon: Users },
+  { name: 'HR Agents',    href: '/agents',     icon: Bot, isNew: true },
   { name: 'Live Interview',href: '/interviews', icon: Video },
   { name: 'AI Copilot',   href: '/copilot',    icon: Sparkles },
   { name: 'Analytics',    href: '/analytics',  icon: BarChart3 },
@@ -41,27 +43,34 @@ export function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-white/5">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.25 }}
-          className="flex items-center gap-3"
-        >
-          {/* Animated icon */}
+      <div className="px-5 py-5 border-b border-white/5">
+        <Link href="/overview" onClick={playClick}>
           <motion.div
-            animate={{ rotate: [0, 8, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-            className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)' }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.25 }}
+            className="flex items-center gap-3 cursor-pointer group"
           >
-            <Zap className="w-5 h-5 text-white" fill="white" />
+            {/* Logo Image */}
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-white/10 bg-white/5 flex items-center justify-center p-1 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+              <Image
+                src="/nexora-logo.png"
+                alt="Nexora Logo"
+                width={40}
+                height={40}
+                className="w-full h-full object-contain rounded-lg"
+              />
+            </div>
+            <div>
+              <h1 className="text-lg font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 leading-tight">
+                NEXORA
+              </h1>
+              <p className="text-[9px] text-indigo-300/70 font-semibold tracking-widest uppercase">
+                AI Recruiter Intelligence
+              </p>
+            </div>
           </motion.div>
-          <div>
-            <h1 className="text-lg font-bold leading-tight text-white">TalentMind</h1>
-            <p className="text-[10px] text-slate-400 font-medium tracking-widest uppercase">AI Recruiter</p>
-          </div>
-        </motion.div>
+        </Link>
       </div>
 
       {/* Nav */}
@@ -158,8 +167,8 @@ export function Sidebar() {
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white truncate">Ranjeet</p>
-            <p className="text-[11px] text-slate-400 truncate">Lead Recruiter</p>
+            <p className="text-sm font-semibold text-white truncate">Ranjeet Kumar</p>
+            <p className="text-[11px] text-indigo-300/80 truncate">Team Nexora • Leader</p>
           </div>
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
         </div>

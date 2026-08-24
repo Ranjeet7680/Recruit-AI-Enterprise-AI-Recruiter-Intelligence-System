@@ -6,7 +6,7 @@ import { KPICards } from '@/components/dashboard/KPICards';
 import { Charts } from '@/components/dashboard/Charts';
 import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 import { playSuccess } from '@/lib/sounds';
-import { CalendarPlus, UserPlus, Sparkles, Play } from 'lucide-react';
+import { CalendarPlus, UserPlus, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 const quickActions = [

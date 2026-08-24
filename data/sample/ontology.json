@@ -1,0 +1,25 @@
+{
+  "skills": {
+    "tensorflow": ["deep learning", "neural networks", "pytorch", "keras", "machine learning"],
+    "pytorch": ["deep learning", "neural networks", "tensorflow", "keras", "machine learning"],
+    "fastapi": ["rest api", "backend api", "web service", "django", "flask", "node.js"],
+    "react": ["frontend", "javascript", "typescript", "next.js", "angular", "vue"],
+    "next.js": ["react", "frontend", "typescript", "tailwindcss", "ssr"],
+    "kubernetes": ["docker", "containers", "devops", "cloud native", "orchestration", "aws"],
+    "docker": ["containers", "devops", "kubernetes", "virtualization"],
+    "terraform": ["infrastructure as code", "iac", "ansible", "cloud provisioning", "devops"],
+    "scikit-learn": ["machine learning", "data science", "statistics", "pandas", "numpy"],
+    "llm": ["generative ai", "nlp", "transformers", "langchain", "gpt-4"],
+    "nlp": ["llm", "text extraction", "spacy", "nltk", "computational linguistics"],
+    "aws": ["cloud architecture", "sagemaker", "cloud infrastructure", "ecs", "s3", "iam"],
+    "figma": ["ui/ux", "product design", "wireframing", "prototyping", "user research"],
+    "cissp": ["cybersecurity", "security compliance", "information security", "risk management"],
+    "google analytics": ["seo", "marketing analytics", "digital advertising", "crm"]
+  },
+  "behavioral": {
+    "startup mindset": ["ownership", "adaptability", "ambiguity handling", "hustle", "self-starter", "fast learner"],
+    "leadership": ["mentorship", "management", "ownership", "conflict resolution", "collaboration"],
+    "ownership": ["startup mindset", "leadership", "proactive", "self-starter", "accountability"],
+    "collaboration": ["team player", "communication", "empathy", "conflict resolution"]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "referrers": {
+    "sarah.jenkins@talentmind.ai": {
+      "code": "TM-SARAH-2026",
+      "referred_emails": [
+        {
+          "email": "alex.chen@talentmind.ai",
+          "date": "2026-06-15",
+          "status": "Active"
+        },
+        {
+          "email": "lisa.wang@hiring.com",
+          "date": "2026-06-16",
+          "status": "Active"
+        }
+      ]
+    }
+  },
+  "referred_by": {
+    "alex.chen@talentmind.ai": "TM-SARAH-2026",
+    "lisa.wang@hiring.com": "TM-SARAH-2026"
+  }
+}

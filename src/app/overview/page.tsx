@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Zap, Users, Video, Sparkles, BarChart3, ArrowRight,
   Brain, Shield, Cpu, Globe, TrendingUp, Star,
@@ -306,28 +307,21 @@ export default function OverviewPage() {
         <div className="relative z-10 text-center max-w-5xl mx-auto">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-8 text-xs font-bold tracking-wide"
             style={{
               background: 'rgba(99,102,241,0.12)',
-              border: '1px solid rgba(99,102,241,0.3)',
-              color: '#a5b4fc',
-              boxShadow: '0 0 20px rgba(99,102,241,0.2)',
+              border: '1px solid rgba(99,102,241,0.35)',
+              color: '#c7d2fe',
+              boxShadow: '0 0 25px rgba(99,102,241,0.25)',
             }}
           >
-            <motion.span
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-2 h-2 rounded-full bg-indigo-400"
-            />
-            Enterprise AI Recruiter — v2.0
-            <motion.span
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5, delay: 0.75 }}
-              className="w-2 h-2 rounded-full bg-purple-400"
-            />
+            <Image src="/nexora-logo.png" alt="Nexora" width={20} height={20} className="w-5 h-5 object-contain rounded-full" />
+            <span className="font-extrabold tracking-wider text-white">NEXORA</span>
+            <span className="text-indigo-400">•</span>
+            <span>Enterprise AI Recruiter Intelligence</span>
           </motion.div>
 
           {/* Heading */}
@@ -354,8 +348,8 @@ export default function OverviewPage() {
             transition={{ delay: 0.35, duration: 0.6 }}
             className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            TalentMind AI screens thousands of resumes in seconds, conducts live AI-assisted interviews, 
-            and delivers hire/no-hire decisions — all from one unified intelligence platform.
+            Nexora AI screens thousands of resumes in seconds, conducts live AI-assisted interviews, 
+            and delivers bias-free hiring intelligence — built by Team Nexora.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -867,18 +861,134 @@ export default function OverviewPage() {
         </div>
       </section>
 
+      {/* Team Nexora Section */}
+      <section className="relative py-20 px-4 md:px-8 border-t border-white/5 bg-[#080614]/60">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 mb-3">
+              <Users className="w-3.5 h-3.5" />
+              Engineering & Core Leadership
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+              Meet <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Team Nexora</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm">
+              The AI engineers, researchers, and systems builders behind the Nexora Autonomous Recruitment Intelligence Platform.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Member 1: Ranjeet Kumar */}
+            <motion.div
+              whileHover={{ y: -6, borderColor: 'rgba(99,102,241,0.5)' }}
+              className="rounded-2xl p-6 relative overflow-hidden transition-all duration-300"
+              style={{
+                background: 'linear-gradient(145deg, rgba(20,18,40,0.85), rgba(12,10,26,0.95))',
+                border: '1px solid rgba(99,102,241,0.25)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+              }}
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-indigo-500/40 p-0.5 bg-indigo-500/10 flex-shrink-0 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-indigo-500/20">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-br from-blue-400 to-purple-400">RK</span>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white">Ranjeet Kumar</h3>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                      Leader
+                    </span>
+                  </div>
+                  <p className="text-xs text-indigo-300/80 font-medium">Team Leader & AI Architect</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                Spearheads core ML architectures, multi-factor scoring algorithms, and end-to-end recruitment intelligence pipelines.
+              </p>
+              <a
+                href="mailto:rajranjeet7680@gmail.com"
+                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-mono transition-colors"
+              >
+                rajranjeet7680@gmail.com
+              </a>
+            </motion.div>
+
+            {/* Member 2: GLS Santhosh */}
+            <motion.div
+              whileHover={{ y: -6, borderColor: 'rgba(139,92,246,0.5)' }}
+              className="rounded-2xl p-6 relative overflow-hidden transition-all duration-300"
+              style={{
+                background: 'linear-gradient(145deg, rgba(20,18,40,0.85), rgba(12,10,26,0.95))',
+                border: '1px solid rgba(139,92,246,0.25)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+              }}
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-purple-500/40 p-0.5 bg-purple-500/10 flex-shrink-0 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-purple-500/20">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-400 to-pink-400">GS</span>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">GLS Santhosh</h3>
+                  <p className="text-xs text-purple-300/80 font-medium">AI Engineer & Data Scientist</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                Focuses on semantic embedding vectorization, dense retrieval indexing, and deep candidate talent clustering.
+              </p>
+              <a
+                href="mailto:glssanthosh1306@gmail.com"
+                className="inline-flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-mono transition-colors"
+              >
+                glssanthosh1306@gmail.com
+              </a>
+            </motion.div>
+
+            {/* Member 3: Abhishek Kantharia */}
+            <motion.div
+              whileHover={{ y: -6, borderColor: 'rgba(234,88,12,0.5)' }}
+              className="rounded-2xl p-6 relative overflow-hidden transition-all duration-300"
+              style={{
+                background: 'linear-gradient(145deg, rgba(20,18,40,0.85), rgba(12,10,26,0.95))',
+                border: '1px solid rgba(234,88,12,0.25)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+              }}
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-amber-500/40 p-0.5 bg-amber-500/10 flex-shrink-0 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-amber-500/20">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-br from-amber-400 to-orange-400">AK</span>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">Abhishek Kantharia</h3>
+                  <p className="text-xs text-amber-300/80 font-medium">Full-Stack & Systems Engineer</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                Builds high-performance user interfaces, real-time video telemetry, Web Audio sound engines, and API integrations.
+              </p>
+              <a
+                href="mailto:abhishek11111997@gmail.com"
+                className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-mono transition-colors"
+              >
+                abhishek11111997@gmail.com
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="relative py-8 px-4 text-center border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-        <div className="flex items-center justify-center gap-2 text-slate-500 text-sm">
-          <motion.div
-            animate={{ rotate: [0, 8, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 4 }}
-            className="w-6 h-6 rounded-lg flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}
-          >
-            <Zap className="w-3 h-3 text-white" fill="white" />
-          </motion.div>
-          TalentMind AI — Enterprise Recruiting Intelligence
+      <footer className="relative py-10 px-4 text-center border-t border-white/5 bg-[#05040e]">
+        <div className="flex flex-col items-center justify-center gap-3 text-slate-400 text-sm">
+          <div className="flex items-center gap-2.5">
+            <Image src="/nexora-logo.png" alt="Nexora" width={24} height={24} className="w-6 h-6 object-contain rounded-md" />
+            <span className="font-extrabold text-white tracking-widest text-base">NEXORA</span>
+          </div>
+          <p className="text-xs text-slate-500">
+            Intelligence • Innovation • Impact — Enterprise Recruiter Intelligence System
+          </p>
+          <p className="text-[11px] text-slate-600">
+            © 2026 Team Nexora. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

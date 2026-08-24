@@ -75,9 +75,9 @@ export default function CandidatesPage() {
       };
 
       setCandidates(prev => [newCandUI, ...prev]);
-      alert(`Candidate ${parsedCandidate.name} added successfully!`);
-    } catch (error: any) {
-      alert("Error parsing resume: " + error.message);
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      alert("Error parsing resume: " + errMsg);
     } finally {
       event.target.value = "";
     }

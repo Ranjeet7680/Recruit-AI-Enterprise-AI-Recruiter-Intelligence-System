@@ -1,8 +1,10 @@
-# RecruitAI (TalentMind AI) — Enterprise Recruiter Intelligence System
+# NEXORA (RecruitAI) — Enterprise Recruiter Intelligence System
 
-RecruitAI (also known as **TalentMind AI**) is a state-of-the-art, high-scoring enterprise hiring, evaluation, and video screening platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
+> **Team Nexora** — *Intelligence • Innovation • Impact*
 
-RecruitAI acts like a senior human recruiter and expert AI analyst combined. It utilizes advanced Semantic Embedding Retrieval, a multi-factor Hybrid Scoring Engine, LLM-based parsing and reranking, a Real-Time Video Interview Screen (Zoom App), and an Explainable AI Dashboard featuring demographic bias reduction, a synthesised sound system, and a voice-to-voice recruiter copilot.
+**Nexora** is a state-of-the-art, high-scoring enterprise hiring, evaluation, and video screening platform. Traditional Applicant Tracking Systems (ATS) fail because keyword stuffing bypasses evaluation, resumes hide actual capabilities, there is no behavioral or domain alignment understanding, and they offer zero explainability. 
+
+Nexora acts like a senior human recruiter and expert AI analyst combined. It utilizes advanced Semantic Embedding Retrieval, a multi-factor Hybrid Scoring Engine, LLM-based parsing and reranking, a Real-Time Video Interview Screen (Zoom App), and an Explainable AI Dashboard featuring demographic bias reduction, a synthesised sound system, and a voice-to-voice recruiter copilot.
 
 ---
 
@@ -186,3 +188,20 @@ npx vercel build
 # 3. Deploy to production
 npx vercel deploy --prod
 ```
+
+---
+
+## 👥 Team Nexora — Core Engineering & Leadership
+
+<div align="center">
+  <img src="public/nexora-logo.png" alt="Nexora Logo" width="120" />
+  <h3>NEXORA</h3>
+  <p><em>Intelligence • Innovation • Impact</em></p>
+</div>
+
+| Member | Role | Email |
+|---|---|---|
+| **Ranjeet Kumar** *(Leader)* | Team Leader & AI Architect | `rajranjeet7680@gmail.com` |
+| **GLS Santhosh** | AI Engineer & Data Scientist | `glssanthosh1306@gmail.com` |
+| **Abhishek Kantharia** | Full-Stack & Systems Engineer | `abhishek11111997@gmail.com` |
+
