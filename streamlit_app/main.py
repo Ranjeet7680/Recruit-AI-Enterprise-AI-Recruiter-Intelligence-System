@@ -139,10 +139,9 @@ if 'simulated_interviews' not in st.session_state:
     st.session_state['simulated_interviews'] = {}
 if 'team_members' not in st.session_state:
     st.session_state['team_members'] = [
-        {"name": "Ranjeet Kumar (Leader)", "role": "Recruiting Director (Admin)", "last_login": "Just now", "status": "Active", "email": "rajranjeet7680@gmail.com"},
-        {"name": "Ravi Sukhwal", "role": "Senior Business Recruiter", "last_login": "10 mins ago", "status": "Active", "email": "ravisukhwal949@gmail.com"},
-        {"name": "Parmar Nikunj", "role": "Technical Recruiting Advisor", "last_login": "2 hours ago", "status": "Active", "email": "hitendrabhaiparmar17@gmail.com"},
-        {"name": "Anjali Raj", "role": "Diversity Sourcing Manager", "last_login": "1 day ago", "status": "Active", "email": "raanjali123@gmail.com"}
+        {"name": "Ranjeet Kumar (Leader)", "role": "Team Leader & AI Architect (Admin)", "last_login": "Just now", "status": "Active", "email": "rajranjeet7680@gmail.com"},
+        {"name": "GLS Santhosh", "role": "AI Engineer & Data Scientist", "last_login": "5 mins ago", "status": "Active", "email": "glssanthosh1306@gmail.com"},
+        {"name": "Abhishek Kantharia", "role": "Full-Stack & Systems Engineer", "last_login": "15 mins ago", "status": "Active", "email": "abhishek11111997@gmail.com"}
     ]
 if 'interviews_list' not in st.session_state:
     st.session_state['interviews_list'] = [
