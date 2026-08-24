@@ -20,14 +20,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Overview',      href: '/overview',   icon: Layers, isNew: true },
-  { name: 'Dashboard',    href: '/',           icon: Home },
-  { name: 'Candidates',   href: '/candidates', icon: Users },
-  { name: 'HR Agents',    href: '/agents',     icon: Bot, isNew: true },
-  { name: 'Live Interview',href: '/interviews', icon: Video },
-  { name: 'AI Copilot',   href: '/copilot',    icon: Sparkles },
-  { name: 'Analytics',    href: '/analytics',  icon: BarChart3 },
-  { name: 'Settings',     href: '/settings',   icon: Settings },
+  { name: 'Classic Landing', href: '/',           icon: Home },
+  { name: 'Dashboard',       href: '/dashboard',  icon: Layers },
+  { name: 'Overview',        href: '/overview',   icon: Sparkles, isNew: true },
+  { name: 'Candidates',      href: '/candidates', icon: Users },
+  { name: 'HR Agents',       href: '/agents',     icon: Bot, isNew: true },
+  { name: 'Live Interview',  href: '/interviews', icon: Video },
+  { name: 'AI Copilot',      href: '/copilot',    icon: Sparkles },
+  { name: 'Analytics',       href: '/analytics',  icon: BarChart3 },
+  { name: 'Settings',        href: '/settings',   icon: Settings },
 ];
 
 export function Sidebar() {
