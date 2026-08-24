@@ -17,10 +17,10 @@ export async function GET() {
   }
 
   if (!fileBuffer) {
-    return new NextResponse('PDF specification not found on server', { status: 404 });
+    return new Response('PDF specification not found on server', { status: 404 });
   }
 
-  return new NextResponse(fileBuffer, {
+  return new Response(new Uint8Array(fileBuffer), {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
