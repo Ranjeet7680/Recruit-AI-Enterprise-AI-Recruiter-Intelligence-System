@@ -214,7 +214,7 @@ export default function OverviewPage() {
             </Link>
 
             <a
-              href="/NEXORA_Enterprise_AI_Recruiter_Specification.pdf"
+              href="/specification.pdf"
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClick}
@@ -391,7 +391,7 @@ export default function OverviewPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
               <a
-                href="/NEXORA_Enterprise_AI_Recruiter_Specification.pdf"
+                href="/specification.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={playClick}
