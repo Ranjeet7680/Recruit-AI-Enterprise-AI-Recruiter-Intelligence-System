@@ -139,7 +139,7 @@ if 'simulated_interviews' not in st.session_state:
     st.session_state['simulated_interviews'] = {}
 if 'team_members' not in st.session_state:
     st.session_state['team_members'] = [
-        {"name": "Ranjeet Kumar (Leader)", "role": "Team Leader & AI Architect", "last_login": "Just now", "status": "Active", "email": "rajranjeet7680@gmail.com"},
+        {"name": "Ranjeet Kumar (Leader)", "role": "Team Leader & AI Architect (Admin)", "last_login": "Just now", "status": "Active", "email": "rajranjeet7680@gmail.com"},
         {"name": "GLS Santhosh", "role": "AI Engineer & Data Scientist", "last_login": "5 mins ago", "status": "Active", "email": "glssanthosh1306@gmail.com"},
         {"name": "Abhishek Kantharia", "role": "Full-Stack & Systems Engineer", "last_login": "15 mins ago", "status": "Active", "email": "abhishek11111997@gmail.com"}
     ]
