@@ -214,7 +214,7 @@ export default function OverviewPage() {
             </Link>
 
             <a
-              href="/specification.pdf"
+              href="/api/download-spec"
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClick}
@@ -391,7 +391,7 @@ export default function OverviewPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
               <a
-                href="/specification.pdf"
+                href="/api/download-spec"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={playClick}
